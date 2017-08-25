@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EmptyLayout">
+        <attr name="background_color" format="color"/>
+    </declare-styleable>
+    <!--progressCustomView-->
+    <declare-styleable name="ProgressCustomView">
+        <attr name="pc_time" format="integer" />
+        <attr name="pc_text" format="string"/>
+        <attr name="pc_background" format="color"/>
+        <attr name="pc_textcolor" format="color"/>
+        <attr name="pc_arccolor" format="color"/>
+        <attr name="pc_textsize" format="dimension"/>
+        <attr name="pc_arc_size" format="dimension"/>
+    </declare-styleable>
+</resources>
