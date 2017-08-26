@@ -2,18 +2,18 @@
 <tabs>
     <tab
         id="@+id/tab_news"
-        icon="@drawable/ic_favorites"
-        title="Favorites" />
+        icon="@drawable/new_select"
+        title="新闻" />
     <tab
-        id="@+id/tab_nearby"
-        icon="@drawable/ic_nearby"
-        title="Nearby" />
+        id="@+id/tab_video"
+        icon="@drawable/video_select"
+        title="视频" />
     <tab
-        id="@+id/tab_friends"
-        icon="@drawable/ic_friends"
-        title="Friends" />
+        id="@+id/tab_music"
+        icon="@drawable/music_select"
+        title="音乐" />
     <tab
         id="@+id/tab_book"
-        icon="@drawable/ic_friends"
-        title="Friends" />
+        icon="@drawable/book_select"
+        title="阅读" />
 </tabs>

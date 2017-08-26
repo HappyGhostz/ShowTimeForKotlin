@@ -8,11 +8,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <!--&lt;!&ndash; 遮挡状态栏透明的部分 &ndash;&gt;-->
+        <TextView
+            android:id="@+id/status_hight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"/>
         <FrameLayout
             android:id="@+id/framlayout_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/bottomBar" />
+            android:layout_below="@+id/status_hight"
+            android:layout_above="@+id/bottomBar"
+            />
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"

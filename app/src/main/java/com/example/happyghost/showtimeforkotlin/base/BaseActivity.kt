@@ -2,6 +2,8 @@ package com.example.happyghost.showtimeforkotlin.base
 
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
@@ -88,4 +90,43 @@ abstract class BaseActivity<T : IBasePresenter>() : RxAppCompatActivity() ,IBase
         }
     }
 
+    /**
+     * 初始化第一个Fragment
+     */
+    fun addInitFragment(containerId : Int,fragment :Fragment,string: String){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        transaction.add(containerId,fragment,string)
+        transaction.commit()
+    }
+    /**
+     * 替换一个Fragment
+     */
+    fun replaceFragment(containerId: Int,fragment: Fragment,string: String){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        transaction.replace(containerId,fragment,string)
+        transaction.commit()
+    }
+    /**
+     * 显示下一个Fragment,隐藏当前Fragment,并且加入回退栈，视图不会销毁
+     */
+    fun addFragmentWithTag(containerId: Int,oldFragment: Fragment,fragment: Fragment,string: String){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        transaction.addToBackStack(string)
+        transaction.hide(oldFragment)
+        transaction.add(containerId,fragment,string)
+        transaction.commit()
+    }
+    /**
+     * 显示下一个Fragment,销毁shitu，并且加入回退栈（点击Back,则回到上一个Fragment）
+     */
+    fun replaceFragmentWithTag(containerId: Int,oldFragment: Fragment,fragment: Fragment,string: String){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        transaction.addToBackStack(string)
+        transaction.replace(containerId,fragment,string)
+        transaction.commit()
+    }
 }
