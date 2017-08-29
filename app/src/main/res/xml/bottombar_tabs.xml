@@ -2,18 +2,22 @@
 <tabs>
     <tab
         id="@+id/tab_news"
-        icon="@drawable/new_select"
-        title="新闻" />
+        icon="@mipmap/ic_nature_black"
+        title="News"
+        barColorWhenSelected="@color/colorAccent"/>
     <tab
         id="@+id/tab_video"
-        icon="@drawable/video_select"
-        title="视频" />
+        icon="@mipmap/ic_movie_filter_black"
+        title="Video"
+        barColorWhenSelected="#7B1FA2" />
     <tab
         id="@+id/tab_music"
-        icon="@drawable/music_select"
-        title="音乐" />
+        icon="@mipmap/ic_music_note_black"
+        title="Music"
+        barColorWhenSelected="#FF5252"/>
     <tab
         id="@+id/tab_book"
-        icon="@drawable/book_select"
-        title="阅读" />
+        icon="@mipmap/ic_collections_bookmark_black"
+        title="Book"
+        barColorWhenSelected="#FF9800"/>
 </tabs>

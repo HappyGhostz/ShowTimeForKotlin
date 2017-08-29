@@ -69,6 +69,9 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     //底部导航栏
     compile 'com.roughike:bottom-bar:2.3.0'
+    //下拉刷新
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+//    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'//没有使用特殊Header，可以不加这行
 
 }
 repositories {

@@ -23,6 +23,10 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+    <style name="CustomTitleTextAppearance">
+        <item name="android:textSize">@dimen/BootamBar_Text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 
 </resources>
