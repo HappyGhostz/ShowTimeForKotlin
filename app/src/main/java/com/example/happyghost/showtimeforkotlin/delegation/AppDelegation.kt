@@ -10,7 +10,7 @@ import kotlin.reflect.KProperty
  */
 public class AppDelegation<T>() :ReadWriteProperty<Any?,T> {
 
-    var vaule : T?=null
+    var vaule : T? = null
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return vaule?:throw IllegalStateException("&{decs.name}"+"not initialized")
     }
