@@ -10,8 +10,8 @@ import dagger.Component
  * @creat 2017/9/2.
  * @description
  */
-//@PerFragment
-//@Component(dependencies = arrayOf(ApplicationComponent::class),modules = arrayOf(NewsMainModule::class))
+@PerFragment
+@Component(dependencies = arrayOf(ApplicationComponent::class),modules = arrayOf(NewsMainModule::class))
 interface NewsMainComponent {
     fun inject(newsMainFragment: NewsMainFragment)
 }

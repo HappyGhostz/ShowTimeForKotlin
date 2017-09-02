@@ -15,23 +15,25 @@ import dagger.Provides
  * @creat 2017/9/2.
  * @description
  */
-//@Module
+@Module
 class NewsMainModule {
     private lateinit var mView: NewsMainFragment
 
     constructor(view:NewsMainFragment)  {
         mView = view
     }
-    //出现kapt
-//    @Provides
-//    @PerFragment
+//    //出现kapt
+    @Provides
+    @PerFragment
     fun proidesViewPagerAdapter():ViewPagerAdapter{
         return ViewPagerAdapter(mView.childFragmentManager)
     }
 
-//    @Provides
-//    @PerFragment
-//    fun providesNewsMainPresenter(daoSession: DaoSession, rxBus: RxBus): IRxBusPresenter {
-//        return NewsMainPresenter(mView, daoSession.getNewsTypeInfoDao(), rxBus)
-//    }
+    //这里返回的只能是NewsMainPresenter对象不能是它实现的接口
+    //但是在java语言里可以
+    @Provides
+    @PerFragment
+    fun providesNewsMainPresenter(daoSession: DaoSession,rxBus: RxBus): NewsMainPresenter {
+        return NewsMainPresenter(mView, daoSession.getNewsTypeInfoDao(), rxBus)
+    }
 }

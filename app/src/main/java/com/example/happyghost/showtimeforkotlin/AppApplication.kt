@@ -27,8 +27,23 @@ class AppApplication : Application() {
     }
     lateinit var mContext : Context
     companion object {
-        //单列委托
-        var instance : AppApplication by DelegatesExt.notNullSingleValue()
+//        //单列委托
+//        var instance : AppApplication by DelegatesExt.notNullSingleValue()
+
+//        @Volatile private var mRxBus: RxBus? = null
+//        //单列模式
+//        var instance: AppApplication? = null
+//            get() {
+//                if (instance == null) {
+//                    synchronized(AppApplication::class.java) {
+//                        if (instance == null) {
+//                            instance = AppApplication()
+//                        }
+//                    }
+//                }
+//                return instance
+//            }
+           lateinit var instance: AppApplication
     }
     override fun onCreate() {
         super.onCreate()
@@ -50,7 +65,7 @@ class AppApplication : Application() {
                 .build()
 
     }
-    fun getApplication(): AppApplication{
+    fun getApplication(): AppApplication? {
         return instance
     }
     fun getContext() :Context{

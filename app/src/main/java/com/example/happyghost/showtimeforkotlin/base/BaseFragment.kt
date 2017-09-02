@@ -30,8 +30,8 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
      */
 
 
-    @Inject protected lateinit var mPresenter: T
-
+    protected lateinit var mPresenter: T
+       @Inject set
 
 
 
@@ -98,8 +98,8 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
      *
      * @return ApplicationComponent
      */
-    protected fun getAppComponent(): ApplicationComponent {
-        return AppApplication.instance.getAppComponent()
+    protected fun getAppComponent(): ApplicationComponent? {
+        return AppApplication.instance?.getAppComponent()
         //        return ((AndroidApplication) getApplication()).getAppComponent();
     }
 
