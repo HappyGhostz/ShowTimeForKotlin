@@ -25,8 +25,8 @@ import javax.inject.Inject
 
 abstract class BaseActivity<T : IBasePresenter>() : RxAppCompatActivity() ,IBaseView {
 
-    @Inject
-    var mPresenter : T? = null
+
+    @Inject lateinit var mPresenter : T
 
     var mEmptyComment: EmptyErrLayout? = null
         get() = find<EmptyErrLayout>(R.id.empty_comment)

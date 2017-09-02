@@ -7,7 +7,9 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
+import com.example.happyghost.showtimeforkotlin.inject.component.ApplicationComponent
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout
 import com.trello.rxlifecycle2.LifecycleTransformer
 import com.trello.rxlifecycle2.components.support.RxFragment
@@ -22,10 +24,13 @@ import javax.inject.Inject
  * @description
  */
 abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
+    /**
+     * @Inject
+     * protected  var mPresenter: T？=null//这样注释是错误的 inject不支持私有属性
+     */
 
 
-    @Inject
-    protected var mPresenter: T? = null
+    @Inject protected lateinit var mPresenter: T
 
 
 
@@ -42,7 +47,7 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
         if(mRootView==null){
             mRootView = inflater?.inflate(getFragmentLayout(), null)
             initInject()
-            initView()
+
         }
         val parent = mRootView?.parent as? ViewGroup
         if(parent!=null){
@@ -58,6 +63,7 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
             mIsMulti=true
             upDataView()
         }
+        initView()
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -86,6 +92,15 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
 
     override fun <T> bindToLife(): LifecycleTransformer<T> {
         return  this.bindToLifecycle<T>()
+    }
+    /**
+     * 获取 ApplicationComponent
+     *
+     * @return ApplicationComponent
+     */
+    protected fun getAppComponent(): ApplicationComponent {
+        return AppApplication.instance.getAppComponent()
+        //        return ((AndroidApplication) getApplication()).getAppComponent();
     }
 
     /**
