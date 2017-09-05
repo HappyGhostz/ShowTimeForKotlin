@@ -13,6 +13,7 @@ import com.example.happyghost.showtimeforkotlin.inject.component.ApplicationComp
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout
 import com.trello.rxlifecycle2.LifecycleTransformer
 import com.trello.rxlifecycle2.components.support.RxFragment
+import kotlinx.android.synthetic.main.fragment_list_layout.*
 import kotlinx.android.synthetic.main.layout_comment_empty.*
 import kotlinx.android.synthetic.main.layout_comment_empty.view.*
 import org.jetbrains.anko.find
@@ -64,6 +65,7 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
             upDataView()
         }
         initView()
+        initSmartRefresh()
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -80,14 +82,28 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
     override fun showNetError(onReTryListener: EmptyErrLayout.OnReTryListener) {
         empty_comment.setEmptyStatus(empty_comment.STATUS_NO_DATA)
         empty_comment.setOnRetryListener(onReTryListener)
+        smart_refresh.isEnableRefresh=false
     }
 
     override fun hideLoading() {
         empty_comment.hide()
+        smart_refresh.isEnableRefresh=false
     }
 
     override fun showLoading() {
         empty_comment.setEmptyStatus(empty_comment.STATUS_LOADING)
+        smart_refresh.isEnableRefresh=false
+
+    }
+    fun initSmartRefresh(){
+        smart_refresh?.setOnRefreshListener({
+            upDataView()
+            smart_refresh?.finishRefresh(3000)
+        })
+//        smart_refresh?.setOnLoadmoreListener {
+//            upDataView()
+//            smart_refresh?.finishLoadmore(3000)
+//        }
     }
 
     override fun <T> bindToLife(): LifecycleTransformer<T> {
