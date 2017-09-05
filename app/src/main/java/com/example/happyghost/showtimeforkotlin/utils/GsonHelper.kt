@@ -20,7 +20,7 @@ class GsonHelper {
     companion object {
         var jsonParse = JsonParser()
         var gson = Gson()
-       @JvmStatic fun <T>convertEntities(jsonData:String, entityClass: Class<T>) : MutableList<T>? {
+       @JvmStatic fun <T>convertEntities(jsonData:String, entityClass: Class<T>) : ArrayList<T>? {
             var entitys  = ArrayList<T>()
             try {
                 val jsonArray = jsonParse.parse(jsonData).asJsonArray

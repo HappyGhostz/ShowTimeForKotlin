@@ -2,10 +2,9 @@ package com.example.happyghost.showtimeforkotlin.inject.module
 
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.adapter.ViewPagerAdapter
-import com.example.happyghost.showtimeforkotlin.base.IRxBusPresenter
 import com.example.happyghost.showtimeforkotlin.inject.PerFragment
 import com.example.happyghost.showtimeforkotlin.loacaldao.DaoSession
-import com.example.happyghost.showtimeforkotlin.news.NewsMainFragment
+import com.example.happyghost.showtimeforkotlin.news.main.NewsMainFragment
 import com.example.happyghost.showtimeforkotlin.news.main.NewsMainPresenter
 import dagger.Module
 import dagger.Provides
@@ -19,7 +18,7 @@ import dagger.Provides
 class NewsMainModule {
     private lateinit var mView: NewsMainFragment
 
-    constructor(view:NewsMainFragment)  {
+    constructor(view: NewsMainFragment)  {
         mView = view
     }
 //    //出现kapt

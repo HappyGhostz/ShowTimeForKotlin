@@ -1,8 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.home
 
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
 import android.view.Gravity
@@ -12,7 +10,7 @@ import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.base.BaseActivity
 import com.example.happyghost.showtimeforkotlin.book.BookMainFragment
 import com.example.happyghost.showtimeforkotlin.music.MusicMainFragment
-import com.example.happyghost.showtimeforkotlin.news.NewsMainFragment
+import com.example.happyghost.showtimeforkotlin.news.main.NewsMainFragment
 import com.example.happyghost.showtimeforkotlin.video.VideoMainFragment
 import kotlinx.android.synthetic.main.activity_main.*
 

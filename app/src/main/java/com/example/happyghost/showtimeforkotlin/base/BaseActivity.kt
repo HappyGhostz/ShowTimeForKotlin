@@ -4,10 +4,13 @@ package com.example.happyghost.showtimeforkotlin.base
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
+import com.example.happyghost.showtimeforkotlin.inject.component.ApplicationComponent
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout
 import com.trello.rxlifecycle2.LifecycleTransformer
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -70,6 +73,15 @@ abstract class BaseActivity<T : IBasePresenter>() : RxAppCompatActivity() ,IBase
         toolbar.title=string
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(isShowHomeEnable)
+    }
+    /**
+     * 获取 ApplicationComponent
+     *
+     * @return ApplicationComponent
+     */
+    protected fun getAppComponent(): ApplicationComponent? {
+        return AppApplication.instance?.getAppComponent()
+        //        return ((AndroidApplication) getApplication()).getAppComponent();
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

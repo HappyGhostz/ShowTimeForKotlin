@@ -1,12 +1,10 @@
 package com.example.happyghost.showtimeforkotlin.news.main
 
 import android.util.Log
-import android.widget.Toast
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.base.IRxBusPresenter
 import com.example.happyghost.showtimeforkotlin.loacaldao.NewsTypeInfo
 import com.example.happyghost.showtimeforkotlin.loacaldao.NewsTypeInfoDao
-import com.example.happyghost.showtimeforkotlin.news.NewsMainFragment
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer

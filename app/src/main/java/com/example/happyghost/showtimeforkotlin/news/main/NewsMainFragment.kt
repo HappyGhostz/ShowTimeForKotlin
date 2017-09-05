@@ -1,22 +1,22 @@
-package com.example.happyghost.showtimeforkotlin.news
+package com.example.happyghost.showtimeforkotlin.news.main
 
 
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
-import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
+import com.example.happyghost.showtimeforkotlin.RxBus.event.ChannelEvent
 import com.example.happyghost.showtimeforkotlin.adapter.ViewPagerAdapter
 import com.example.happyghost.showtimeforkotlin.base.BaseFragment
 import com.example.happyghost.showtimeforkotlin.inject.component.DaggerNewsMainComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.NewsMainModule
 import com.example.happyghost.showtimeforkotlin.loacaldao.NewsTypeInfo
-import com.example.happyghost.showtimeforkotlin.news.main.IBaseMainNewsView
-import com.example.happyghost.showtimeforkotlin.news.main.NewsMainPresenter
+import com.example.happyghost.showtimeforkotlin.news.channel.ChannelActivity
 import com.example.happyghost.showtimeforkotlin.news.newlist.NewsListFragment
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_news_main_layout.*
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 /**
@@ -49,6 +49,12 @@ class NewsMainFragment : BaseFragment<NewsMainPresenter>(),IBaseMainNewsView{
         setHasOptionsMenu(true)
         new_vp.adapter=mPagerAdapter
         tab_new_layout.setupWithViewPager(new_vp)
+        mPresenter.registerRxBus(ChannelEvent::class.java,object :Consumer<ChannelEvent>{
+            override fun accept(t: ChannelEvent) {
+                handleChannelMessage(t)
+            }
+
+        })
     }
     override fun initInject() {
         DaggerNewsMainComponent.builder()
@@ -67,10 +73,23 @@ class NewsMainFragment : BaseFragment<NewsMainPresenter>(),IBaseMainNewsView{
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item?.itemId==R.id.item_channel){
-           Toast.makeText(AppApplication.instance?.getContext(),mPresenter.showString(),Toast.LENGTH_SHORT).show()
-
+            mContext?.startActivity<ChannelActivity>()
             return  true
         }
         return false
+    }
+    fun handleChannelMessage(t: ChannelEvent) {
+        when(t.mEventType){
+            ChannelEvent.ADD_EVENT->{
+                mPagerAdapter.addItems(NewsListFragment.newInstance(t.mNewsData.typeId), t.mNewsData.name)
+            }
+            ChannelEvent.DEL_EVENT->{
+                new_vp.setCurrentItem(0)
+                mPagerAdapter.delItems(t.mNewsData.name)
+            }
+            ChannelEvent.SWAP_EVENT->{
+                mPagerAdapter.swapItems(t.mFroPos,t.mToPos)
+            }
+        }
     }
 }

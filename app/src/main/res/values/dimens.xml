@@ -3,6 +3,7 @@
     <dimen name="BootamBar_Text_size">18sp</dimen>
     <!-- ToolBar -->
     <dimen name="toolbar_margin_top">0dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
     <!-- TabLayout -->
     <dimen name="tab_layout_height">38dp</dimen>
 </resources>

@@ -52,6 +52,11 @@ class ViewPagerAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
         mTitles?.add(title)
         notifyDataSetChanged()
     }
+    fun addItems(fragment: Fragment,title:String,position: Int){
+        mFragments?.add(position,fragment)
+        mTitles?.add(position,title)
+        notifyDataSetChanged()
+    }
     fun delItems(position: Int){
         mFragments?.removeAt(position)
         mTitles?.removeAt(position)

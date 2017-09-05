@@ -19,7 +19,7 @@ class NewsTypeDao {
      * @param daoSession
      */
     companion object {
-        var sAllChannels: MutableList<NewsTypeInfo>?=null
+        var sAllChannels: ArrayList<NewsTypeInfo>?=null
         fun updateLocalData(context: Context,daoSession: DaoSession) {
             sAllChannels = GsonHelper.convertEntities(
                     AssetsHelper.readData(context, "NewsChannel"), NewsTypeInfo::class.java)
@@ -32,6 +32,12 @@ class NewsTypeDao {
             }
 
         }
-    }
 
+        /**
+         * 获取所有频道信息
+         */
+        fun getAllChannels(): ArrayList<NewsTypeInfo>? {
+            return sAllChannels
+        }
+    }
 }
