@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import com.daimajia.slider.library.SliderLayout
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.NewsListAdapter
 import com.example.happyghost.showtimeforkotlin.base.BaseFragment
@@ -17,6 +18,7 @@ import com.example.happyghost.showtimeforkotlin.news.newslist.INewsListView
 import com.example.happyghost.showtimeforkotlin.news.newslist.NewsListPresenter
 import com.example.happyghost.showtimeforkotlin.utils.DefIconFactory
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
+import com.example.happyghost.showtimeforkotlin.utils.SliderHelper
 import kotlinx.android.synthetic.main.fragment_list_layout.*
 import org.jetbrains.anko.find
 
@@ -29,6 +31,7 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), INewsListView {
 //    @Inject lateinit var mAdapter : NewsListAdapter
 lateinit var mAdapter:NewsListAdapter
  var dataList:ArrayList<NewsMultiItem> = ArrayList()
+     var isInitSlideView:Boolean=false
     override fun loadData(data: List<NewsMultiItem>) {
         mAdapter.replaceData(data)
 
@@ -49,6 +52,16 @@ lateinit var mAdapter:NewsListAdapter
     }
 
     override fun loadAdData(newsBean: NewsInfo) {
+
+         var slideView = View.inflate(mContext, R.layout.item_head_addata_layout, null)
+        val sliderLayout = slideView!!.find<SliderLayout>(R.id.slider_ads)
+        SliderHelper.initAdSlider(mContext, sliderLayout, newsBean)
+        if(!isInitSlideView){
+            mAdapter.addHeaderView(slideView)
+            isInitSlideView=true
+        }
+
+
 
     }
 

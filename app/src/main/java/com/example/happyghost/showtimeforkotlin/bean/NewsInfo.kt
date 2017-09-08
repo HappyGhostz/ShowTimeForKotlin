@@ -87,7 +87,7 @@ class NewsInfo{
         var ads: List<AdsBean>? = null
         var imgextra: List<ImgextraBean>? = null
 
-        class AdsBean {
+        class AdsBean private constructor() :Parcelable{
             /**
              * subtitle :
              * skipType : photoset
@@ -105,6 +105,40 @@ class NewsInfo{
             var title: String? = null
             var imgsrc: String? = null
             var url: String? = null
+
+            constructor(parcel: Parcel) : this() {
+                subtitle = parcel.readString()
+                skipType = parcel.readString()
+                skipID = parcel.readString()
+                tag = parcel.readString()
+                title = parcel.readString()
+                imgsrc = parcel.readString()
+                url = parcel.readString()
+            }
+
+            override fun writeToParcel(parcel: Parcel, flags: Int) {
+                parcel.writeString(subtitle)
+                parcel.writeString(skipType)
+                parcel.writeString(skipID)
+                parcel.writeString(tag)
+                parcel.writeString(title)
+                parcel.writeString(imgsrc)
+                parcel.writeString(url)
+            }
+
+            override fun describeContents(): Int {
+                return 0
+            }
+
+            companion object CREATOR : Parcelable.Creator<AdsBean> {
+                override fun createFromParcel(parcel: Parcel): AdsBean {
+                    return AdsBean(parcel)
+                }
+
+                override fun newArray(size: Int): Array<AdsBean?> {
+                    return arrayOfNulls(size)
+                }
+            }
         }
 
         class ImgextraBean {
