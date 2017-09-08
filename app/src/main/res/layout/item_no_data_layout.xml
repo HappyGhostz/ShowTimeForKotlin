@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="horizontal"></LinearLayout>-->
+    <ImageView
+        android:id="@+id/iv_noData"
+        android:layout_width="@dimen/news_icon_width"
+        android:layout_height="@dimen/news_icon_height"
+        android:layout_margin="10dp"
+        android:scaleType="fitCenter"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="讨厌，人家是有底线的-0-"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"/>
+
+</LinearLayout>

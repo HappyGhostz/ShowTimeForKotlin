@@ -5,6 +5,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ImageView
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.NewsListAdapter
 import com.example.happyghost.showtimeforkotlin.base.BaseFragment
@@ -14,6 +15,9 @@ import com.example.happyghost.showtimeforkotlin.inject.component.DaggerNewsListC
 import com.example.happyghost.showtimeforkotlin.inject.module.NewsListModule
 import com.example.happyghost.showtimeforkotlin.news.newslist.INewsListView
 import com.example.happyghost.showtimeforkotlin.news.newslist.NewsListPresenter
+import com.example.happyghost.showtimeforkotlin.utils.DefIconFactory
+import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
+import kotlinx.android.synthetic.main.fragment_list_layout.*
 import org.jetbrains.anko.find
 
 /**
@@ -23,18 +27,25 @@ import org.jetbrains.anko.find
  */
 class NewsListFragment : BaseFragment<NewsListPresenter>(), INewsListView {
 //    @Inject lateinit var mAdapter : NewsListAdapter
-lateinit var dataList:ArrayList<NewsMultiItem>
+lateinit var mAdapter:NewsListAdapter
+ var dataList:ArrayList<NewsMultiItem> = ArrayList()
     override fun loadData(data: List<NewsMultiItem>) {
+        mAdapter.replaceData(data)
 
-        dataList .addAll(data)
     }
 
     override fun loadMoreData(moreData: List<NewsMultiItem>) {
-
+        mAdapter.loadMoreComplete()
+        mAdapter.addData(moreData)
     }
 
     override fun loadNoData() {
 
+        val inflate = View.inflate(mContext, R.layout.item_no_data_layout, null)
+        val imageView = inflate.find<ImageView>(R.id.iv_noData)
+        ImageLoader.loadImageFromRes(this!!.mContext!!,DefIconFactory.provideNoDataIcon(),imageView)
+        mAdapter.addFooterView(inflate)
+        smart_refresh.setLoadmoreFinished(true)
     }
 
     override fun loadAdData(newsBean: NewsInfo) {
@@ -46,8 +57,8 @@ lateinit var dataList:ArrayList<NewsMultiItem>
     }
 
     override fun initView(mRootView: View?) {
-        dataList = ArrayList()
-        val mAdapter = NewsListAdapter(dataList)
+//        dataList = ArrayList()
+        mAdapter = NewsListAdapter(dataList)
         val layoutManager = LinearLayoutManager(mContext)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         mAdapter.openLoadAnimation()

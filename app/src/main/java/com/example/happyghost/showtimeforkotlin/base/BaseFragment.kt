@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.happyghost.showtimeforkotlin.AppApplication
+import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.inject.component.ApplicationComponent
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout
+import com.scwang.smartrefresh.header.CircleHeader
 import com.trello.rxlifecycle2.LifecycleTransformer
 import com.trello.rxlifecycle2.components.support.RxFragment
 import kotlinx.android.synthetic.main.fragment_list_layout.*
@@ -48,7 +50,7 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
             //如果想在这个地方初始化控件，必须使用mRootView.find，而不能直接使用控件的名字搞事情
             //所以这里需传入mRootBiew
             initView(mRootView)
-            initSmartRefresh()
+
         }
         val parent = mRootView?.parent as? ViewGroup
         if(parent!=null){
@@ -60,7 +62,7 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        initSmartRefresh()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -109,10 +111,17 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
     }
     fun initSmartRefresh(){
         if(smart_refresh!=null){
+            smart_refresh.setRefreshHeader(CircleHeader(mContext))
+            smart_refresh.setPrimaryColorsId(R.color.baseColorPrimaryDark,R.color.whiteColor)
+//            smart_refresh.setRefreshFooter()
             smart_refresh.setOnRefreshListener({
                 upDataView()
-                smart_refresh.finishRefresh(500)
+                smart_refresh.finishRefresh(1000)
             })
+            smart_refresh.setOnLoadmoreListener {
+                mPresenter.getMoreData()
+                smart_refresh.finishLoadmore(1000)
+            }
         }
 
 //        smart_refresh?.setOnLoadmoreListener {

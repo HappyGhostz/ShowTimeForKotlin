@@ -34,16 +34,21 @@ class NewsListAdapter(data: MutableList<NewsMultiItem>?) : BaseMultiItemQuickAda
     fun handlerNormal(volder:BaseViewHolder?,item: NewsMultiItem?){
         val newsInfo = item?.getNewsInfo()
         val icon = volder?.getView<ImageView>(R.id.iv_icon)
-        ImageLoader.loadCenterCrop(mContext, newsInfo?.imgsrc!!, icon!!, DefIconFactory.provideIcon())
-        volder.setText(R.id.tv_title,newsInfo.title)
-                .setText(R.id.tv_time,newsInfo.ptime)
-                .setText(R.id.tv_source,StringUtils.clipNewsSource(newsInfo.source!!))
-        if(NewsUtils.isNewsSpecial(newsInfo.skipType)){
-            val labelView = volder.getView<LabelView>(R.id.label_view)
-            labelView.visibility = View.VISIBLE
-            labelView.text = "专题"
+        if(newsInfo?.imgsrc!=null){
+            ImageLoader.loadCenterCrop(mContext, newsInfo?.imgsrc!!, icon!!, DefIconFactory.provideIcon())
+        } else if(icon!=null){
+            ImageLoader.loadImageFromRes(mContext,DefIconFactory.provideIcon(),icon)
+        }
+
+        volder?.setText(R.id.tv_title,newsInfo?.title)
+                ?.setText(R.id.tv_time,newsInfo?.ptime)
+                ?.setText(R.id.tv_source,StringUtils.clipNewsSource(newsInfo?.source!!))
+        if(NewsUtils.isNewsSpecial(newsInfo?.skipType)){
+            val labelView = volder?.getView<LabelView>(R.id.label_view)
+            labelView?.visibility = View.VISIBLE
+            labelView?.text = "专题"
         }else{
-            volder.setVisible(R.id.label_view,false)
+            volder?.setVisible(R.id.label_view,false)
         }
 
     }

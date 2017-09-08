@@ -5,6 +5,7 @@ import com.example.happyghost.showtimeforkotlin.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
 import com.example.happyghost.showtimeforkotlin.bean.NewsMultiItem
 import com.example.happyghost.showtimeforkotlin.news.newlist.NewsListFragment
+import com.example.happyghost.showtimeforkotlin.utils.ListUtils
 import com.example.happyghost.showtimeforkotlin.utils.NewsUtils
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout
@@ -61,6 +62,7 @@ class NewsListPresenter() :IBasePresenter{
                 ?.compose(mView.bindToLife<List<NewsMultiItem>>())
                 ?.subscribe(object :SingleObserver<List<NewsMultiItem>>{
                     override fun onError(e: Throwable) {
+                        Log.e("NewsListPresenter",e.toString())
                         mView.showNetError(object :EmptyErrLayout.OnReTryListener{
                             override fun onReTry() {
                                 getData()
@@ -71,6 +73,7 @@ class NewsListPresenter() :IBasePresenter{
                     override fun onSuccess(t: List<NewsMultiItem>) {
                         mView.hideLoading()
                         mView.loadData(t)
+                        mPage++
                     }
 
                     override fun onSubscribe(d: Disposable) {
@@ -83,39 +86,47 @@ class NewsListPresenter() :IBasePresenter{
 
     override fun getMoreData() {
         RetrofitService.getNewsList(mKeyId,mPage)
-                ?.compose(mTransFormer)
-                ?.toList()
-                ?.compose(mView.bindToLife())
-                ?.subscribe(object :SingleObserver<MutableList<NewsMultiItem>>{
-                    override fun onError(e: Throwable) {
-                        mView.loadNoData()
+                ?.filter(object: Predicate<NewsInfo>{
+                    override fun test(t: NewsInfo): Boolean {
+                        if (NewsUtils.isAbNews(t)) {
+                            mView.loadAdData(t)
+                        }
+                        return !NewsUtils.isAbNews(t)
                     }
-
+                })
+                ?.map (object :Function<NewsInfo,NewsMultiItem>{
+                    override fun apply(t: NewsInfo): NewsMultiItem {
+                        //在这里不能在skipType使用'!!'符号，因为请求到的skipType字段可能为空，所以'?'，？,!!区别
+                        if (NewsUtils.isNewsPhotoSet(t.skipType)){
+                            return NewsMultiItem(t,NewsMultiItem.NEWS_INFO_PHOTO_SET)
+                        }
+                        return NewsMultiItem(t,NewsMultiItem.NEWS_INFO_NORMAL)
+                    }
+                })
+                ?.toList()
+                ?.compose(mView.bindToLife<List<NewsMultiItem>>())
+                ?.subscribe(object :SingleObserver<List<NewsMultiItem>>{
                     override fun onSubscribe(d: Disposable) {
 
                     }
 
-                    override fun onSuccess(t: MutableList<NewsMultiItem>) {
-                        mView.loadMoreData(t)
-                        mPage++
+                    override fun onError(e: Throwable) {
+                        Log.e("NewsListPresenter",e.toString())
+                    }
+
+                    override fun onSuccess(t: List<NewsMultiItem>) {
+                        if(ListUtils.isEmpty(t)){
+                            mView.loadNoData()
+                        }else{
+                            mView.loadMoreData(t)
+                            mPage++
+                        }
                     }
                 })
 
     }
-    /**
-     * 统一变换
-     */
-    var mTransFormer = ObservableTransformer<NewsInfo,NewsMultiItem> {
-                newsInfoObservable->
-        return@ObservableTransformer newsInfoObservable.map {
-            newsBean->
-            if(NewsUtils.isNewsSpecial(newsBean.skipType!!)){
-                return@map NewsMultiItem(newsBean,NewsMultiItem.NEWS_INFO_NORMAL )
-            }
-            return@map NewsMultiItem(newsBean,NewsMultiItem.NEWS_INFO_PHOTO_SET)
-        }
-    }
 
 }
+
 
 
