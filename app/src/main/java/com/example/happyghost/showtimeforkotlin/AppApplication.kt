@@ -10,6 +10,8 @@ import com.example.happyghost.showtimeforkotlin.inject.module.ApplicationModule
 import com.example.happyghost.showtimeforkotlin.loacaldao.DaoMaster
 import com.example.happyghost.showtimeforkotlin.loacaldao.DaoSession
 import com.example.happyghost.showtimeforkotlin.loacaldao.NewsTypeDao
+import com.example.happyghost.showtimeforkotlin.utils.PreferencesUtils
+import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import kotlin.properties.ReadWriteProperty
 
 /**
@@ -49,8 +51,13 @@ class AppApplication : Application() {
         super.onCreate()
         instance = this
         mContext = applicationContext
+        init()
+    }
+    fun init(){
         initDao()
         initInject()
+        PreferencesUtils.init(mContext,"setting", Context.MODE_PRIVATE)
+        RetrofitService.init()
     }
     fun initDao(){
         val helper = DaoMaster.DevOpenHelper(this, "showTime-db", null)

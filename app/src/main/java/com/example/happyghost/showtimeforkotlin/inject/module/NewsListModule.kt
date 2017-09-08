@@ -13,17 +13,21 @@ import dagger.Provides
  * @description
  */
 @Module
-class NewsListModule(newsListFragment: NewsListFragment, keyID: String) {
-    var view = newsListFragment
-    var key = keyID
+class NewsListModule() {
+    lateinit var view: NewsListFragment
+    lateinit var key :String
+    constructor(newsListFragment: NewsListFragment, keyID: String):this(){
+        this.view = newsListFragment
+        this.key=keyID
+    }
     @PerFragment
     @Provides
     fun provudesNewsListPresenter():NewsListPresenter{
         return NewsListPresenter(view,key)
     }
-    @PerFragment
-    @Provides
-    fun providesRecycleViewAdapter():NewsListAdapter{
-        return NewsListAdapter()
-    }
+//    @PerFragment
+//    @Provides
+//    fun providesRecycleViewAdapter():NewsListAdapter{
+//        return NewsListAdapter()
+//    }
 }

@@ -13,8 +13,8 @@ import java.util.*
  */
 class ViewPagerAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
     //MutableList可变集合需要增删   list是不可变集合
-    var mFragments :MutableList<Fragment>?=null
-    var mTitles :MutableList<String>? = null
+    var mFragments :ArrayList<Fragment>
+    var mTitles :ArrayList<String>
     init {
         mFragments = ArrayList<Fragment>()
         mTitles = ArrayList()
@@ -36,17 +36,17 @@ class ViewPagerAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm) {
         return PagerAdapter.POSITION_NONE
     }
 
-    fun setItems(fragments:MutableList<Fragment>, titles:MutableList<String>){
+    fun setItems(fragments:ArrayList<Fragment>, titles:ArrayList<String>){
         mFragments=fragments
         mTitles = titles
         notifyDataSetChanged()
     }
 
-    fun setItems(fragments: MutableList<Fragment>, mTitles: Array<String>) {
-        this.mFragments = fragments
-        this.mTitles = Arrays.asList(*mTitles)
-        notifyDataSetChanged()
-    }
+//    fun setItems(fragments: ArrayList<Fragment>, mTitles: Array<String>) {
+//        this.mFragments = fragments
+//        this.mTitles = mTitles
+//        notifyDataSetChanged()
+//    }
     fun addItems(fragment: Fragment,title:String){
         mFragments?.add(fragment)
         mTitles?.add(title)

@@ -6,4 +6,6 @@
     <dimen name="toolbar_height">56dp</dimen>
     <!-- TabLayout -->
     <dimen name="tab_layout_height">38dp</dimen>
+    <dimen name="news_icon_width">100dp</dimen>
+    <dimen name="news_icon_height">75dp</dimen>
 </resources>

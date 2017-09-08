@@ -1,10 +1,14 @@
 package com.example.happyghost.showtimeforkotlin.news.main
 
 
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ChannelEvent
 import com.example.happyghost.showtimeforkotlin.adapter.ViewPagerAdapter
@@ -16,6 +20,7 @@ import com.example.happyghost.showtimeforkotlin.news.channel.ChannelActivity
 import com.example.happyghost.showtimeforkotlin.news.newlist.NewsListFragment
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_news_main_layout.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -44,8 +49,11 @@ class NewsMainFragment : BaseFragment<NewsMainPresenter>(),IBaseMainNewsView{
         mPresenter.getData()
     }
 
-    override fun initView() {
-        initToolBar(tool_bar,"新闻",true)
+    override fun initView(mRootView: View?) {
+        val toolbar = mRootView!!.find<Toolbar>(R.id.tool_bar)
+        val new_vp = mRootView.find<ViewPager>(R.id.new_vp)
+        val tab_new_layout = mRootView.find<TabLayout>(R.id.tab_new_layout)
+        initToolBar(toolbar,"新闻",true)
         setHasOptionsMenu(true)
         new_vp.adapter=mPagerAdapter
         tab_new_layout.setupWithViewPager(new_vp)

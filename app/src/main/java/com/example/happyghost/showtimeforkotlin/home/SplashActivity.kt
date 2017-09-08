@@ -33,7 +33,7 @@ class SplashActivity : AppCompatActivity() ,ProgressCustomView.PCviewOnClickList
     }
     fun initView(){
         val imageView = find<ImageView>(R.id.iv_splash)
-        ImageLoader().loadImageFromRes(this,R.mipmap.splash,imageView)
+        ImageLoader.loadImageFromRes(this,R.mipmap.splash,imageView)
     }
     fun iniData(){
         downtime.startAnimation()

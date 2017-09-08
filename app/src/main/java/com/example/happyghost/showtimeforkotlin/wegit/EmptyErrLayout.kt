@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.FrameLayout
 import com.example.happyghost.showtimeforkotlin.R
 import com.github.ybq.android.spinkit.SpinKitView
-import kotlinx.android.synthetic.main.layout_empty_err.view.*
 import org.jetbrains.anko.find
 
 
@@ -17,7 +16,7 @@ import org.jetbrains.anko.find
  * @creat 2017/8/23.
  * @description
  */
-class EmptyErrLayout : FrameLayout {
+class EmptyErrLayout@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)  : FrameLayout(context, attrs) {
     var mBackColor:Int = 0
     val STATUS_LOADING : Int =1
     val STATUS_HIDE : Int =2
@@ -27,14 +26,9 @@ class EmptyErrLayout : FrameLayout {
     lateinit var mEmptyLayout :FrameLayout
     lateinit var mEmptyLoading:SpinKitView
 
-    constructor(context: Context):this (context,null){
-
-    }
-
-    constructor(context: Context,atts: AttributeSet?) : super (context,atts){
-        init(context,atts)
-    }
-
+   init {
+       init(context,attrs)
+   }
     /**
      * 初始化
      */
@@ -45,17 +39,18 @@ class EmptyErrLayout : FrameLayout {
         }finally {
             typedArray.recycle()
         }
-        View.inflate(context, R.layout.layout_empty_err,null)
+        val view = View.inflate(context, R.layout.layout_empty_err, null)
         //这是ANKO框架提供的fiandViewByID
-        mEmptyContainer = find<FrameLayout>(R.id.rl_empty_container)
-        mEmptyLayout = find<FrameLayout>(R.id.framlayout_emptay)
-        mEmptyLoading = find<SpinKitView>(R.id.empty_loading)
+        mEmptyContainer =view.find<FrameLayout>(R.id.rl_empty_container)
+        mEmptyLayout = view.find<FrameLayout>(R.id.framlayout_emptay)
+        mEmptyLoading = view.find<SpinKitView>(R.id.empty_loading)
         mEmptyLayout.setBackgroundColor(mBackColor)
         //这是Kotlin插件提供的直接使用id，但必须手动import :import kotlinx.android.synthetic.main.layout_empty_err.view.*
         //这里因为习惯没有用，以后改
 //        rl_empty_container.setBackgroundColor(mBackColor)
 //        setOnClickListener({mEmptyContainer->mOnRetryListener.onReTry()})
         mEmptyContainer.setOnClickListener({mOnRetryListener.onReTry()})
+        addView(view)
         switchShowView()
 
 
@@ -117,7 +112,3 @@ class EmptyErrLayout : FrameLayout {
 
 
 }
-
-
-
-

@@ -10,7 +10,20 @@ import com.bumptech.glide.Glide
  * @description
  */
 class ImageLoader {
-    fun loadImageFromRes(context: Context,resId:Int,imageView: ImageView){
-        Glide.with(context).load(resId).into(imageView)
+    companion object {
+        fun loadImageFromRes(context: Context,resId:Int,imageView: ImageView){
+            Glide.with(context).load(resId).into(imageView)
+        }
+
+        fun loadCenterCrop(context: Context, url: String, view: ImageView, defaultResId: Int) {
+            if (PreferencesUtils.isShowImageAlways() || NetUtil.isWifiConnected(context)) {
+                Glide.with(context).load(url).centerCrop().dontAnimate().placeholder(defaultResId).into(view)
+            } else if(NetUtil.isMobileConnected(context)&&PreferencesUtils.isShowImageAlways()){
+                Glide.with(context).load(url).centerCrop().dontAnimate().placeholder(defaultResId).into(view)
+            }else{
+                view.setImageResource(defaultResId)
+            }
+        }
     }
+
 }

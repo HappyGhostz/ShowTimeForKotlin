@@ -1,7 +1,12 @@
 package com.example.happyghost.showtimeforkotlin.news.newlist
 
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
+import com.example.happyghost.showtimeforkotlin.adapter.NewsListAdapter
 import com.example.happyghost.showtimeforkotlin.base.BaseFragment
 import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
 import com.example.happyghost.showtimeforkotlin.bean.NewsMultiItem
@@ -9,15 +14,19 @@ import com.example.happyghost.showtimeforkotlin.inject.component.DaggerNewsListC
 import com.example.happyghost.showtimeforkotlin.inject.module.NewsListModule
 import com.example.happyghost.showtimeforkotlin.news.newslist.INewsListView
 import com.example.happyghost.showtimeforkotlin.news.newslist.NewsListPresenter
+import org.jetbrains.anko.find
 
 /**
  * @author Zhao Chenping
  * @creat 2017/8/30.
  * @description
  */
-class NewsListFragment : BaseFragment<NewsListPresenter>(), INewsListView<List<NewsMultiItem>> {
+class NewsListFragment : BaseFragment<NewsListPresenter>(), INewsListView {
+//    @Inject lateinit var mAdapter : NewsListAdapter
+lateinit var dataList:ArrayList<NewsMultiItem>
     override fun loadData(data: List<NewsMultiItem>) {
 
+        dataList .addAll(data)
     }
 
     override fun loadMoreData(moreData: List<NewsMultiItem>) {
@@ -36,7 +45,17 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), INewsListView<List<N
          mPresenter.getData()
     }
 
-    override fun initView() {
+    override fun initView(mRootView: View?) {
+        dataList = ArrayList()
+        val mAdapter = NewsListAdapter(dataList)
+        val layoutManager = LinearLayoutManager(mContext)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        mAdapter.openLoadAnimation()
+        val recyclerView = mRootView!!.find<RecyclerView>(R.id.recyclerview)
+
+        recyclerView.layoutManager = layoutManager
+        recyclerView.addItemDecoration(DividerItemDecoration(mContext,LinearLayoutManager.VERTICAL))
+        recyclerView.adapter = mAdapter
 
     }
 

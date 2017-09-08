@@ -8,15 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.happyghost.showtimeforkotlin.AppApplication
-import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.inject.component.ApplicationComponent
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout
 import com.trello.rxlifecycle2.LifecycleTransformer
 import com.trello.rxlifecycle2.components.support.RxFragment
 import kotlinx.android.synthetic.main.fragment_list_layout.*
 import kotlinx.android.synthetic.main.layout_comment_empty.*
-import kotlinx.android.synthetic.main.layout_comment_empty.view.*
-import org.jetbrains.anko.find
 import javax.inject.Inject
 
 /**
@@ -43,12 +40,15 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
         super.onCreate(savedInstanceState)
         mContext = activity
     }
-
+    @Nullable
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if(mRootView==null){
             mRootView = inflater?.inflate(getFragmentLayout(), null)
             initInject()
-
+            //如果想在这个地方初始化控件，必须使用mRootView.find，而不能直接使用控件的名字搞事情
+            //所以这里需传入mRootBiew
+            initView(mRootView)
+            initSmartRefresh()
         }
         val parent = mRootView?.parent as? ViewGroup
         if(parent!=null){
@@ -58,18 +58,22 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
         return mRootView
     }
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if(userVisibleHint&&mRootView!=null&&!mIsMulti){
             mIsMulti=true
             upDataView()
         }
-        initView()
-        initSmartRefresh()
+
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        if(isVisibleToUser&&isVisibleToUser&&mRootView!=null&&!mIsMulti){
+        if(isVisibleToUser&&isVisible&&mRootView!=null&&!mIsMulti){
             mIsMulti=true
             upDataView()
         }else{
@@ -80,26 +84,37 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
     }
 
     override fun showNetError(onReTryListener: EmptyErrLayout.OnReTryListener) {
-        empty_comment.setEmptyStatus(empty_comment.STATUS_NO_DATA)
-        empty_comment.setOnRetryListener(onReTryListener)
-        smart_refresh.isEnableRefresh=false
+        if(empty_comment!=null){
+            empty_comment.setEmptyStatus(empty_comment.STATUS_NO_DATA)
+            empty_comment.setOnRetryListener(onReTryListener)
+            smart_refresh.isEnableRefresh=false
+        }
+
     }
 
     override fun hideLoading() {
-        empty_comment.hide()
-        smart_refresh.isEnableRefresh=false
+        if(empty_comment!=null){
+            empty_comment?.hide()
+            smart_refresh?.isEnableRefresh=true
+        }
     }
 
     override fun showLoading() {
-        empty_comment.setEmptyStatus(empty_comment.STATUS_LOADING)
-        smart_refresh.isEnableRefresh=false
+        if(empty_comment!=null){
+            empty_comment?.setEmptyStatus(empty_comment.STATUS_LOADING)
+            smart_refresh?.isEnableRefresh=false
+        }
+
 
     }
     fun initSmartRefresh(){
-        smart_refresh?.setOnRefreshListener({
-            upDataView()
-            smart_refresh?.finishRefresh(3000)
-        })
+        if(smart_refresh!=null){
+            smart_refresh.setOnRefreshListener({
+                upDataView()
+                smart_refresh.finishRefresh(500)
+            })
+        }
+
 //        smart_refresh?.setOnLoadmoreListener {
 //            upDataView()
 //            smart_refresh?.finishLoadmore(3000)
@@ -130,7 +145,7 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
 
     abstract fun upDataView()
 
-    abstract fun initView()
+    abstract fun initView(mRootView: View?)
 
     abstract fun initInject()
 
