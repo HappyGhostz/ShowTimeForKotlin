@@ -2,7 +2,7 @@ package com.example.happyghost.showtimeforkotlin.inject.component
 
 import com.example.happyghost.showtimeforkotlin.inject.PerFragment
 import com.example.happyghost.showtimeforkotlin.inject.module.NewsMainModule
-import com.example.happyghost.showtimeforkotlin.news.main.NewsMainFragment
+import com.example.happyghost.showtimeforkotlin.ui.news.main.NewsMainFragment
 import dagger.Component
 
 /**

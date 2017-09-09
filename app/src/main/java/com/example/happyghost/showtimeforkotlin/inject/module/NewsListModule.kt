@@ -1,9 +1,8 @@
 package com.example.happyghost.showtimeforkotlin.inject.module
 
-import com.example.happyghost.showtimeforkotlin.adapter.NewsListAdapter
 import com.example.happyghost.showtimeforkotlin.inject.PerFragment
-import com.example.happyghost.showtimeforkotlin.news.newlist.NewsListFragment
-import com.example.happyghost.showtimeforkotlin.news.newslist.NewsListPresenter
+import com.example.happyghost.showtimeforkotlin.ui.news.newlist.NewsListFragment
+import com.example.happyghost.showtimeforkotlin.ui.news.newslist.NewsListPresenter
 import dagger.Module
 import dagger.Provides
 

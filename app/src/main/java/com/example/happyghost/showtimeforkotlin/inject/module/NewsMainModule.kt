@@ -4,8 +4,8 @@ import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.adapter.ViewPagerAdapter
 import com.example.happyghost.showtimeforkotlin.inject.PerFragment
 import com.example.happyghost.showtimeforkotlin.loacaldao.DaoSession
-import com.example.happyghost.showtimeforkotlin.news.main.NewsMainFragment
-import com.example.happyghost.showtimeforkotlin.news.main.NewsMainPresenter
+import com.example.happyghost.showtimeforkotlin.ui.news.main.NewsMainFragment
+import com.example.happyghost.showtimeforkotlin.ui.news.main.NewsMainPresenter
 import dagger.Module
 import dagger.Provides
 

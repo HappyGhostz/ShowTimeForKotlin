@@ -1,11 +1,10 @@
 package com.example.happyghost.showtimeforkotlin.inject.module
 
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
-import com.example.happyghost.showtimeforkotlin.adapter.ChannelAdapter
 import com.example.happyghost.showtimeforkotlin.inject.PerActivity
 import com.example.happyghost.showtimeforkotlin.loacaldao.DaoSession
-import com.example.happyghost.showtimeforkotlin.news.channel.ChannelActivity
-import com.example.happyghost.showtimeforkotlin.news.channel.ChannelPresenter
+import com.example.happyghost.showtimeforkotlin.ui.news.channel.ChannelActivity
+import com.example.happyghost.showtimeforkotlin.ui.news.channel.ChannelPresenter
 import dagger.Module
 import dagger.Provides
 

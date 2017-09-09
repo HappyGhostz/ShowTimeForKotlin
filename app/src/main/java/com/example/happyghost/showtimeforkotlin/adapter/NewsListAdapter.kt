@@ -2,10 +2,12 @@ package com.example.happyghost.showtimeforkotlin.adapter
 
 import android.view.View
 import android.widget.ImageView
+import com.andexert.library.RippleView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.NewsMultiItem
+import com.example.happyghost.showtimeforkotlin.ui.news.special.NewsSpecialActivity
 import com.example.happyghost.showtimeforkotlin.utils.*
 import com.flyco.labelview.LabelView
 
@@ -50,6 +52,13 @@ class NewsListAdapter(data: MutableList<NewsMultiItem>?) : BaseMultiItemQuickAda
         }else{
             volder?.setVisible(R.id.label_view,false)
         }
+        val rippleView = volder?.getView<RippleView>(R.id.item_ripple)
+        rippleView?.setOnRippleCompleteListener({
+            rippleView: RippleView? ->
+            if(NewsUtils.isNewsSpecial(newsInfo?.skipType)){
+                NewsSpecialActivity.lunch(mContext, newsInfo?.specialID!!)
+            }
+        })
 
     }
 

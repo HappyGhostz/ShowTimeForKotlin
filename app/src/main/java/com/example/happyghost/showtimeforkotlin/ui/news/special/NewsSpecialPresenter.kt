@@ -1,18 +1,17 @@
-package com.example.happyghost.showtimeforkotlin.home
+package com.example.happyghost.showtimeforkotlin.ui.news.special
 
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 
 /**
  * @author Zhao Chenping
- * @creat 2017/8/25.
+ * @creat 2017/9/9.
  * @description
  */
-class MainPresenter : IBasePresenter{
+class NewsSpecialPresenter:IBasePresenter {
     override fun getData() {
 
     }
 
     override fun getMoreData() {
-
     }
 }

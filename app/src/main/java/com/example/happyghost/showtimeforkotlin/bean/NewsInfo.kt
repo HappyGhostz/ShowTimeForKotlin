@@ -86,6 +86,7 @@ class NewsInfo{
         var photosetID: String? = null
         var ads: List<AdsBean>? = null
         var imgextra: List<ImgextraBean>? = null
+        var specialID: String? = null
 
         class AdsBean private constructor() :Parcelable{
             /**

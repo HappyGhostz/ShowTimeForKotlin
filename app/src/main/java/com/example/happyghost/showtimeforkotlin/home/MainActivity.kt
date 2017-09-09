@@ -7,11 +7,11 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.WindowManager
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.base.BaseActivity
-import com.example.happyghost.showtimeforkotlin.book.BookMainFragment
-import com.example.happyghost.showtimeforkotlin.music.MusicMainFragment
-import com.example.happyghost.showtimeforkotlin.news.main.NewsMainFragment
-import com.example.happyghost.showtimeforkotlin.video.VideoMainFragment
+import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
+import com.example.happyghost.showtimeforkotlin.ui.book.BookMainFragment
+import com.example.happyghost.showtimeforkotlin.ui.music.MusicMainFragment
+import com.example.happyghost.showtimeforkotlin.ui.news.main.NewsMainFragment
+import com.example.happyghost.showtimeforkotlin.ui.video.VideoMainFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
