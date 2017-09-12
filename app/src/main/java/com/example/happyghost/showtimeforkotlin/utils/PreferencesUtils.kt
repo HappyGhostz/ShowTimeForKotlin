@@ -18,11 +18,19 @@ class PreferencesUtils {
              edit = sharedPreferences.edit()
         }
         fun isShowImageAlways():Boolean{
-            return sharedPreferences.getBoolean(ConsTantUtils.showImageKey,false)
+            return getBoolean(ConsTantUtils.showImageKey, false)
         }
+
+
         fun putIsShowImageAlways(key:String,vaule:Boolean){
-            edit.putBoolean(key,vaule)
+            putBoolean(key, vaule)
+        }
+
+       fun putBoolean(key: String, vaule: Boolean) {
+            edit.putBoolean(key, vaule)
             edit.commit()
         }
+
+        fun getBoolean(key:String,value:Boolean) = sharedPreferences.getBoolean(key,value)
     }
 }

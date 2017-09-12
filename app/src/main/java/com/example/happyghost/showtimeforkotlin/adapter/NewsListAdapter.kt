@@ -59,7 +59,7 @@ class NewsListAdapter(data: MutableList<NewsMultiItem>?) : BaseMultiItemQuickAda
             if(NewsUtils.isNewsSpecial(newsInfo?.skipType)){
                 NewsSpecialActivity.lunch(mContext, newsInfo?.specialID!!)
             }else{
-                NewsNormalActivity.lunch(mContext,newsInfo?.postid)
+                NewsNormalActivity.lunch(mContext, newsInfo?.postid!!)
             }
         })
 

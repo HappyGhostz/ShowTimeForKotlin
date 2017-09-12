@@ -27,7 +27,8 @@
         <activity
             android:name=".ui.news.special.NewsSpecialActivity"
             android:theme="@style/SwipeBackTheme" /> <!-- 该Theme是防止滑动退出时出现黑屏或看到桌面 -->
-        <activity android:name=".ui.news.normal.NewsNormalActivity"></activity>
+        <activity android:name=".ui.news.normal.NewsNormalActivity"
+            android:theme="@style/SwipeBackTheme"/>
     </application>
 
 </manifest>

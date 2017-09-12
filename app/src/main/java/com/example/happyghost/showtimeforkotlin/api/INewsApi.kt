@@ -1,5 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.api
 
+import com.example.happyghost.showtimeforkotlin.bean.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
 import com.example.happyghost.showtimeforkotlin.bean.SpecialInfo
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
@@ -41,4 +42,15 @@ interface INewsApi {
     @Headers(CACHE_CONTROL_NETWORK)
     @GET("nc/special/{specialId}.html")
     fun getSpecial(@Path("specialId") specialIde: String): Observable<Map<String, SpecialInfo>>
+
+    /**
+     * 获取新闻详情
+     * eg: http://c.3g.163.com/nc/article/BV56RVG600011229/full.html
+     *
+     * @param newsId 专题ID
+     * @return
+     */
+    @Headers(AVOID_HTTP403_FORBIDDEN)
+    @GET("nc/article/{newsId}/full.html")
+    abstract fun getNewsDetail(@Path("newsId") newsId: String): Observable<Map<String, NewsDetailInfo>>
 }

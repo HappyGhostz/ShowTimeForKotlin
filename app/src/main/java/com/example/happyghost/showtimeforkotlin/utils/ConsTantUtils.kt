@@ -8,5 +8,6 @@ package com.example.happyghost.showtimeforkotlin.utils
 class ConsTantUtils {
     companion object {
         var showImageKey :String = "imagekey"
+        var SHOW_POPUP_DETAIL :String = "showpopupdetial"
     }
 }

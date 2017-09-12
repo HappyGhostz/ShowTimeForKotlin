@@ -3,6 +3,7 @@ package com.example.happyghost.showtimeforkotlin.utils
 import android.util.Log
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
+import com.example.happyghost.showtimeforkotlin.bean.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
 import com.example.happyghost.showtimeforkotlin.bean.SpecialInfo
 import io.reactivex.Observable
@@ -127,6 +128,7 @@ class RetrofitService  {
             }
            return null
         }
+        //获取专题新闻
         fun getNewsSpeciaList(newsId:String):Observable<SpecialInfo>{
             return iNewsApi!!.getSpecial(newsId)
                     .subscribeOn(Schedulers.io())
@@ -134,6 +136,17 @@ class RetrofitService  {
                     .subscribeOn(AndroidSchedulers.mainThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .flatMap(flatMapSpecial(newsId))
+        }
+        //获取新闻详情
+        fun getNewsDetial(newsId: String):Observable<NewsDetailInfo>{
+            return iNewsApi!!.getNewsDetail(newsId)
+                    .subscribeOn(Schedulers.io())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .flatMap{
+                        return@flatMap Observable.just(it.get(newsId))
+                    }
         }
         /**
          * 类型转换
