@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/BaseTheme">
         <activity
-            android:name="com.example.happyghost.showtimeforkotlin.ui.home.SplashActivity"
+            android:name=".ui.home.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,9 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.happyghost.showtimeforkotlin.ui.home.MainActivity" />
-        <activity android:name="com.example.happyghost.showtimeforkotlin.ui.news.channel.ChannelActivity" />
-        <activity android:name="com.example.happyghost.showtimeforkotlin.ui.news.special.NewsSpecialActivity"></activity>
+        <activity android:name=".ui.home.MainActivity" />
+        <activity android:name=".ui.news.channel.ChannelActivity" />
+        <activity
+            android:name=".ui.news.special.NewsSpecialActivity"
+            android:theme="@style/SwipeBackTheme" /> <!-- 该Theme是防止滑动退出时出现黑屏或看到桌面 -->
+        <activity android:name=".ui.news.normal.NewsNormalActivity"></activity>
     </application>
 
 </manifest>

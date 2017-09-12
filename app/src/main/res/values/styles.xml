@@ -27,6 +27,10 @@
         <item name="android:textSize">@dimen/BootamBar_Text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <!--该Theme是防止滑动退出时出现黑屏或看到桌面，需要滑动退出的Activity需要此theme-->
+    <style name="SwipeBackTheme" parent="BaseTheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
 
 </resources>

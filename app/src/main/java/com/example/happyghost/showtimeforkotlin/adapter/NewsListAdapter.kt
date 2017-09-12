@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.NewsMultiItem
+import com.example.happyghost.showtimeforkotlin.ui.news.normal.NewsNormalActivity
 import com.example.happyghost.showtimeforkotlin.ui.news.special.NewsSpecialActivity
 import com.example.happyghost.showtimeforkotlin.utils.*
 import com.flyco.labelview.LabelView
@@ -57,6 +58,8 @@ class NewsListAdapter(data: MutableList<NewsMultiItem>?) : BaseMultiItemQuickAda
             rippleView: RippleView? ->
             if(NewsUtils.isNewsSpecial(newsInfo?.skipType)){
                 NewsSpecialActivity.lunch(mContext, newsInfo?.specialID!!)
+            }else{
+                NewsNormalActivity.lunch(mContext,newsInfo?.postid)
             }
         })
 
