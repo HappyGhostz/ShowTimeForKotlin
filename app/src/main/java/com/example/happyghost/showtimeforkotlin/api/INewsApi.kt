@@ -1,6 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.api
 
 import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.SpecialInfo
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService.Companion.CACHE_CONTROL_NETWORK
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService.Companion.AVOID_HTTP403_FORBIDDEN
@@ -29,4 +30,15 @@ interface INewsApi {
     @GET("nc/article/{type}/{id}/{startPage}-20.html")
      fun getNewsList(@Path("type") type: String, @Path("id") id: String,
                              @Path("startPage") startPage: Int): Observable<Map<String, MutableList<NewsInfo>>>
+
+    /**
+     * 获取专题
+     * eg: http://c.3g.163.com/nc/special/S1451880983492.html
+     *
+     * @param specialIde 专题ID
+     * @return
+     */
+    @Headers(CACHE_CONTROL_NETWORK)
+    @GET("nc/special/{specialId}.html")
+    fun getSpecial(@Path("specialId") specialIde: String): Observable<Map<String, SpecialInfo>>
 }

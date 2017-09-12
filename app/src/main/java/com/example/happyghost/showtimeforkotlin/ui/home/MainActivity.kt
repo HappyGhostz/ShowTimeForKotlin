@@ -1,4 +1,4 @@
-package com.example.happyghost.showtimeforkotlin.home
+package com.example.happyghost.showtimeforkotlin.ui.home
 
 import android.os.Build
 import android.support.design.widget.NavigationView

@@ -5,7 +5,7 @@
     android:id="@+id/dl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.happyghost.showtimeforkotlin.home.MainActivity">
+    tools:context=".ui.home.MainActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

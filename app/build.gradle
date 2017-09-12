@@ -95,6 +95,8 @@ dependencies {
     compile 'com.daimajia.slider:library:1.1.5'
     //滑动退出Activity
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
+    // TagLayout
+    compile 'com.github.Rukey7:TagLayout:1.0.3'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }

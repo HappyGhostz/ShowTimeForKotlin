@@ -20,7 +20,7 @@
         android:layout_marginTop="@dimen/toolbar_margin_top">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_news_list"
+            android:id="@+id/rv_special_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

@@ -4,7 +4,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.LayoutInflater
 import me.imid.swipebacklayout.lib.SwipeBackLayout
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity
 
 /**
  * @author Zhao Chenping
@@ -16,7 +18,9 @@ abstract class BaseSwipeBackActivity<T:IBasePresenter>: BaseActivity<T>() {
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         getWindow().setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT))
-        swipeBackLayout = SwipeBackLayout(this)
+        swipeBackLayout = LayoutInflater.from(this).inflate(
+                me.imid.swipebacklayout.lib.R.layout.swipeback_layout, null) as SwipeBackLayout;
+//        SwipeBackActivity
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {

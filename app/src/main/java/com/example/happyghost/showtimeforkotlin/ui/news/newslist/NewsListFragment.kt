@@ -1,11 +1,14 @@
 package com.example.happyghost.showtimeforkotlin.ui.news.newlist
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
 import com.daimajia.slider.library.SliderLayout
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.NewsListAdapter
@@ -18,6 +21,7 @@ import com.example.happyghost.showtimeforkotlin.ui.news.newslist.INewsListView
 import com.example.happyghost.showtimeforkotlin.ui.news.newslist.NewsListPresenter
 import com.example.happyghost.showtimeforkotlin.utils.DefIconFactory
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
+import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
 import com.example.happyghost.showtimeforkotlin.utils.SliderHelper
 import kotlinx.android.synthetic.main.fragment_list_layout.*
 import org.jetbrains.anko.find
@@ -29,9 +33,8 @@ import org.jetbrains.anko.find
  */
 class NewsListFragment : BaseFragment<NewsListPresenter>(), INewsListView {
 //    @Inject lateinit var mAdapter : NewsListAdapter
-lateinit var mAdapter:NewsListAdapter
- var dataList:ArrayList<NewsMultiItem> = ArrayList()
-     var isInitSlideView:Boolean=false
+    lateinit var mAdapter:NewsListAdapter
+    var dataList:ArrayList<NewsMultiItem> = ArrayList()
     override fun loadData(data: List<NewsMultiItem>) {
         mAdapter.replaceData(data)
 
@@ -52,17 +55,15 @@ lateinit var mAdapter:NewsListAdapter
     }
 
     override fun loadAdData(newsBean: NewsInfo) {
-
          var slideView = View.inflate(mContext, R.layout.item_head_addata_layout, null)
         val sliderLayout = slideView!!.find<SliderLayout>(R.id.slider_ads)
         SliderHelper.initAdSlider(mContext, sliderLayout, newsBean)
-        if(!isInitSlideView){
+        if (mAdapter.headerLayout != null) {
+            mAdapter.removeAllHeaderView()
             mAdapter.addHeaderView(slideView)
-            isInitSlideView=true
+        } else {
+            mAdapter.addHeaderView(slideView)
         }
-
-
-
     }
 
     override fun upDataView() {
@@ -72,16 +73,12 @@ lateinit var mAdapter:NewsListAdapter
     override fun initView(mRootView: View?) {
 //        dataList = ArrayList()
         mAdapter = NewsListAdapter(dataList)
-        val layoutManager = LinearLayoutManager(mContext)
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
-        mAdapter.openLoadAnimation()
         val recyclerView = mRootView!!.find<RecyclerView>(R.id.recyclerview)
-
-        recyclerView.layoutManager = layoutManager
-        recyclerView.addItemDecoration(DividerItemDecoration(mContext,LinearLayoutManager.VERTICAL))
-        recyclerView.adapter = mAdapter
-
+        mAdapter.openLoadAnimation()
+        RecyclerViewHelper.initRecycleViewV(mContext,recyclerView,mAdapter,true)
     }
+
+
 
     override fun initInject() {
         val keyID = arguments.getString(NEWS_TYPE_KEY)

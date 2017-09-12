@@ -8,4 +8,7 @@
     <color name="whiteColor">#ffffffff</color>
     <color name="blackColor">#000000</color>
     <color name="grayColor">#959595</color>
+    <color name="divider_line">#dddddd</color>
+    <color name="item_photo_set_bg">#5677fc</color>
+    <color name="special_text_red">#e51c23</color>
 </resources>

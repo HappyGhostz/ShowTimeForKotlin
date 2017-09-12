@@ -3,6 +3,7 @@ package com.example.happyghost.showtimeforkotlin.utils
 import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.example.happyghost.showtimeforkotlin.ui.news.special.NewsSpecialActivity
 
 /**
  * @author Zhao Chenping
@@ -22,6 +23,13 @@ class ImageLoader {
                 Glide.with(context).load(url).centerCrop().dontAnimate().placeholder(defaultResId).into(view)
             }else{
                 view.setImageResource(defaultResId)
+            }
+        }
+        fun loadFitCenter(context: Context, imgsrc: String?, imageView: ImageView, provideIcon: Int) {
+            if(PreferencesUtils.isShowImageAlways()||NetUtil.isWifiConnected(context)){
+                Glide.with(context).load(imgsrc).fitCenter().dontAnimate().placeholder(provideIcon).into(imageView)
+            }else{
+                imageView.setImageResource(provideIcon)
             }
         }
     }

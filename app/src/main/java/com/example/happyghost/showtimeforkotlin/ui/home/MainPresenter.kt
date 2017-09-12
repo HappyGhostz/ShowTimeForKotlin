@@ -1,4 +1,4 @@
-package com.example.happyghost.showtimeforkotlin.home
+package com.example.happyghost.showtimeforkotlin.ui.home
 
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 

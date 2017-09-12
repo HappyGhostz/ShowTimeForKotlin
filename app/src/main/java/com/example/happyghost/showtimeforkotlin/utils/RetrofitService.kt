@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
 import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.SpecialInfo
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
@@ -37,7 +38,6 @@ class RetrofitService  {
         internal const val AVOID_HTTP403_FORBIDDEN = "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11"
         val INCREASE_PAGE = 20
         private val NEWS_HOST = "http://c.3g.163.com/"
-        private val WELFARE_HOST = "http://gank.io/"
         var iNewsApi: INewsApi? = null
 
 
@@ -127,6 +127,14 @@ class RetrofitService  {
             }
            return null
         }
+        fun getNewsSpeciaList(newsId:String):Observable<SpecialInfo>{
+            return iNewsApi!!.getSpecial(newsId)
+                    .subscribeOn(Schedulers.io())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .flatMap(flatMapSpecial(newsId))
+        }
         /**
          * 类型转换
          * @param newsId 新闻类型
@@ -135,6 +143,11 @@ class RetrofitService  {
         fun flatMapNews(newsId:String):Function<Map<String, MutableList<NewsInfo>>, Observable<NewsInfo>>{
             return Function {
                 return@Function Observable.fromIterable(it.get(newsId))
+            }
+        }
+        fun flatMapSpecial(newsId: String):Function<Map<String, SpecialInfo>, Observable<SpecialInfo>>{
+            return Function {
+                return@Function Observable.just(it.get(newsId))
             }
         }
     }
