@@ -1,10 +1,10 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
-import android.util.Log
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
 import com.example.happyghost.showtimeforkotlin.bean.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.PhotoSetInfo
 import com.example.happyghost.showtimeforkotlin.bean.SpecialInfo
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -147,6 +147,14 @@ class RetrofitService  {
                     .flatMap{
                         return@flatMap Observable.just(it.get(newsId))
                     }
+        }
+        //获取图集详情
+        fun getPhotoSetNews(newsId: String):Observable<PhotoSetInfo>{
+            return iNewsApi!!.getPhotoSet(StringUtils.clipPhotoSetId(newsId)!!)
+                    .subscribeOn(Schedulers.io())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
         }
         /**
          * 类型转换

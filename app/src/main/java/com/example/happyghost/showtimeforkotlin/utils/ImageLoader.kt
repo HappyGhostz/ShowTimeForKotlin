@@ -3,6 +3,8 @@ package com.example.happyghost.showtimeforkotlin.utils
 import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.GlideDrawable
+import com.bumptech.glide.request.RequestListener
 import com.example.happyghost.showtimeforkotlin.ui.news.special.NewsSpecialActivity
 
 /**
@@ -31,6 +33,17 @@ class ImageLoader {
             }else{
                 imageView.setImageResource(provideIcon)
             }
+        }
+        /**
+         * 带监听处理
+         *
+         * @param context
+         * @param url
+         * @param view
+         * @param listener
+         */
+        fun loadFitCenter(context: Context, imgsrc: String?, imageView: ImageView, requestListener: RequestListener<String, GlideDrawable>){
+            Glide.with(context).load(imgsrc).fitCenter().dontAnimate().listener(requestListener).into(imageView)
         }
     }
 

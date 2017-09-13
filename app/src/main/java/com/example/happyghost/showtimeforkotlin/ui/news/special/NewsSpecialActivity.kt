@@ -25,7 +25,6 @@ import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Function
 import io.reactivex.functions.Predicate
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_news_special.*

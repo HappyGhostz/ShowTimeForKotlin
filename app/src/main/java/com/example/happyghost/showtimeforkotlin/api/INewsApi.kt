@@ -2,6 +2,7 @@ package com.example.happyghost.showtimeforkotlin.api
 
 import com.example.happyghost.showtimeforkotlin.bean.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.PhotoSetInfo
 import com.example.happyghost.showtimeforkotlin.bean.SpecialInfo
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService.Companion.CACHE_CONTROL_NETWORK
@@ -53,4 +54,15 @@ interface INewsApi {
     @Headers(AVOID_HTTP403_FORBIDDEN)
     @GET("nc/article/{newsId}/full.html")
     abstract fun getNewsDetail(@Path("newsId") newsId: String): Observable<Map<String, NewsDetailInfo>>
+
+    /**
+     * 获取新闻中的图集详情
+     * eg: http://c.3g.163.com/photo/api/set/0006/2136404.json
+     *
+     * @param photoId 图集ID
+     * @return
+     */
+    @Headers(CACHE_CONTROL_NETWORK)
+    @GET("photo/api/set/{photoId}.json")
+    fun getPhotoSet(@Path("photoId") photoId: String): Observable<PhotoSetInfo>
 }

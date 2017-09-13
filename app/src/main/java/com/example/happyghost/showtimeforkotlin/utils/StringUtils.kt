@@ -26,6 +26,23 @@ class StringUtils {
             }
             return source
         }
+        /**
+         * 裁剪图集ID
+         *
+         * @param photoId
+         * @return
+         */
+        fun clipPhotoSetId(photoId: String):String?{
+            if (TextUtils.isEmpty(photoId)) {
+                return photoId
+            }
+            val i = photoId.indexOf("|")
+            if (i >= 4) {
+                val result = photoId.replace('|', '/')
+                return result.substring(i - 4)
+            }
+            return null
+        }
 
     }
 }

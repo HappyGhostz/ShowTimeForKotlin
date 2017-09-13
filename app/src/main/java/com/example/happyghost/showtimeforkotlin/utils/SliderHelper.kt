@@ -7,6 +7,9 @@ import com.daimajia.slider.library.SliderLayout
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
 import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
+import com.example.happyghost.showtimeforkotlin.ui.news.normal.NewsNormalActivity
+import com.example.happyghost.showtimeforkotlin.ui.news.photonews.PhotoSetNewsActivity
+import com.example.happyghost.showtimeforkotlin.ui.news.special.NewsSpecialActivity
 
 /**
  * @author Zhao Chenping
@@ -29,11 +32,11 @@ class SliderHelper {
                                 val adData = slider.bundle.getParcelable<NewsInfo.AdsBean>(SLIDER_KEY)
                                 if(adData!=null){
                                     if(NewsUtils.isNewsPhotoSet(adData.tag)){
-                                        //todo
+                                        PhotoSetNewsActivity.launch(mContext!!, adData.url!!)
                                     }else if(NewsUtils.isNewsSpecial(adData.tag)){
-                                        //todo
+                                        NewsSpecialActivity.lunch(mContext!!, adData.url!!)
                                     }else{
-                                        //todo
+                                        NewsNormalActivity.lunch(mContext!!, adData.url!!)
                                     }
                                 }
                             }

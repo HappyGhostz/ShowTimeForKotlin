@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.NewsMultiItem
 import com.example.happyghost.showtimeforkotlin.ui.news.normal.NewsNormalActivity
+import com.example.happyghost.showtimeforkotlin.ui.news.photonews.PhotoSetNewsActivity
 import com.example.happyghost.showtimeforkotlin.ui.news.special.NewsSpecialActivity
 import com.example.happyghost.showtimeforkotlin.utils.*
 import com.flyco.labelview.LabelView
@@ -87,5 +88,9 @@ class NewsListAdapter(data: MutableList<NewsMultiItem>?) : BaseMultiItemQuickAda
         volder?.setText(R.id.tv_title,mNewsInfo.title)
                 ?.setText(R.id.tv_source,StringUtils.clipNewsSource(mNewsInfo.source!!))
                 ?.setText(R.id.tv_time,mNewsInfo.ptime)
+        val rippleView = volder?.getView<RippleView>(R.id.item_ripple)
+        rippleView?.setOnRippleCompleteListener {
+            PhotoSetNewsActivity.launch(mContext, mNewsInfo.photosetID!!)
+        }
     }
 }

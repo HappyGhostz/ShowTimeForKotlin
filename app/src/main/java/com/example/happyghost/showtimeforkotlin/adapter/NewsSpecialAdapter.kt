@@ -1,6 +1,5 @@
 package com.example.happyghost.showtimeforkotlin.adapter
 
-import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
@@ -9,6 +8,8 @@ import com.chad.library.adapter.base.BaseSectionQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.SpecialItem
+import com.example.happyghost.showtimeforkotlin.ui.news.normal.NewsNormalActivity
+import com.example.happyghost.showtimeforkotlin.ui.news.photonews.PhotoSetNewsActivity
 import com.example.happyghost.showtimeforkotlin.ui.news.special.NewsSpecialActivity
 import com.example.happyghost.showtimeforkotlin.utils.DefIconFactory
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
@@ -53,9 +54,9 @@ class NewsSpecialAdapter: BaseSectionQuickAdapter<SpecialItem, BaseViewHolder> {
             if(NewsUtils.isNewsSpecial(item.t.getSkipType())){
                 NewsSpecialActivity.lunch(mContext, item.t.getSpecialID()!!)
             }else if(NewsUtils.isNewsPhotoSet(item.t.getSkipType())){
-                //todo
+                PhotoSetNewsActivity.launch(mContext, item.t.getPhotosetID()!!)
             }else{
-                //todo
+                NewsNormalActivity.lunch(mContext, item.t.getPostid()!!)
             }
         }
 

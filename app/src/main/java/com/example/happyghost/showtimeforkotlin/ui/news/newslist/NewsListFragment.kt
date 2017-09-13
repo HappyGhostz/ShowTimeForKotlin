@@ -34,6 +34,7 @@ import org.jetbrains.anko.find
 class NewsListFragment : BaseFragment<NewsListPresenter>(), INewsListView {
 //    @Inject lateinit var mAdapter : NewsListAdapter
     lateinit var mAdapter:NewsListAdapter
+    var sliderLayout: SliderLayout? = null
     var dataList:ArrayList<NewsMultiItem> = ArrayList()
     override fun loadData(data: List<NewsMultiItem>) {
         mAdapter.replaceData(data)
@@ -56,8 +57,8 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), INewsListView {
 
     override fun loadAdData(newsBean: NewsInfo) {
          var slideView = View.inflate(mContext, R.layout.item_head_addata_layout, null)
-        val sliderLayout = slideView!!.find<SliderLayout>(R.id.slider_ads)
-        SliderHelper.initAdSlider(mContext, sliderLayout, newsBean)
+         sliderLayout = slideView!!.find<SliderLayout>(R.id.slider_ads)
+        SliderHelper.initAdSlider(mContext, sliderLayout!!, newsBean)
         if (mAdapter.headerLayout != null) {
             mAdapter.removeAllHeaderView()
             mAdapter.addHeaderView(slideView)
@@ -104,5 +105,19 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), INewsListView {
              return fragment
          }
      }
+
+    override fun onResume() {
+        super.onResume()
+        if (sliderLayout != null) {
+            sliderLayout?.startAutoCycle()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (sliderLayout != null) {
+            sliderLayout?.stopAutoCycle()
+        }
+    }
 
 }
