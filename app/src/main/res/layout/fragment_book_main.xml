@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <!-- 遮挡状态栏透明的部分 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_margin_top"
+        android:background="?attr/colorPrimary"/>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:navigationIcon="@mipmap/ic_nav"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
+        >//设置弹出菜单的风格
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_layout_height"
+        android:background="@color/baseColorPrimary"
+        android:elevation="@dimen/cardview_default_elevation"
+        android:orientation="horizontal">
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_book_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_layout_height"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/whiteColor"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</LinearLayout>
