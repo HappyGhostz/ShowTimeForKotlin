@@ -32,22 +32,18 @@ class NewsListPresenter() :IBasePresenter{
     override fun getData() {
         RetrofitService.getNewsList(mKeyId,mPage)
                 ?.doOnSubscribe { mView.showLoading() }
-                ?.filter(object: Predicate<NewsInfo>{
-                    override fun test(t: NewsInfo): Boolean {
-                        if (NewsUtils.isAbNews(t)) {
-                             mView.loadAdData(t)
-                           }
-                         return !NewsUtils.isAbNews(t)
+                ?.filter { t ->
+                    if (NewsUtils.isAbNews(t)) {
+                        mView.loadAdData(t)
                     }
-                })
-                ?.map (object :Function<NewsInfo,NewsMultiItem>{
-                    override fun apply(t: NewsInfo): NewsMultiItem {
-                        //在这里不能在skipType使用'!!'符号，因为请求到的skipType字段可能为空，所以'?'，？,!!区别
-                        if (NewsUtils.isNewsPhotoSet(t.skipType)){
-                            return NewsMultiItem(t,NewsMultiItem.NEWS_INFO_PHOTO_SET)
-                        }
-                        return NewsMultiItem(t,NewsMultiItem.NEWS_INFO_NORMAL)
+                    !NewsUtils.isAbNews(t)
+                }
+                ?.map (Function<NewsInfo, NewsMultiItem> { t ->
+                    //在这里不能在skipType使用'!!'符号，因为请求到的skipType字段可能为空，所以'?'，？,!!区别
+                    if (NewsUtils.isNewsPhotoSet(t.skipType)){
+                        return@Function NewsMultiItem(t,NewsMultiItem.NEWS_INFO_PHOTO_SET)
                     }
+                    NewsMultiItem(t,NewsMultiItem.NEWS_INFO_NORMAL)
                 })
                 ?.toList()
                 ?.compose(mView.bindToLife<List<NewsMultiItem>>())
@@ -77,22 +73,18 @@ class NewsListPresenter() :IBasePresenter{
 
     override fun getMoreData() {
         RetrofitService.getNewsList(mKeyId,mPage)
-                ?.filter(object: Predicate<NewsInfo>{
-                    override fun test(t: NewsInfo): Boolean {
-                        if (NewsUtils.isAbNews(t)) {
-                            mView.loadAdData(t)
-                        }
-                        return !NewsUtils.isAbNews(t)
+                ?.filter { t ->
+                    if (NewsUtils.isAbNews(t)) {
+                        mView.loadAdData(t)
                     }
-                })
-                ?.map (object :Function<NewsInfo,NewsMultiItem>{
-                    override fun apply(t: NewsInfo): NewsMultiItem {
-                        //在这里不能在skipType使用'!!'符号，因为请求到的skipType字段可能为空，所以'?'，？,!!区别
-                        if (NewsUtils.isNewsPhotoSet(t.skipType)){
-                            return NewsMultiItem(t,NewsMultiItem.NEWS_INFO_PHOTO_SET)
-                        }
-                        return NewsMultiItem(t,NewsMultiItem.NEWS_INFO_NORMAL)
+                    !NewsUtils.isAbNews(t)
+                }
+                ?.map (Function<NewsInfo, NewsMultiItem> { t ->
+                    //在这里不能在skipType使用'!!'符号，因为请求到的skipType字段可能为空，所以'?'，？,!!区别
+                    if (NewsUtils.isNewsPhotoSet(t.skipType)){
+                        return@Function NewsMultiItem(t,NewsMultiItem.NEWS_INFO_PHOTO_SET)
                     }
+                    NewsMultiItem(t,NewsMultiItem.NEWS_INFO_NORMAL)
                 })
                 ?.toList()
                 ?.compose(mView.bindToLife<List<NewsMultiItem>>())

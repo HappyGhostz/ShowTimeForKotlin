@@ -57,12 +57,7 @@ class NewsMainFragment : BaseFragment<NewsMainPresenter>(),IBaseMainNewsView{
         setHasOptionsMenu(true)
         new_vp.adapter=mPagerAdapter
         tab_new_layout.setupWithViewPager(new_vp)
-        mPresenter.registerRxBus(ChannelEvent::class.java,object :Consumer<ChannelEvent>{
-            override fun accept(t: ChannelEvent) {
-                handleChannelMessage(t)
-            }
-
-        })
+        mPresenter.registerRxBus(ChannelEvent::class.java, Consumer<ChannelEvent> { t -> handleChannelMessage(t) })
     }
     override fun initInject() {
         DaggerNewsMainComponent.builder()

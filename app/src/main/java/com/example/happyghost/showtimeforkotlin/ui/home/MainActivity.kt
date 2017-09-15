@@ -8,7 +8,7 @@ import android.view.MenuItem
 import android.view.WindowManager
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
-import com.example.happyghost.showtimeforkotlin.ui.book.BookMainFragment
+import com.example.happyghost.showtimeforkotlin.ui.book.main.BookMainFragment
 import com.example.happyghost.showtimeforkotlin.ui.music.MusicMainFragment
 import com.example.happyghost.showtimeforkotlin.ui.news.main.NewsMainFragment
 import com.example.happyghost.showtimeforkotlin.ui.video.VideoMainFragment
@@ -25,10 +25,11 @@ class MainActivity : BaseActivity<MainPresenter>(), NavigationView.OnNavigationI
     override fun initView() {
         initStatusBar()
         initNavigationView()
+        addInitFragment(R.id.framlayout_main, NewsMainFragment(),"news")
         //bottom的icon必须为透明无色无填充图标，可以在https://github.com/google/material-design-icons/上找
         bottomBar.setOnTabSelectListener {
             when(it){
-                R.id.tab_news->addInitFragment(R.id.framlayout_main, NewsMainFragment(),"news")
+                R.id.tab_news->replaceFragment(R.id.framlayout_main, NewsMainFragment(),"news")
                 R.id.tab_video->replaceFragment(R.id.framlayout_main,VideoMainFragment(),"video")
                 R.id.tab_music->replaceFragment(R.id.framlayout_main, MusicMainFragment(),"music")
                 R.id.tab_book->replaceFragment(R.id.framlayout_main, BookMainFragment(),"book")

@@ -27,7 +27,6 @@ class SplashActivity : AppCompatActivity() ,ProgressCustomView.PCviewOnClickList
         setContentView(R.layout.activity_splash)
         initView()
         iniData()
-
     }
     fun initView(){
         val imageView = find<ImageView>(R.id.iv_splash)

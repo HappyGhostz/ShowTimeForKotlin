@@ -8,7 +8,7 @@ import kotlin.reflect.KProperty
  * @creat 2017/8/24.
  * @description
  */
-public class AppDelegation<T>() :ReadWriteProperty<Any?,T> {
+ class AppDelegation<T>() :ReadWriteProperty<Any?,T> {
 
     var vaule : T? = null
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
