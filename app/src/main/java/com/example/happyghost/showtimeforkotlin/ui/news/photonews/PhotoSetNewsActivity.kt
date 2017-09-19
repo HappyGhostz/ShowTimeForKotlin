@@ -3,10 +3,10 @@ package com.example.happyghost.showtimeforkotlin.ui.news.photonews
 import android.content.Context
 import android.support.v4.view.ViewPager
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.adapter.PhotoSetAdapter
-import com.example.happyghost.showtimeforkotlin.bean.PhotoSetInfo
-import com.example.happyghost.showtimeforkotlin.inject.component.DaggerPhotoSetNewsComponent
-import com.example.happyghost.showtimeforkotlin.inject.module.PhotoSetNewsModule
+import com.example.happyghost.showtimeforkotlin.adapter.newsadapter.PhotoSetAdapter
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.PhotoSetInfo
+import com.example.happyghost.showtimeforkotlin.inject.component.newscomponent.DaggerPhotoSetNewsComponent
+import com.example.happyghost.showtimeforkotlin.inject.module.newsmodule.PhotoSetNewsModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_photo_set.*
 import kotlinx.android.synthetic.main.layout_toolbar_transparent.*
@@ -38,7 +38,7 @@ class PhotoSetNewsActivity : BaseActivity<PhotoSetPresenter>(),IPhotoSetView{
                 tv_index.setText((position+1).toString()+"/")
             }
         })
-        photoSetAdapter.setTapListener(object :PhotoSetAdapter.OnTapListener{
+        photoSetAdapter.setTapListener(object : PhotoSetAdapter.OnTapListener{
             override fun onPhotoClick() {
                 isToolBarHide=!isToolBarHide
                 if(isToolBarHide){
@@ -66,7 +66,7 @@ class PhotoSetNewsActivity : BaseActivity<PhotoSetPresenter>(),IPhotoSetView{
         val photoId = intent.getStringExtra(PHOTO_SET_ID)
         DaggerPhotoSetNewsComponent.builder()
                 .applicationComponent(getAppComponent())
-                .photoSetNewsModule(PhotoSetNewsModule(this,photoId))
+                .photoSetNewsModule(PhotoSetNewsModule(this, photoId))
                 .build()
                 .inject(this)
     }

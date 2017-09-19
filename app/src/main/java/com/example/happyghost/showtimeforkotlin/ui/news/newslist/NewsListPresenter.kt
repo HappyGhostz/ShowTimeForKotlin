@@ -2,8 +2,8 @@ package com.example.happyghost.showtimeforkotlin.ui.news.newslist
 
 import android.util.Log
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
-import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
-import com.example.happyghost.showtimeforkotlin.bean.NewsMultiItem
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsMultiItem
 import com.example.happyghost.showtimeforkotlin.utils.ListUtils
 import com.example.happyghost.showtimeforkotlin.utils.NewsUtils
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
@@ -11,7 +11,6 @@ import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Function
-import io.reactivex.functions.Predicate
 
 
 /**
@@ -41,9 +40,9 @@ class NewsListPresenter() :IBasePresenter{
                 ?.map (Function<NewsInfo, NewsMultiItem> { t ->
                     //在这里不能在skipType使用'!!'符号，因为请求到的skipType字段可能为空，所以'?'，？,!!区别
                     if (NewsUtils.isNewsPhotoSet(t.skipType)){
-                        return@Function NewsMultiItem(t,NewsMultiItem.NEWS_INFO_PHOTO_SET)
+                        return@Function NewsMultiItem(t, NewsMultiItem.NEWS_INFO_PHOTO_SET)
                     }
-                    NewsMultiItem(t,NewsMultiItem.NEWS_INFO_NORMAL)
+                    NewsMultiItem(t, NewsMultiItem.NEWS_INFO_NORMAL)
                 })
                 ?.toList()
                 ?.compose(mView.bindToLife<List<NewsMultiItem>>())
@@ -82,9 +81,9 @@ class NewsListPresenter() :IBasePresenter{
                 ?.map (Function<NewsInfo, NewsMultiItem> { t ->
                     //在这里不能在skipType使用'!!'符号，因为请求到的skipType字段可能为空，所以'?'，？,!!区别
                     if (NewsUtils.isNewsPhotoSet(t.skipType)){
-                        return@Function NewsMultiItem(t,NewsMultiItem.NEWS_INFO_PHOTO_SET)
+                        return@Function NewsMultiItem(t, NewsMultiItem.NEWS_INFO_PHOTO_SET)
                     }
-                    NewsMultiItem(t,NewsMultiItem.NEWS_INFO_NORMAL)
+                    NewsMultiItem(t, NewsMultiItem.NEWS_INFO_NORMAL)
                 })
                 ?.toList()
                 ?.compose(mView.bindToLife<List<NewsMultiItem>>())

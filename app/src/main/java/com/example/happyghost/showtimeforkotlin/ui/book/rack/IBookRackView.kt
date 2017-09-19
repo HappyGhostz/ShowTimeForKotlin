@@ -1,7 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.rack
 
-import com.example.happyghost.showtimeforkotlin.bean.BookHelpList
-import com.example.happyghost.showtimeforkotlin.bean.Recommend
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
 /**

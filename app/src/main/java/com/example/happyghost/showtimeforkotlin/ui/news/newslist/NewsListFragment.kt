@@ -1,22 +1,17 @@
 package com.example.happyghost.showtimeforkotlin.ui.news.newlist
 
-import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
 import com.daimajia.slider.library.SliderLayout
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.adapter.NewsListAdapter
+import com.example.happyghost.showtimeforkotlin.adapter.newsadapter.NewsListAdapter
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
-import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
-import com.example.happyghost.showtimeforkotlin.bean.NewsMultiItem
-import com.example.happyghost.showtimeforkotlin.inject.component.DaggerNewsListComponent
-import com.example.happyghost.showtimeforkotlin.inject.module.NewsListModule
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsMultiItem
+import com.example.happyghost.showtimeforkotlin.inject.component.newscomponent.DaggerNewsListComponent
+import com.example.happyghost.showtimeforkotlin.inject.module.newsmodule.NewsListModule
 import com.example.happyghost.showtimeforkotlin.ui.news.newslist.INewsListView
 import com.example.happyghost.showtimeforkotlin.ui.news.newslist.NewsListPresenter
 import com.example.happyghost.showtimeforkotlin.utils.DefIconFactory
@@ -33,7 +28,7 @@ import org.jetbrains.anko.find
  */
 class NewsListFragment : BaseFragment<NewsListPresenter>(), INewsListView {
 //    @Inject lateinit var mAdapter : NewsListAdapter
-    lateinit var mAdapter:NewsListAdapter
+    lateinit var mAdapter: NewsListAdapter
     var sliderLayout: SliderLayout? = null
     var dataList:ArrayList<NewsMultiItem> = ArrayList()
     override fun loadData(data: List<NewsMultiItem>) {
@@ -85,7 +80,7 @@ class NewsListFragment : BaseFragment<NewsListPresenter>(), INewsListView {
         val keyID = arguments.getString(NEWS_TYPE_KEY)
          DaggerNewsListComponent.builder()
                  .applicationComponent(getAppComponent())
-                 .newsListModule(NewsListModule(this,keyID))
+                 .newsListModule(NewsListModule(this, keyID))
                  .build()
                  .inject(this)
     }

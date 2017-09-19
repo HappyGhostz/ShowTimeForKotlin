@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ShowTimeForKotlin</string>
+
+
+
+    <string name="category_book_count">%1$d本</string>
 </resources>

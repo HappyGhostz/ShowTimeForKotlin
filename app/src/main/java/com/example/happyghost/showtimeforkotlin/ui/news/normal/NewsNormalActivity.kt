@@ -11,9 +11,9 @@ import android.view.ViewConfiguration
 import android.view.ViewStub
 
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.NewsDetailInfo
-import com.example.happyghost.showtimeforkotlin.inject.component.DaggerNewsNormalComponent
-import com.example.happyghost.showtimeforkotlin.inject.module.NewsNormalModule
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsDetailInfo
+import com.example.happyghost.showtimeforkotlin.inject.component.newscomponent.DaggerNewsNormalComponent
+import com.example.happyghost.showtimeforkotlin.inject.module.newsmodule.NewsNormalModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseSwipeBackActivity
 import com.example.happyghost.showtimeforkotlin.utils.*
 import com.example.happyghost.showtimeforkotlin.wegit.PullScrollView
@@ -149,7 +149,7 @@ class NewsNormalActivity : BaseSwipeBackActivity<NewsNormalPresenter>(),INewsNor
         val normalId = intent.getStringExtra(NEWS_NORMAL_ID)
         DaggerNewsNormalComponent.builder()
                 .applicationComponent(getAppComponent())
-                .newsNormalModule(NewsNormalModule(this,normalId))
+                .newsNormalModule(NewsNormalModule(this, normalId))
                 .build()
                 .inject(this)
 

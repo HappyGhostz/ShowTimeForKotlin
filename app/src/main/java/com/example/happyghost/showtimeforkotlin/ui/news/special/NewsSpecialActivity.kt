@@ -14,12 +14,12 @@ import com.dl7.tag.TagLayout
 import com.dl7.tag.TagView
 
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.adapter.NewsSpecialAdapter
+import com.example.happyghost.showtimeforkotlin.adapter.newsadapter.NewsSpecialAdapter
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseSwipeBackActivity
-import com.example.happyghost.showtimeforkotlin.bean.SpecialInfo
-import com.example.happyghost.showtimeforkotlin.bean.SpecialItem
-import com.example.happyghost.showtimeforkotlin.inject.component.DaggerNewsSpecialComponent
-import com.example.happyghost.showtimeforkotlin.inject.module.NewSpecialModule
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.SpecialInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.SpecialItem
+import com.example.happyghost.showtimeforkotlin.inject.component.newscomponent.DaggerNewsSpecialComponent
+import com.example.happyghost.showtimeforkotlin.inject.module.newsmodule.NewSpecialModule
 import com.example.happyghost.showtimeforkotlin.utils.DefIconFactory
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
@@ -28,13 +28,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Predicate
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_news_special.*
-import kotlinx.android.synthetic.main.item_head_special_news.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 class NewsSpecialActivity : BaseSwipeBackActivity<NewsSpecialPresenter>(),INewsSpecialView {
-    @Inject lateinit var mAdapter :NewsSpecialAdapter
+    @Inject lateinit var mAdapter : NewsSpecialAdapter
     private val mSkipId = IntArray(20)
     lateinit var specialId:String
     lateinit var layoutManager : LinearLayoutManager
@@ -125,7 +124,7 @@ class NewsSpecialActivity : BaseSwipeBackActivity<NewsSpecialPresenter>(),INewsS
         specialId = intent.getStringExtra(SPECIAL_ID)
         DaggerNewsSpecialComponent.builder()
                 .applicationComponent(getAppComponent())
-                .newSpecialModule(NewSpecialModule(this,specialId))
+                .newSpecialModule(NewSpecialModule(this, specialId))
                 .build()
                 .inject(this)
     }

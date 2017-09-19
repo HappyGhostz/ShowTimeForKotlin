@@ -11,10 +11,10 @@ import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback
 import com.chad.library.adapter.base.listener.OnItemDragListener
 import com.chad.library.adapter.base.listener.OnItemSwipeListener
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.adapter.ChannelAdapter
+import com.example.happyghost.showtimeforkotlin.adapter.newsadapter.ChannelAdapter
+import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerChannelComponent
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
-import com.example.happyghost.showtimeforkotlin.inject.component.DaggerChannelComponent
-import com.example.happyghost.showtimeforkotlin.inject.module.ChannelModule
+import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.ChannelModule
 import com.example.happyghost.showtimeforkotlin.loacaldao.NewsTypeInfo
 import kotlinx.android.synthetic.main.activity_channel.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -32,8 +32,8 @@ class ChannelActivity: BaseActivity<ChannelPresenter>(),IBaseChannelView {
     override fun upDataView() {
         mPresenter.getData()
     }
-    lateinit var unCheckAdapter:ChannelAdapter
-    lateinit var checkListAdapter:ChannelAdapter
+    lateinit var unCheckAdapter: ChannelAdapter
+    lateinit var checkListAdapter: ChannelAdapter
 
     var mCheckList =ArrayList<NewsTypeInfo>()
     var mUnCheckList =ArrayList<NewsTypeInfo>()

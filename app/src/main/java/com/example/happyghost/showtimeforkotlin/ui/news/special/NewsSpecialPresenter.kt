@@ -1,15 +1,13 @@
 package com.example.happyghost.showtimeforkotlin.ui.news.special
 
-import com.example.happyghost.showtimeforkotlin.bean.NewsItemInfo
-import com.example.happyghost.showtimeforkotlin.bean.SpecialInfo
-import com.example.happyghost.showtimeforkotlin.bean.SpecialItem
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsItemInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.SpecialInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.SpecialItem
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.SingleObserver
-import io.reactivex.SingleSource
 import io.reactivex.disposables.Disposable
 
 /**
@@ -23,7 +21,7 @@ class NewsSpecialPresenter(view: NewsSpecialActivity, id: String) :IBasePresente
     override fun getData() {
         RetrofitService.getNewsSpeciaList(mId)
                 .doOnSubscribe { mView.showLoading() }
-                .flatMap { special: SpecialInfo->
+                .flatMap { special: SpecialInfo ->
                     mView.loadBanner(special)
                     return@flatMap convertSpecialInfo(special)
                 }

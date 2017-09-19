@@ -6,7 +6,7 @@ import com.daimajia.slider.library.Animations.DescriptionAnimation
 import com.daimajia.slider.library.SliderLayout
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
-import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsInfo
 import com.example.happyghost.showtimeforkotlin.ui.news.normal.NewsNormalActivity
 import com.example.happyghost.showtimeforkotlin.ui.news.photonews.PhotoSetNewsActivity
 import com.example.happyghost.showtimeforkotlin.ui.news.special.NewsSpecialActivity

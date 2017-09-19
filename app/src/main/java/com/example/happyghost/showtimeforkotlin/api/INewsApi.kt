@@ -1,10 +1,9 @@
 package com.example.happyghost.showtimeforkotlin.api
 
-import com.example.happyghost.showtimeforkotlin.bean.NewsDetailInfo
-import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
-import com.example.happyghost.showtimeforkotlin.bean.PhotoSetInfo
-import com.example.happyghost.showtimeforkotlin.bean.SpecialInfo
-import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsDetailInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.PhotoSetInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.SpecialInfo
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService.Companion.CACHE_CONTROL_NETWORK
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService.Companion.AVOID_HTTP403_FORBIDDEN
 import io.reactivex.Observable

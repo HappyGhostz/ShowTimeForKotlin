@@ -12,9 +12,10 @@ import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ChannelEvent
 import com.example.happyghost.showtimeforkotlin.adapter.ViewPagerAdapter
+import com.example.happyghost.showtimeforkotlin.inject.component.newscomponent.DaggerNewsMainComponent
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
-import com.example.happyghost.showtimeforkotlin.inject.component.DaggerNewsMainComponent
-import com.example.happyghost.showtimeforkotlin.inject.module.NewsMainModule
+
+import com.example.happyghost.showtimeforkotlin.inject.module.newsmodule.NewsMainModule
 import com.example.happyghost.showtimeforkotlin.loacaldao.NewsTypeInfo
 import com.example.happyghost.showtimeforkotlin.ui.news.channel.ChannelActivity
 import com.example.happyghost.showtimeforkotlin.ui.news.newlist.NewsListFragment

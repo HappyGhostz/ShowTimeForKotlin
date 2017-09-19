@@ -3,7 +3,12 @@ package com.example.happyghost.showtimeforkotlin.utils
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.api.IBookApi
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
-import com.example.happyghost.showtimeforkotlin.bean.*
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.CategoryList
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsDetailInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.PhotoSetInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.SpecialInfo
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
@@ -167,6 +172,14 @@ class RetrofitService  {
         //获取书籍推荐列表
         fun getBookRack(gender:String):Observable<Recommend>{
             return iBookApi!!.getRecomend(gender)
+                    .subscribeOn(Schedulers.io())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        //获取书籍分类列表
+        fun getBookClassifyInfo():Observable<CategoryList>{
+            return iBookApi!!.getCategoryList()
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .subscribeOn(AndroidSchedulers.mainThread())

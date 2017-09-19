@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
-import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsInfo
 
 /**
  * @author Zhao Chenping

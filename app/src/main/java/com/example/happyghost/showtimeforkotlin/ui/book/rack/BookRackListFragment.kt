@@ -5,11 +5,10 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.adapter.BookRackAdapter
-import com.example.happyghost.showtimeforkotlin.bean.BookHelpList
-import com.example.happyghost.showtimeforkotlin.bean.Recommend
-import com.example.happyghost.showtimeforkotlin.inject.component.DaggerBookRackComponent
-import com.example.happyghost.showtimeforkotlin.inject.module.BookRackMoudle
+import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookRackAdapter
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookRackComponent
+import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookRackMoudle
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
 import org.jetbrains.anko.find
@@ -21,7 +20,7 @@ import javax.inject.Inject
  * @description
  */
 class BookRackListFragment : BaseFragment<BookRackPresent>(),IBookRackView {
-    @Inject lateinit var adapter :BookRackAdapter
+    @Inject lateinit var adapter : BookRackAdapter
     override fun loadRecommendList(list: List<Recommend.RecommendBooks>) {
         adapter.replaceData(list)
     }
