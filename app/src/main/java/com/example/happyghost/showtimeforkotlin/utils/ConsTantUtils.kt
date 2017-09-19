@@ -9,5 +9,6 @@ class ConsTantUtils {
     companion object {
         var showImageKey :String = "imagekey"
         var SHOW_POPUP_DETAIL :String = "showpopupdetial"
+        val IMG_BASE_URL = "http://statics.zhuishushenqi.com"
     }
 }

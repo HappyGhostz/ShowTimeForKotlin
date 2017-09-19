@@ -13,4 +13,16 @@
     <color name="special_text_red">#e51c23</color>
     <color name="btn_press_bg">#ffbababa</color>
     <color name="photo_set_bg">#44000000</color>
+    <!--通用触摸背景色-->
+    <color name="common_touch_bg">#E3E3E3</color>
+    <!--通用一级标题的颜色-->
+    <color name="common_h1">#212121</color>
+    <!--通用二级标题的颜色-->
+    <color name="common_h2">#727272</color>
+    <!--通用三级标题的颜色-->
+    <color name="common_h3">#B2B2B2</color>
+    <!--barlauouttextcolor-->
+    <color name="layout_bar">#ECF9FF</color>
+    <color name="layout_bar_normal">#AEE5FF</color>
+
 </resources>

@@ -1,11 +1,9 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
 import com.example.happyghost.showtimeforkotlin.AppApplication
+import com.example.happyghost.showtimeforkotlin.api.IBookApi
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
-import com.example.happyghost.showtimeforkotlin.bean.NewsDetailInfo
-import com.example.happyghost.showtimeforkotlin.bean.NewsInfo
-import com.example.happyghost.showtimeforkotlin.bean.PhotoSetInfo
-import com.example.happyghost.showtimeforkotlin.bean.SpecialInfo
+import com.example.happyghost.showtimeforkotlin.bean.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
@@ -39,7 +37,9 @@ class RetrofitService  {
         internal const val AVOID_HTTP403_FORBIDDEN = "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11"
         val INCREASE_PAGE = 20
         private val NEWS_HOST = "http://c.3g.163.com/"
+        private val BASE_BOOKE_URL = "http://api.zhuishushenqi.com/"
         var iNewsApi: INewsApi? = null
+        var iBookApi: IBookApi? =null
 
 
         fun init(){
@@ -58,6 +58,14 @@ class RetrofitService  {
                     .baseUrl(NEWS_HOST)
                     .build()
             iNewsApi = retrofit.create(INewsApi::class.java)
+
+            var retrofitBook = Retrofit.Builder()
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .baseUrl(BASE_BOOKE_URL)
+                    .build()
+            iBookApi = retrofitBook.create(IBookApi::class.java)
 
         }
         //云响应拦截器，用于配置缓存
@@ -151,6 +159,14 @@ class RetrofitService  {
         //获取图集详情
         fun getPhotoSetNews(newsId: String):Observable<PhotoSetInfo>{
             return iNewsApi!!.getPhotoSet(StringUtils.clipPhotoSetId(newsId)!!)
+                    .subscribeOn(Schedulers.io())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        //获取书籍推荐列表
+        fun getBookRack(gender:String):Observable<Recommend>{
+            return iBookApi!!.getRecomend(gender)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .subscribeOn(AndroidSchedulers.mainThread())

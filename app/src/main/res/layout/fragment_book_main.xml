@@ -16,6 +16,7 @@
         android:background="?attr/colorPrimary"
         app:navigationIcon="@mipmap/ic_nav"
         app:layout_scrollFlags="scroll|enterAlways|snap"
+        app:titleTextColor="@color/layout_bar"
         >//设置弹出菜单的风格
     </android.support.v7.widget.Toolbar>
     <LinearLayout
@@ -31,6 +32,8 @@
             app:tabIndicatorColor="@android:color/white"
             app:tabMode="fixed"
             app:tabGravity="fill"
+            app:tabSelectedTextColor="@color/layout_bar"
+            app:tabTextColor="@color/layout_bar_normal"
             android:layout_weight="1"/>
     </LinearLayout>
 
