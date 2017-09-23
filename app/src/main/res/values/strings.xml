@@ -4,4 +4,5 @@
 
 
     <string name="category_book_count">%1$d本</string>
+    <string name="book_detail_user_lv">&#160;lv.%1$d</string>
 </resources>

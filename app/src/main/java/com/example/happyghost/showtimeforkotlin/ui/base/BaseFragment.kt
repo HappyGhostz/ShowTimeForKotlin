@@ -111,6 +111,7 @@ abstract class BaseFragment<T : IBasePresenter> : RxFragment() ,IBaseView{
     }
     fun initSmartRefresh(){
         if(smart_refresh!=null){
+            smart_refresh.setEnableAutoLoadmore(false)
             smart_refresh.setRefreshHeader(CircleHeader(mContext))
             smart_refresh.setPrimaryColorsId(R.color.baseColorPrimaryDark,R.color.whiteColor)
 //            smart_refresh.setRefreshFooter()

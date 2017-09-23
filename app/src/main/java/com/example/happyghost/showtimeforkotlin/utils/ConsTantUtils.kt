@@ -10,5 +10,7 @@ class ConsTantUtils {
         var showImageKey :String = "imagekey"
         var SHOW_POPUP_DETAIL :String = "showpopupdetial"
         val IMG_BASE_URL = "http://statics.zhuishushenqi.com"
+        val START_PAGE = 0
+        val LIMIT_POSITION = 20
     }
 }

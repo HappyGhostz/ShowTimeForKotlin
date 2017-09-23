@@ -3,6 +3,7 @@ package com.example.happyghost.showtimeforkotlin.utils
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.api.IBookApi
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookHelpList
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.CategoryList
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
 import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsDetailInfo
@@ -180,6 +181,17 @@ class RetrofitService  {
         //获取书籍分类列表
         fun getBookClassifyInfo():Observable<CategoryList>{
             return iBookApi!!.getCategoryList()
+                    .subscribeOn(Schedulers.io())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        //获取书荒区帖子列表
+        /**
+         * 获取社区书荒区列表
+         */
+        fun getBookHelpListInfo(start: String, limit: String): Observable<BookHelpList> {
+            return iBookApi!!.getBookHelpList("all", "updated", start, limit, "")
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .subscribeOn(AndroidSchedulers.mainThread())

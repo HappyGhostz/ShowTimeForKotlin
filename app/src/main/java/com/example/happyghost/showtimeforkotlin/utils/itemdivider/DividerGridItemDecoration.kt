@@ -100,7 +100,7 @@ class DividerGridItemDecoration(mContext: Context?) : RecyclerView.ItemDecoratio
         val layoutManager = parent?.layoutManager
         if(layoutManager is GridLayoutManager){
             var childCount = itemCount!! -itemCount%spanCount
-            if(itemPosition>childCount){// 如果是最后一行，则不需要绘制底部
+            if(itemPosition>=childCount){// 如果是最后一行，则不需要绘制底部
                 return true
             }
         }else if (layoutManager is StaggeredGridLayoutManager){

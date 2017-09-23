@@ -11,8 +11,5 @@ import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 interface IBookRackView:IBaseView {
     fun loadRecommendList(list: List<Recommend.RecommendBooks>)
 
-    //    void showBookToc(String bookId, List<BookMixAToc.mixToc.Chapters> list);
-//    fun loadCommunityList(list: List<BookHelpList.HelpsBean>)
 
-//    fun loadMoreCommunity(list: List<BookHelpList.HelpsBean>)
 }

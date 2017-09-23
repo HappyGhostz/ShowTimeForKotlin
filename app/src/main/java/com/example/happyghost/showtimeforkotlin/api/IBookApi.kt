@@ -1,5 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.api
 
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookHelpList
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.CategoryList
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
 import io.reactivex.Observable
@@ -22,4 +23,22 @@ interface IBookApi {
      */
     @GET("/cats/lv2/statistics")
     fun getCategoryList(): Observable<CategoryList>
+
+    /**
+     * 获取书荒区帖子列表
+     * 全部、默认排序  http://api.zhuishushenqi.com/post/help?duration=all&sort=updated&start=0&limit=20&distillate=
+     * 精品、默认排序  http://api.zhuishushenqi.com/post/help?duration=all&sort=updated&start=0&limit=20&distillate=true
+     *
+     * @param duration   all
+     * @param sort       updated(默认排序)
+     * created(最新发布)
+     * comment-count(最多评论)
+     * @param start      0
+     * @param limit      20
+     * @param distillate true(精品) 、空字符（全部）
+     * @return
+     */
+    @GET("/post/help")
+    fun getBookHelpList(@Query("duration") duration: String, @Query("sort") sort: String, @Query("start") start: String,
+                                 @Query("limit") limit: String, @Query("distillate") distillate: String): Observable<BookHelpList>
 }

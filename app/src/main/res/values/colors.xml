@@ -25,4 +25,8 @@
     <color name="layout_bar">#ECF9FF</color>
     <color name="layout_bar_normal">#AEE5FF</color>
 
+    <color name="light_coffee">#A58D5E</color>
+    <color name="light_red">#EC4A48</color>
+    <color name="color_tab_pressed">@color/baseColorPrimary</color>
+
 </resources>
