@@ -5,6 +5,7 @@ import com.example.happyghost.showtimeforkotlin.api.IBookApi
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookHelpList
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.CategoryList
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.RankingListBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
 import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsInfo
@@ -192,6 +193,16 @@ class RetrofitService  {
          */
         fun getBookHelpListInfo(start: String, limit: String): Observable<BookHelpList> {
             return iBookApi!!.getBookHelpList("all", "updated", start, limit, "")
+                    .subscribeOn(Schedulers.io())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        /**
+         * 获取排行榜列表
+         */
+        fun getBookRankList():Observable<RankingListBean>{
+            return iBookApi!!.getRanking()
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .subscribeOn(AndroidSchedulers.mainThread())

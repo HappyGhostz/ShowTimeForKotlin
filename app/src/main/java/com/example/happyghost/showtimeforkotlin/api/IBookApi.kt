@@ -2,6 +2,7 @@ package com.example.happyghost.showtimeforkotlin.api
 
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookHelpList
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.CategoryList
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.RankingListBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -41,4 +42,12 @@ interface IBookApi {
     @GET("/post/help")
     fun getBookHelpList(@Query("duration") duration: String, @Query("sort") sort: String, @Query("start") start: String,
                                  @Query("limit") limit: String, @Query("distillate") distillate: String): Observable<BookHelpList>
+
+    /**
+     * 获取所有排行榜
+     *
+     * @return
+     */
+    @GET("/ranking/gender")
+    fun getRanking(): Observable<RankingListBean>
 }
