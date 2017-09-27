@@ -8,6 +8,7 @@ import org.greenrobot.greendao.annotation.Generated;
  * @author Zhao Chenping
  * @creat 2017/8/30.
  * @description
+ * 数据库还是用的JAVA文件，因为greenDao不支持kotlin
  */
 @Entity
 public class NewsTypeInfo {

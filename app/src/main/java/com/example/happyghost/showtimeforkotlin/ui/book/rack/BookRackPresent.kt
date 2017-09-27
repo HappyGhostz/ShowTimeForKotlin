@@ -16,7 +16,6 @@ import io.reactivex.disposables.Disposable
 class BookRackPresent(view: IBookRackView) :IBasePresenter {
     var mView = view
     override fun getData() {
-        val acacheKey = StringUtils.creatAcacheKey("recommend-list", "male")
         RetrofitService.getBookRack("male")
                 .doOnSubscribe {
                     mView.showLoading()

@@ -24,7 +24,7 @@ android {
     }
 }
 greendao {
-    schemaVersion 1
+    schemaVersion 2
 //    daoPackage 'com.example.happyghost.showtimeforkotlin.loacaldao.dao'
 //    targetGenDir 'src/main/java'
 }
@@ -84,7 +84,7 @@ dependencies {
     //greendao
     compile 'org.greenrobot:greendao:3.2.0' // add library
     // 使用数据库升级辅助GreenDaoUpgradeHelper时添加
-    compile 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v1.2.0'
+    compile 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.0.0'
     //recycleView AdapterHelper
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     //涟漪效果

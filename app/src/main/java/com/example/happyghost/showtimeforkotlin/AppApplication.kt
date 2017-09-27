@@ -9,6 +9,7 @@ import com.example.happyghost.showtimeforkotlin.inject.component.DaggerApplicati
 import com.example.happyghost.showtimeforkotlin.inject.module.ApplicationModule
 import com.example.happyghost.showtimeforkotlin.loacaldao.DaoMaster
 import com.example.happyghost.showtimeforkotlin.loacaldao.DaoSession
+import com.example.happyghost.showtimeforkotlin.loacaldao.MySQLiteOpenHelper
 import com.example.happyghost.showtimeforkotlin.loacaldao.NewsTypeDao
 import com.example.happyghost.showtimeforkotlin.utils.PreferencesUtils
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
@@ -60,7 +61,7 @@ class AppApplication : Application() {
         RetrofitService.init()
     }
     fun initDao(){
-        val helper = DaoMaster.DevOpenHelper(this, "showTime-db", null)
+        val helper = MySQLiteOpenHelper(this, "showTime-db", null)
         val db = helper.getWritableDb()
         daoSession = DaoMaster(db).newSession()
         NewsTypeDao.updateLocalData(mContext,daoSession)
