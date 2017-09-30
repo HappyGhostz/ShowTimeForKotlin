@@ -31,7 +31,5 @@ class BookRackAdapter: BaseQuickAdapter<Recommend.RecommendBooks, BaseViewHolder
         }else{
             helper?.setImageResource(R.id.ivRecommendCover,R.mipmap.cover_default)
         }
-
-
     }
 }

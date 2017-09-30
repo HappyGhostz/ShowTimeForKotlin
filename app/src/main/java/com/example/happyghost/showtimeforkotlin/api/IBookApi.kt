@@ -1,11 +1,9 @@
 package com.example.happyghost.showtimeforkotlin.api
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookHelpList
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.CategoryList
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.RankingListBean
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.*
 import io.reactivex.Observable
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -50,4 +48,10 @@ interface IBookApi {
      */
     @GET("/ranking/gender")
     fun getRanking(): Observable<RankingListBean>
+
+    @GET("/mix-atoc/{bookId}")
+    fun getBookMixAToc(@Path("bookId") bookId: String, @Query("view") view: String): Observable<BookMixATocBean>
+
+    @GET("http://chapter2.zhuishushenqi.com/chapter/{url}")
+    fun getChapterRead(@Path("url") url: String): Observable<ChapterReadBean>
 }

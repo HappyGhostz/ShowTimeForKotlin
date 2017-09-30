@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlReadMark"
+    android:layout_width="match_parent"
+    android:layout_height="190dp"
+    android:layout_above="@+id/llBookReadBottom"
+    android:background="@color/reader_menu_bg_color"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/tvAddMark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@mipmap/ic_menu_add_mark"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="@string/add_bookmark"
+            android:textColor="@color/common_touch_bg" />
+
+        <TextView
+            android:id="@+id/tvClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/tvAddMark"
+            android:drawableLeft="@mipmap/ic_menu_clear"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="@string/clear_bookmark"
+            android:textColor="@color/common_touch_bg" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lvMark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:divider="@color/light_red" />
+</LinearLayout>

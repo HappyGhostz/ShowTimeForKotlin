@@ -6,6 +6,7 @@ import java.io.Serializable
  * @author Zhao Chenping
  * @creat 2017/9/15.
  * @description
+ * 可以使用kotlin的DATA
  */
 class Recommend {
     var books: List<RecommendBooks>? = null
@@ -25,7 +26,7 @@ class Recommend {
          * chaptersCount : 2406
          * lastChapter : 第2406章 千载风云尽付一笑（大结局）
          */
-
+        var id :Long = 0
         var _id: String? = null
         var author: String? = null
         var cover: String? = null

@@ -13,6 +13,7 @@ import org.greenrobot.greendao.annotation.Generated;
 public class LocalBookInfo {
     @Id(autoincrement = true)
     public Long id;
+
     public String url;
     public String author;
     public String cover;

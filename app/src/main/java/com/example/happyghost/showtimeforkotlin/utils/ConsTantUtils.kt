@@ -1,5 +1,8 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
+
 /**
  * @author Zhao Chenping
  * @creat 2017/9/7.
@@ -15,5 +18,9 @@ class ConsTantUtils {
         val TYPE_LEVEL_0 = 0
 //        val TYPE_LEVEL_1 = 1
         val TYPE_BOOK_RANK = 1
+
+        val FLIP_STYLE = "flipStyle"
+        val ISNIGHT = "isNight"
     }
+
 }
