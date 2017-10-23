@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.Scroller
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.utils.ScreenUtils
+import com.example.happyghost.showtimeforkotlin.utils.SettingManager
+import com.example.happyghost.showtimeforkotlin.utils.ThemeManager
 import org.jetbrains.anko.toast
 
 /**
@@ -57,8 +59,8 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
             try {
                 pagefactory!!.setBgBitmap(ThemeManager.getThemeDrawable(theme))
                 // 自动跳转到上次阅读位置
-                val pos = SettingManager.getInstance().getReadProgress(bookId)
-                val ret = pagefactory!!.openBook(pos[0], intArrayOf(pos[1], pos[2]))
+                val pos = SettingManager.getInstance()?.getReadProgress(bookId)
+                val ret = pagefactory!!.openBook(pos!![0], intArrayOf(pos[1], pos[2]))
                 if (ret == 0) {
                     listener.onLoadChapterFailure(pos[0])
                     return
@@ -79,7 +81,7 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
     private var center = false
 
     override fun onTouchEvent(e: MotionEvent): Boolean {
-        when (e.action) {
+        loop@when (e.action) {
             MotionEvent.ACTION_DOWN -> {
                 et = System.currentTimeMillis()
                 dx = e.x.toInt()
@@ -124,8 +126,10 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
                 }
             }
             MotionEvent.ACTION_MOVE -> {
-                if (center)
-                    break
+                if (center){
+                    return@loop
+                }
+//                    break
                 val mx = e.x.toInt()
                 val my = e.y.toInt()
                 cancel = actiondownX < mScreenWidth / 2 && mx < mTouch.x || actiondownX > mScreenWidth / 2 && mx > mTouch.x
@@ -134,7 +138,7 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
                 touch_down = mTouch.x - actiondownX
                 this.postInvalidate()
             }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
 
                 val t = System.currentTimeMillis()
                 val ux = e.x.toInt()
@@ -146,7 +150,8 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
                         listener.onCenterClick()
                         return false
                     }
-                    break
+                    return@loop
+//                    break
                 }
 
                 if (Math.abs(ux - dx) < 10 && Math.abs(uy - dy) < 10) {
@@ -274,7 +279,7 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
             pagefactory!!.onDraw(mCurrentPageCanvas)
             pagefactory!!.onDraw(mNextPageCanvas)
             //SettingManager.getInstance().saveFontSize(bookId, fontSizePx);
-            SettingManager.getInstance().saveFontSize(fontSizePx)
+            SettingManager.getInstance()?.saveFontSize(fontSizePx)
             postInvalidate()
         }
     }
@@ -315,8 +320,8 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
     val readPos: IntArray
         get() = pagefactory!!.getPosition()
 
-    val headLine: String
-        get() = pagefactory!!.getHeadLineStr().replaceAll("@", "")
+//    val headLine: String
+//        get() = pagefactory!!.getHeadLineStr().replaceAll("@", "")
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()

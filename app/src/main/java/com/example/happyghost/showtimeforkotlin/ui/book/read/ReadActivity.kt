@@ -16,6 +16,7 @@ import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.FileUtils
 import com.example.happyghost.showtimeforkotlin.utils.PreferencesUtils
+import com.example.happyghost.showtimeforkotlin.wegit.read.PageWidget
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 
@@ -72,7 +73,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     }
     fun initPagerWidget(){
         if(PreferencesUtils.getInt(ConsTantUtils.FLIP_STYLE,0)==0){
-            mPageWidget = PageWidget(this, mBookId, chapters, ReadListener())
+//            mPageWidget = PageWidget(this, mBookId, chapters, ReadListener())
         }
     }
 
