@@ -2,6 +2,7 @@ package com.example.happyghost.showtimeforkotlin
 
 import android.app.Application
 import android.content.Context
+import android.support.multidex.MultiDex
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.delegation.AppDelegation
 import com.example.happyghost.showtimeforkotlin.inject.component.ApplicationComponent
@@ -81,6 +82,12 @@ class AppApplication : Application() {
     }
     fun getAppComponent() : ApplicationComponent{
         return sAppComponent
+    }
+
+    //http://www.cnblogs.com/dd-dd/p/5711816.html
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 
 

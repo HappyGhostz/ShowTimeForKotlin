@@ -230,7 +230,7 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
         calcCornerXY(mTouch.x, mTouch.y)
     }
 
-    fun jumpToChapter(chapter: Int) {
+    open fun jumpToChapter(chapter: Int) {
         resetTouchPoint()
         pagefactory!!.openBook(chapter, intArrayOf(0, 0))
         pagefactory!!.onDraw(mCurrentPageCanvas)
