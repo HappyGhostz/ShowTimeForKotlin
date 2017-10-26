@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.GradientDrawable
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.utils.SettingManager
+import com.example.happyghost.showtimeforkotlin.utils.ThemeManager
 
 /**
  * @author Zhao Chenping
@@ -275,225 +277,226 @@ class PageWidget:ReadView {
      */
     //问题在这里
     override fun drawCurrentPageShadow(canvas: Canvas) {
-//        val degree: Double
-//        if (mIsRTandLB) {
-//            degree = Math.PI / 4 - Math.atan2(mBezierControl1.y - mTouch.y, mTouch.x - mBezierControl1.x)
-//        } else {
-//            degree = Math.PI / 4 - Math.atan2(mTouch.y - mBezierControl1.y, mTouch.x - mBezierControl1.x)
-//        }
-//        // 翻起页阴影顶点与touch点的距离
-//        val d1 = 25.toFloat().toDouble() * 1.414 * Math.cos(degree)
-//        val d2 = 25.toFloat().toDouble() * 1.414 * Math.sin(degree)
-//        val x = (mTouch.x + d1) as Float
-//        val y: Float
-//        if (mIsRTandLB) {
-//            y = (mTouch.y + d2) as Float
-//        } else {
-//            y = (mTouch.y - d2) as Float
-//        }
-//        mPath1.reset()
-//        mPath1.moveTo(x, y)
-//        mPath1.lineTo(mTouch.x, mTouch.y)
-//        mPath1.lineTo(mBezierControl1.x, mBezierControl1.y)
-//        mPath1.lineTo(mBezierStart1.x, mBezierStart1.y)
-//        mPath1.close()
-//        var rotateDegrees: Float
-//        canvas.save()
-//        try {
-//            canvas.clipPath(mPath0, Region.Op.XOR)
-//            canvas.clipPath(mPath1, Region.Op.INTERSECT)
-//        } catch (e: Exception) {
-//        }
-//
-//        var leftx: Int
-//        var rightx: Int
-//        var mCurrentPageShadow: GradientDrawable
-//        if (mIsRTandLB) {
-//            leftx = mBezierControl1.x.toInt()
-//            rightx = mBezierControl1.x.toInt() + 25
-//            mCurrentPageShadow = mFrontShadowDrawableVLR
-//        } else {
-//            leftx = (mBezierControl1.x - 25).toInt()
-//            rightx = mBezierControl1.x.toInt() + 1
-//            mCurrentPageShadow = mFrontShadowDrawableVRL
-//        }
-//
-//        rotateDegrees = Math.toDegrees(Math.atan2(mTouch.x - mBezierControl1.x,
-//                mBezierControl1.y - mTouch.y)).toFloat()
-//        canvas.rotate(rotateDegrees, mBezierControl1.x, mBezierControl1.y)
-//        mCurrentPageShadow.setBounds(leftx, (mBezierControl1.y - mMaxLength).toInt(),
-//                rightx, mBezierControl1.y.toInt())
-//        mCurrentPageShadow.draw(canvas)
-//        canvas.restore()
-//
-//        mPath1.reset()
-//        mPath1.moveTo(x, y)
-//        mPath1.lineTo(mTouch.x, mTouch.y)
-//        mPath1.lineTo(mBezierControl2.x, mBezierControl2.y)
-//        mPath1.lineTo(mBezierStart2.x, mBezierStart2.y)
-//        mPath1.close()
-//        canvas.save()
-//        try {
-//            canvas.clipPath(mPath0, Region.Op.XOR)
-//            canvas.clipPath(mPath1, Region.Op.INTERSECT)
-//        } catch (e: Exception) {
-//        }
-//
-//        if (mIsRTandLB) {
-//            leftx = mBezierControl2.y.toInt()
-//            rightx = (mBezierControl2.y + 25).toInt()
-//            mCurrentPageShadow = mFrontShadowDrawableHTB
-//        } else {
-//            leftx = (mBezierControl2.y - 25).toInt()
-//            rightx = (mBezierControl2.y + 1).toInt()
-//            mCurrentPageShadow = mFrontShadowDrawableHBT
-//        }
-//        rotateDegrees = Math.toDegrees(Math.atan2(mBezierControl2.y - mTouch.y, mBezierControl2.x - mTouch.x)).toFloat()
-//        canvas.rotate(rotateDegrees, mBezierControl2.x, mBezierControl2.y)
-//        val temp: Float
-//        if (mBezierControl2.y < 0)
-//            temp = mBezierControl2.y - mScreenHeight
-//        else
-//            temp = mBezierControl2.y
-//
-//        val hmg = Math.hypot(mBezierControl2.x.toDouble(), temp.toDouble()).toInt()
-//        if (hmg > mMaxLength) {
-//            mCurrentPageShadow.setBounds((mBezierControl2.x - 25).toInt() - hmg, leftx,
-//                    (mBezierControl2.x + mMaxLength).toInt() - hmg, rightx)
-//        } else {
-//            mCurrentPageShadow.setBounds((mBezierControl2.x - mMaxLength).toInt(), leftx,
-//                    mBezierControl2.x.toInt(), rightx)
-//        }
-//        mCurrentPageShadow.draw(canvas)
-//        canvas.restore()
+        val degree: Double
+        if (mIsRTandLB) {
+            degree = Math.PI / 4 - Math.atan2((mBezierControl1.y - mTouch.y).toDouble(), (mTouch.x - mBezierControl1.x).toDouble())
+        } else {
+            degree = Math.PI / 4 - Math.atan2((mTouch.y - mBezierControl1.y).toDouble(), (mTouch.x - mBezierControl1.x).toDouble())
+        }
+        // 翻起页阴影顶点与touch点的距离
+        val d1 = 25.toFloat().toDouble() * 1.414 * Math.cos(degree)
+        val d2 = 25.toFloat().toDouble() * 1.414 * Math.sin(degree)
+        val x = (mTouch.x + d1) as Float
+        val y: Float
+        if (mIsRTandLB) {
+            y = (mTouch.y + d2) as Float
+        } else {
+            y = (mTouch.y - d2) as Float
+        }
+        mPath1.reset()
+        mPath1.moveTo(x, y)
+        mPath1.lineTo(mTouch.x, mTouch.y)
+        mPath1.lineTo(mBezierControl1.x, mBezierControl1.y)
+        mPath1.lineTo(mBezierStart1.x, mBezierStart1.y)
+        mPath1.close()
+        var rotateDegrees: Float
+        canvas.save()
+        try {
+            canvas.clipPath(mPath0, Region.Op.XOR)
+            canvas.clipPath(mPath1, Region.Op.INTERSECT)
+        } catch (e: Exception) {
+        }
+
+        var leftx =0
+        var rightx=0
+        var mCurrentPageShadow: GradientDrawable
+        if (mIsRTandLB) {
+            leftx = mBezierControl1.x.toInt()
+            rightx = mBezierControl1.x.toInt() + 25
+            mCurrentPageShadow = mFrontShadowDrawableVLR
+        } else {
+            leftx = (mBezierControl1.x - 25).toInt()
+            rightx = mBezierControl1.x.toInt() + 1
+            mCurrentPageShadow = mFrontShadowDrawableVRL
+        }
+
+        rotateDegrees = Math.toDegrees(Math.atan2((mTouch.x - mBezierControl1.x).toDouble(),
+                (mBezierControl1.y - mTouch.y).toDouble())).toFloat()
+        canvas.rotate(rotateDegrees, mBezierControl1.x, mBezierControl1.y)
+        mCurrentPageShadow.setBounds(leftx, (mBezierControl1.y - mMaxLength).toInt(),
+                rightx, mBezierControl1.y.toInt())
+        mCurrentPageShadow.draw(canvas)
+        canvas.restore()
+
+        mPath1.reset()
+        mPath1.moveTo(x, y)
+        mPath1.lineTo(mTouch.x, mTouch.y)
+        mPath1.lineTo(mBezierControl2.x, mBezierControl2.y)
+        mPath1.lineTo(mBezierStart2.x, mBezierStart2.y)
+        mPath1.close()
+        canvas.save()
+        try {
+            canvas.clipPath(mPath0, Region.Op.XOR)
+            canvas.clipPath(mPath1, Region.Op.INTERSECT)
+        } catch (e: Exception) {
+        }
+
+        if (mIsRTandLB) {
+            leftx = mBezierControl2.y.toInt()
+            rightx = (mBezierControl2.y + 25).toInt()
+            mCurrentPageShadow = mFrontShadowDrawableHTB
+        } else {
+            leftx = (mBezierControl2.y - 25).toInt()
+            rightx = (mBezierControl2.y + 1).toInt()
+            mCurrentPageShadow = mFrontShadowDrawableHBT
+        }
+        rotateDegrees = Math.toDegrees(Math.atan2((mBezierControl2.y - mTouch.y).toDouble(), (mBezierControl2.x - mTouch.x).toDouble())).toFloat()
+        canvas.rotate(rotateDegrees, mBezierControl2.x, mBezierControl2.y)
+        val temp: Float
+        if (mBezierControl2.y < 0)
+            temp = mBezierControl2.y - mScreenHeight
+        else
+            temp = mBezierControl2.y
+
+        val hmg = Math.hypot(mBezierControl2.x.toDouble(), temp.toDouble()).toInt()
+        if (hmg > mMaxLength) {
+            mCurrentPageShadow.setBounds((mBezierControl2.x - 25).toInt() - hmg, leftx,
+                    (mBezierControl2.x + mMaxLength).toInt() - hmg, rightx)
+        } else {
+            mCurrentPageShadow.setBounds((mBezierControl2.x - mMaxLength).toInt(), leftx,
+                    mBezierControl2.x.toInt(), rightx)
+        }
+        mCurrentPageShadow.draw(canvas)
+        canvas.restore()
     }
 
     protected override fun drawCurrentBackArea(canvas: Canvas) {
-//        val i = (mBezierStart1.x + mBezierControl1.x).toInt() / 2
-//        val f1 = Math.abs(i - mBezierControl1.x)
-//        val i1 = (mBezierStart2.y + mBezierControl2.y).toInt() / 2
-//        val f2 = Math.abs(i1 - mBezierControl2.y)
-//        val f3 = Math.min(f1, f2)
-//        mPath1.reset()
-//        mPath1.moveTo(mBeziervertex2.x, mBeziervertex2.y)
-//        mPath1.lineTo(mBeziervertex1.x, mBeziervertex1.y)
-//        mPath1.lineTo(mBezierEnd1.x, mBezierEnd1.y)
-//        mPath1.lineTo(mTouch.x, mTouch.y)
-//        mPath1.lineTo(mBezierEnd2.x, mBezierEnd2.y)
-//        mPath1.close()
-//        val mFolderShadowDrawable: GradientDrawable
-//        val left: Int
-//        val right: Int
-//        if (mIsRTandLB) {
-//            left = (mBezierStart1.x - 1).toInt()
-//            right = (mBezierStart1.x + f3 + 1f).toInt()
-//            mFolderShadowDrawable = mFolderShadowDrawableLR
-//        } else {
-//            left = (mBezierStart1.x - f3 - 1f).toInt()
-//            right = (mBezierStart1.x + 1).toInt()
-//            mFolderShadowDrawable = mFolderShadowDrawableRL
-//        }
-//        canvas.save()
-//        try {
-//            canvas.clipPath(mPath0)
-//            canvas.clipPath(mPath1, Region.Op.INTERSECT)
-//        } catch (e: Exception) {
-//        }
-//
-//        mPaint.colorFilter = mColorMatrixFilter
-//
-//        val dis = Math.hypot((mCornerX - mBezierControl1.x).toDouble(),
-//                (mBezierControl2.y - mCornerY).toDouble()).toFloat()
-//        val f8 = (mCornerX - mBezierControl1.x) / dis
-//        val f9 = (mBezierControl2.y - mCornerY) / dis
-//        mMatrixArray[0] = 1 - 2f * f9 * f9
-//        mMatrixArray[1] = 2f * f8 * f9
-//        mMatrixArray[3] = mMatrixArray[1]
-//        mMatrixArray[4] = 1 - 2f * f8 * f8
-//        mMatrix.reset()
-//        mMatrix.setValues(mMatrixArray)
-//        mMatrix.preTranslate(-mBezierControl1.x, -mBezierControl1.y)
-//        mMatrix.postTranslate(mBezierControl1.x, mBezierControl1.y)
-//        canvas.drawBitmap(mCurPageBitmap, mMatrix, mPaint)
-//        // canvas.drawBitmap(bitmap, mMatrix, null);
-//        mPaint.colorFilter = null
-//        canvas.rotate(mDegrees, mBezierStart1.x, mBezierStart1.y)
-//        mFolderShadowDrawable.setBounds(left, mBezierStart1.y.toInt(), right,
-//                (mBezierStart1.y + mMaxLength).toInt())
-//        mFolderShadowDrawable.draw(canvas)
-//        canvas.restore()
+        val i = (mBezierStart1.x + mBezierControl1.x).toInt() / 2
+        val f1 = Math.abs(i - mBezierControl1.x)
+        val i1 = (mBezierStart2.y + mBezierControl2.y).toInt() / 2
+        val f2 = Math.abs(i1 - mBezierControl2.y)
+        val f3 = Math.min(f1, f2)
+        mPath1.reset()
+        mPath1.moveTo(mBeziervertex2.x, mBeziervertex2.y)
+        mPath1.lineTo(mBeziervertex1.x, mBeziervertex1.y)
+        mPath1.lineTo(mBezierEnd1.x, mBezierEnd1.y)
+        mPath1.lineTo(mTouch.x, mTouch.y)
+        mPath1.lineTo(mBezierEnd2.x, mBezierEnd2.y)
+        mPath1.close()
+        val mFolderShadowDrawable: GradientDrawable
+        val left: Int
+        val right: Int
+        if (mIsRTandLB) {
+            left = (mBezierStart1.x - 1).toInt()
+            right = (mBezierStart1.x + f3 + 1f).toInt()
+            mFolderShadowDrawable = mFolderShadowDrawableLR
+        } else {
+            left = (mBezierStart1.x - f3 - 1f).toInt()
+            right = (mBezierStart1.x + 1).toInt()
+            mFolderShadowDrawable = mFolderShadowDrawableRL
+        }
+        canvas.save()
+        try {
+            canvas.clipPath(mPath0)
+            canvas.clipPath(mPath1, Region.Op.INTERSECT)
+        } catch (e: Exception) {
+        }
+
+
+        mPaint.colorFilter = mColorMatrixFilter
+
+        val dis = Math.hypot((mCornerX - mBezierControl1.x).toDouble(),
+                (mBezierControl2.y - mCornerY).toDouble()).toFloat()
+        val f8 = (mCornerX - mBezierControl1.x) / dis
+        val f9 = (mBezierControl2.y - mCornerY) / dis
+        mMatrixArray[0] = 1 - 2f * f9 * f9
+        mMatrixArray[1] = 2f * f8 * f9
+        mMatrixArray[3] = mMatrixArray[1]
+        mMatrixArray[4] = 1 - 2f * f8 * f8
+        mMatrix.reset()
+        mMatrix.setValues(mMatrixArray)
+        mMatrix.preTranslate(-mBezierControl1.x, -mBezierControl1.y)
+        mMatrix.postTranslate(mBezierControl1.x, mBezierControl1.y)
+        canvas.drawBitmap(mCurPageBitmap, mMatrix, mPaint)
+        // canvas.drawBitmap(bitmap, mMatrix, null);
+        mPaint.colorFilter = null
+        canvas.rotate(mDegrees, mBezierStart1.x, mBezierStart1.y)
+        mFolderShadowDrawable.setBounds(left, mBezierStart1.y.toInt(), right,
+                (mBezierStart1.y + mMaxLength).toInt())
+        mFolderShadowDrawable.draw(canvas)
+        canvas.restore()
     }
 
     override fun computeScroll() {
-//        super.computeScroll()
-//        if (mScroller.computeScrollOffset()) {
-//            val x = mScroller.currX
-//            val y = mScroller.currY
-//            mTouch.x = x
-//            mTouch.y = y
-//            postInvalidate()
-//        }
+        super.computeScroll()
+        if (mScroller.computeScrollOffset()) {
+            val x = mScroller.currX
+            val y = mScroller.currY
+            mTouch.x = x.toFloat()
+            mTouch.y = y.toFloat()
+            postInvalidate()
+        }
     }
 
     protected override fun startAnimation() {
-//        val dx: Int
-//        val dy: Int
-//        if (mCornerX > 0) {
-//            dx = -((mScreenWidth + mTouch.x) as Int)
-//        } else {
-//            dx = (mScreenWidth - mTouch.x + mScreenWidth) as Int
-//        }
-//        if (mCornerY > 0) {
-//            dy = (mScreenHeight - mTouch.y) as Int
-//        } else {
-//            dy = (1 - mTouch.y) as Int // 防止mTouch.y最终变为0
-//        }
-//        mScroller.startScroll(mTouch.x as Int, mTouch.y as Int, dx, dy, 700)
+        val dx: Int
+        val dy: Int
+        if (mCornerX > 0) {
+            dx = -((mScreenWidth + mTouch.x) as Int)
+        } else {
+            dx = (mScreenWidth - mTouch.x + mScreenWidth) as Int
+        }
+        if (mCornerY > 0) {
+            dy = (mScreenHeight - mTouch.y) as Int
+        } else {
+            dy = (1 - mTouch.y) as Int // 防止mTouch.y最终变为0
+        }
+        mScroller.startScroll(mTouch.x as Int, mTouch.y as Int, dx, dy, 700)
     }
 
     override fun abortAnimation() {
-//        if (!mScroller.isFinished) {
-//            mScroller.abortAnimation()
-//        }
+        if (!mScroller.isFinished) {
+            mScroller.abortAnimation()
+        }
     }
 
     override fun restoreAnimation() {
-//        val dx: Int
-//        val dy: Int
-//        if (mCornerX > 0) {
-//            dx = (mScreenWidth - mTouch.x) as Int
-//        } else {
-//            dx = -mTouch.x as Int
-//        }
-//        if (mCornerY > 0) {
-//            dy = (mScreenHeight - mTouch.y) as Int
-//        } else {
-//            dy = (1 - mTouch.y) as Int
-//        }
-//        mScroller.startScroll(mTouch.x as Int, mTouch.y as Int, dx, dy, 300)
+        val dx: Int
+        val dy: Int
+        if (mCornerX > 0) {
+            dx = (mScreenWidth - mTouch.x) as Int
+        } else {
+            dx = -mTouch.x as Int
+        }
+        if (mCornerY > 0) {
+            dy = (mScreenHeight - mTouch.y) as Int
+        } else {
+            dy = (1 - mTouch.y) as Int
+        }
+        mScroller.startScroll(mTouch.x as Int, mTouch.y as Int, dx, dy, 300)
     }
 
     @Synchronized
     override fun setTheme(theme: Int) {
-//        resetTouchPoint()
-//        calcCornerXY(mTouch.x, mTouch.y)
-//        val bg = ThemeManager.getThemeDrawable(theme)
-//        if (bg != null) {
-//            pagefactory.setBgBitmap(bg)
-//            pagefactory.convertBetteryBitmap()
-//            if (isPrepared) {
-//                pagefactory.onDraw(mCurrentPageCanvas)
-//                pagefactory.onDraw(mNextPageCanvas)
-//                postInvalidate()
-//            }
-//        }
-//        if (theme < 5) {
-//            SettingManager.getInstance().saveReadTheme(theme)
-//        }
+        resetTouchPoint()
+        calcCornerXY(mTouch.x, mTouch.y)
+        val bg = ThemeManager.getThemeDrawable(theme)
+        if (bg != null) {
+            pagefactory?.setBgBitmap(bg)
+            pagefactory?.convertBetteryBitmap()
+            if (isPrepared) {
+                pagefactory?.onDraw(mCurrentPageCanvas)
+                pagefactory?.onDraw(mNextPageCanvas)
+                postInvalidate()
+            }
+        }
+        if (theme < 5) {
+            SettingManager.getInstance()?.saveReadTheme(theme)
+        }
     }
 
     override fun jumpToChapter(chapter: Int) {
-//        calcCornerXY(mTouch.x, mTouch.y)
-//        super.jumpToChapter(chapter)
+        calcCornerXY(mTouch.x, mTouch.y)
+        super.jumpToChapter(chapter)
     }
 }
