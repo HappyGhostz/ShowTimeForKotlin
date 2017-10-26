@@ -16,6 +16,7 @@ import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.FileUtils
 import com.example.happyghost.showtimeforkotlin.utils.PreferencesUtils
+import com.example.happyghost.showtimeforkotlin.wegit.read.OnReadStateChangeListener
 import com.example.happyghost.showtimeforkotlin.wegit.read.PageWidget
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
@@ -23,6 +24,7 @@ import org.jetbrains.anko.startActivity
 class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     private var statusBarColor: Int = 0
     lateinit var mBookId :String
+    lateinit var mPageWidget:PageWidget
      var currentChapter = 1
     var chapters = ArrayList<BookMixATocBean.MixTocBean.ChaptersBean>()
     override fun loadBookToc(list: List<BookMixATocBean.MixTocBean.ChaptersBean>) {
@@ -73,7 +75,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     }
     fun initPagerWidget(){
         if(PreferencesUtils.getInt(ConsTantUtils.FLIP_STYLE,0)==0){
-//            mPageWidget = PageWidget(this, mBookId, chapters, ReadListener())
+            mPageWidget = PageWidget(this, mBookId, chapters, ReadListener())
         }
     }
 
@@ -101,5 +103,38 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
             (mContext as Activity).overridePendingTransition(R.anim.fade_entry, R.anim.fade_exit)
         }
     }
+    inner class ReadListener : OnReadStateChangeListener {
+        override fun onChapterChanged(chapter: Int) {
+            currentChapter = chapter
+//            mTocListAdapter.setCurrentChapter(currentChapter)
+            // 加载前一节 与 后三节
+            var i = chapter - 1
+//            while (i <= chapter + 3 && i <= mChapterList.size) {
+//                if (i > 0 && i != chapter
+//                        && CacheManager.getInstance().getChapterFile(mBookId, i) == null) {
+//                    mPresenter.getChapterRead(mChapterList.get(i - 1).link, i)
+//                }
+//                i++
+//            }
+        }
 
+        override fun onPageChanged(chapter: Int, page: Int) {
+
+        }
+
+        override fun onLoadChapterFailure(chapter: Int) {
+
+        }
+
+        override fun onCenterClick() {
+
+        }
+
+        override fun onFlip() {
+
+        }
+
+    }
 }
+
+
