@@ -137,7 +137,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
 
     override fun getContentView(): Int {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         statusBarColor = ContextCompat.getColor(this, R.color.reader_menu_bg_color)
         return R.layout.activity_read
     }

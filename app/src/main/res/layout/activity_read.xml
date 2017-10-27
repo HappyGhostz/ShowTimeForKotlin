@@ -14,6 +14,36 @@
         android:background="@color/reader_menu_bg_color"
         android:visibility="gone"
        tools:visibility="visible"/>
+
+    <FrameLayout
+        android:id="@+id/flReadWidget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusable="false"
+        android:layerType="hardware"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tvDownloadProgress"
+        android:layout_toEndOf="@+id/tvDownloadProgress">
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvDownloadProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llBookReadBottom"
+        android:background="#89232323"
+        android:paddingBottom="10dp"
+        android:paddingLeft="25dp"
+        android:paddingTop="10dp"
+        android:singleLine="true"
+        android:text="@string/book_read_download_progress"
+        android:textColor="@color/whiteColor"
+        android:visibility="gone" />
+
+    <include layout="@layout/layout_read_aa_set" />
+
+    <include layout="@layout/layout_read_mark" />
     <LinearLayout
         android:layout_below="@id/status_hight"
         android:id="@+id/llBookReadTop"
@@ -97,35 +127,6 @@
             android:textSize="@dimen/book_read_top_text" />
 
     </LinearLayout>
-    <FrameLayout
-        android:id="@+id/flReadWidget"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="false"
-        android:focusable="false"
-        android:layerType="hardware"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tvDownloadProgress"
-        android:layout_toEndOf="@+id/tvDownloadProgress">
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/tvDownloadProgress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/llBookReadBottom"
-        android:background="#89232323"
-        android:paddingBottom="10dp"
-        android:paddingLeft="25dp"
-        android:paddingTop="10dp"
-        android:singleLine="true"
-        android:text="@string/book_read_download_progress"
-        android:textColor="@color/whiteColor"
-        android:visibility="gone" />
-
-    <include layout="@layout/layout_read_aa_set" />
-
-    <include layout="@layout/layout_read_mark" />
 
     <LinearLayout
         android:id="@+id/llBookReadBottom"
