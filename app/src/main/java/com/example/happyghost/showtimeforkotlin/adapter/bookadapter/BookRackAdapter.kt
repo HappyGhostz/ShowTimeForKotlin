@@ -26,7 +26,7 @@ class BookRackAdapter: BaseQuickAdapter<Recommend.RecommendBooks, BaseViewHolder
                 ?.setVisible(R.id.ckBoxSelect,item.showCheckBox)
                 ?.setVisible(R.id.ivUnReadDot, StringUtils.formatZhuiShuDateString(item.updated)?.compareTo(item.recentReadingTime)!! >0)
         val imageView = helper?.getView<ImageView>(R.id.ivRecommendCover)
-        if(NetUtil.isWifiConnected(mContext)||PreferencesUtils.isShowImageAlways()){
+        if(NetUtil.isWifiConnected(mContext)|| SharedPreferencesUtil.isShowImageAlways()){
             ImageLoader.loadCenterCrop(mContext,ConsTantUtils.IMG_BASE_URL+item?.cover, imageView!!,R.mipmap.cover_default)
         }else{
             helper?.setImageResource(R.id.ivRecommendCover,R.mipmap.cover_default)

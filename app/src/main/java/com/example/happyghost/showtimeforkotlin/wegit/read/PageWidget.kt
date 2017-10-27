@@ -286,12 +286,12 @@ class PageWidget:ReadView {
         // 翻起页阴影顶点与touch点的距离
         val d1 = 25.toFloat().toDouble() * 1.414 * Math.cos(degree)
         val d2 = 25.toFloat().toDouble() * 1.414 * Math.sin(degree)
-        val x = (mTouch.x + d1) as Float
+        val x = (mTouch.x + d1.toFloat())
         val y: Float
         if (mIsRTandLB) {
-            y = (mTouch.y + d2) as Float
+            y = (mTouch.y + d2.toFloat())
         } else {
-            y = (mTouch.y - d2) as Float
+            y = (mTouch.y - d2.toFloat())
         }
         mPath1.reset()
         mPath1.moveTo(x, y)
@@ -442,16 +442,16 @@ class PageWidget:ReadView {
         val dx: Int
         val dy: Int
         if (mCornerX > 0) {
-            dx = -((mScreenWidth + mTouch.x) as Int)
+            dx = -((mScreenWidth + mTouch.x).toInt() )
         } else {
-            dx = (mScreenWidth - mTouch.x + mScreenWidth) as Int
+            dx = (mScreenWidth - mTouch.x + mScreenWidth).toInt()
         }
         if (mCornerY > 0) {
-            dy = (mScreenHeight - mTouch.y) as Int
+            dy = (mScreenHeight - mTouch.y) .toInt()
         } else {
-            dy = (1 - mTouch.y) as Int // 防止mTouch.y最终变为0
+            dy = (1 - mTouch.y) .toInt() // 防止mTouch.y最终变为0
         }
-        mScroller.startScroll(mTouch.x as Int, mTouch.y as Int, dx, dy, 700)
+        mScroller.startScroll(mTouch.x .toInt(), mTouch.y .toInt(), dx, dy, 700)
     }
 
     override fun abortAnimation() {
@@ -464,16 +464,16 @@ class PageWidget:ReadView {
         val dx: Int
         val dy: Int
         if (mCornerX > 0) {
-            dx = (mScreenWidth - mTouch.x) as Int
+            dx = (mScreenWidth - mTouch.x) .toInt()
         } else {
-            dx = -mTouch.x as Int
+            dx = -mTouch.x .toInt()
         }
         if (mCornerY > 0) {
-            dy = (mScreenHeight - mTouch.y) as Int
+            dy = (mScreenHeight - mTouch.y) .toInt()
         } else {
-            dy = (1 - mTouch.y) as Int
+            dy = (1 - mTouch.y) .toInt()
         }
-        mScroller.startScroll(mTouch.x as Int, mTouch.y as Int, dx, dy, 300)
+        mScroller.startScroll(mTouch.x .toInt(), mTouch.y .toInt(), dx, dy, 300)
     }
 
     @Synchronized

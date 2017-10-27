@@ -1,7 +1,10 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.read
 
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.WindowManager
@@ -15,7 +18,8 @@ import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.ReadMod
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.FileUtils
-import com.example.happyghost.showtimeforkotlin.utils.PreferencesUtils
+import com.example.happyghost.showtimeforkotlin.utils.SharedPreferencesUtil
+import com.example.happyghost.showtimeforkotlin.utils.SettingManager
 import com.example.happyghost.showtimeforkotlin.wegit.read.OnReadStateChangeListener
 import com.example.happyghost.showtimeforkotlin.wegit.read.OverlappedWidget
 import com.example.happyghost.showtimeforkotlin.wegit.read.PageWidget
@@ -24,23 +28,33 @@ import kotlinx.android.synthetic.main.activity_read.*
 import kotlinx.android.synthetic.main.layout_read_aa_set.*
 import kotlinx.android.synthetic.main.layout_read_mark.*
 import org.jetbrains.anko.startActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
+
     private var statusBarColor: Int = 0
     lateinit var mBookId :String
     var currentChapter = 1
     var chapters = ArrayList<BookMixATocBean.MixTocBean.ChaptersBean>()
     lateinit var mPageWidget: ReadView
+    var statusBarHeight : Int =-1
     /**
      * 是否开始阅读章节
      */
     private var startRead = false
+    var curTheme: Int = 0
+    private val sdf = SimpleDateFormat("HH:mm")
+    private var receiver = Receiver()
+    private val intentFilter = IntentFilter()
+
+
     override fun loadBookToc(list: List<BookMixATocBean.MixTocBean.ChaptersBean>) {
         chapters.clear()
         chapters.addAll(list)
         loadCurrentChapter()
-
     }
+
     /**
      * 获取当前章节。章节文件存在则直接阅读，不存在则请求
      */
@@ -54,7 +68,18 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     }
 
     override fun loadChapterRead(data: ChapterReadBean.Chapter?, chapter: Int) {
-
+        if(data!=null){
+            FileUtils.saveChapterFile(mBookId,chapter,data)
+        }
+        if(!startRead){
+            startRead=true
+            currentChapter = chapter
+            if(mPageWidget.isPrepared){
+                mPageWidget.init(curTheme)
+            }else{
+                mPageWidget.jumpToChapter(currentChapter)
+            }
+        }
     }
 
     override fun upDataView() {
@@ -70,7 +95,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
      * 对顶部状态栏覆盖toolbar的情况做处理
      */
     fun initStatusBar(){
-        var statusBarHeight : Int =-1
         val identifierId = resources.getIdentifier("status_bar_height", "dimen", "android")
         if(identifierId>0){
             statusBarHeight =  resources.getDimensionPixelSize(identifierId)
@@ -78,19 +102,30 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
         status_hight.height = statusBarHeight
     }
 
+
     override fun initView() {
         initPagerWidget()
+        curTheme = SettingManager.getInstance()!!.getReadTheme()
     }
     fun initPagerWidget(){
-        if(PreferencesUtils.getInt(ConsTantUtils.FLIP_STYLE,0)==0){
-//            mPageWidget = PageWidget(this, mBookId, chapters, ReadListener())
+        if(SharedPreferencesUtil.getInt(ConsTantUtils.FLIP_STYLE,0)==0){
+            mPageWidget = PageWidget(this, mBookId, chapters, ReadListener())
         }else{
             mPageWidget = OverlappedWidget(this, mBookId, chapters, ReadListener())
         }
+        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
+        intentFilter.addAction(Intent.ACTION_TIME_TICK)
+        registerReceiver(receiver, intentFilter)
+        if (SharedPreferencesUtil.getBoolean(ConsTantUtils.ISNIGHT, false)) {
+            mPageWidget.setTextColor(ContextCompat.getColor(this, R.color.chapter_content_night),
+                    ContextCompat.getColor(this, R.color.chapter_title_night))
+        }
+        flReadWidget.removeAllViews()
+        flReadWidget.addView(mPageWidget)
     }
 
     override fun initInjector() {
-//        initStatusBar()
+        initStatusBar()
         val bookBean = intent.getSerializableExtra(BOOK_BEAN)as Recommend.RecommendBooks
         mBookId = bookBean._id!!
         DaggerReadComponent.builder()
@@ -101,8 +136,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     }
 
     override fun getContentView(): Int {
-//        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN)
         statusBarColor = ContextCompat.getColor(this, R.color.reader_menu_bg_color)
         return R.layout.activity_read
     }
@@ -147,6 +182,20 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
         }
 
     }
+     //电量时间广播
+    inner class Receiver : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+            if (mPageWidget != null) {
+                if (Intent.ACTION_BATTERY_CHANGED == intent.action) {
+                    val level = intent.getIntExtra("level", 0)
+                    mPageWidget.setBattery(100 - level)
+                } else if (Intent.ACTION_TIME_TICK == intent.action) {
+                    mPageWidget.setTime(sdf.format(Date()))
+                }
+            }
+        }
+    }
 
     @Synchronized
     private fun toggleReadBar() {
@@ -158,12 +207,15 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     }
     @Synchronized
     private fun hideReadBar(){
-        gone(llBookReadTop,llBookReadBottom,tvDownloadProgress,rlReadAaSet,rlReadMark)
+        gone(llBookReadTop,llBookReadBottom,tvDownloadProgress,rlReadAaSet,rlReadMark,status_hight)
         window.decorView.systemUiVisibility = View.INVISIBLE
     }
     @Synchronized
     private fun showReadBar(){
-        visible(llBookReadBottom,llBookReadTop)
+        visible(llBookReadBottom,llBookReadTop,status_hight)
+//        val params = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+//        params.topMargin = statusBarHeight
+//        llBookReadTop.layoutParams = params
         //显示状态栏
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
     }

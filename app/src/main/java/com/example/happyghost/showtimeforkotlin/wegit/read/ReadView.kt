@@ -127,7 +127,8 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
             }
             MotionEvent.ACTION_MOVE -> {
                 if (center){
-                    return@loop
+//                    return@loop
+                    return false
                 }
 //                    break
                 val mx = e.x.toInt()
@@ -150,7 +151,8 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
                         listener.onCenterClick()
                         return false
                     }
-                    return@loop
+                    return false
+//                    return@loop
 //                    break
                 }
 

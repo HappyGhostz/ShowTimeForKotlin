@@ -208,11 +208,18 @@ class RetrofitService  {
         /**
          * 获取正版源
          */
-        /**
-         * 获取正版源
-         */
         fun getBookMixATocInfo(bookId: String, view: String): Observable<BookMixATocBean> {
             return iBookApi!!.getBookMixAToc(bookId, view)
+                    .subscribeOn(Schedulers.io())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        /**
+         * 获取章节列表
+         */
+        fun getChapterBody(url: String):Observable<ChapterReadBean>{
+            return iBookApi!!.getChapterRead(url)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .subscribeOn(AndroidSchedulers.mainThread())

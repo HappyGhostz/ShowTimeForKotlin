@@ -156,5 +156,24 @@ class StringUtils {
                 wordCount.toString() + "字"
             }
         }
+        fun formatChapterBody(body:String):String{
+            var cont=body
+            cont = cont.replace("[ ]*".toRegex(), "")//替换来自服务器上的，特殊空格
+            cont = cont.replace("[ ]*".toRegex(), "")//
+            cont = cont.replace("\n\n", "\n")
+            cont = cont.replace("\n", "\n" + getTwoSpaces())
+            cont = getTwoSpaces() + cont
+//        str = convertToSBC(str);
+            return cont
+        }
+
+        /**
+         * Return a String that only has two spaces.
+         *
+         * @return
+         */
+        fun getTwoSpaces(): String {
+            return "\u3000\u3000"
+        }
     }
 }

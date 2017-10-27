@@ -10,7 +10,7 @@ import java.io.*
  * @creat 2017/9/7.
  * @description
  */
-class PreferencesUtils {
+class SharedPreferencesUtil {
     companion object {
 
         lateinit var sharedPreferences:SharedPreferences

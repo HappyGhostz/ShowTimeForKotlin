@@ -31,7 +31,7 @@ public class SettingManager {
          */
         fun saveFontSize(bookId: String, fontSizePx: Int) {
             // 书籍对应
-            PreferencesUtils.putInt(getFontSizeKey(bookId), fontSizePx)
+            SharedPreferencesUtil.putInt(getFontSizeKey(bookId), fontSizePx)
         }
 
         /**
@@ -44,7 +44,7 @@ public class SettingManager {
         }
 
         fun getReadFontSize(bookId: String): Int {
-            return PreferencesUtils.getInt(getFontSizeKey(bookId), ScreenUtils.dpToPxInt(16f))
+            return SharedPreferencesUtil.getInt(getFontSizeKey(bookId), ScreenUtils.dpToPxInt(16f))
         }
 
         fun getReadFontSize(): Int {
@@ -56,7 +56,7 @@ public class SettingManager {
         }
 
         fun getReadBrightness(): Int {
-            return PreferencesUtils.getInt(getLightnessKey(),
+            return SharedPreferencesUtil.getInt(getLightnessKey(),
                     ScreenUtils.getScreenBrightness(AppApplication.instance.getContext()) as Int)
         }
 
@@ -66,7 +66,7 @@ public class SettingManager {
          * @param percent 亮度比例 0~100
          */
         fun saveReadBrightness(percent: Int) {
-            PreferencesUtils.putInt(getLightnessKey(), percent)
+            SharedPreferencesUtil.putInt(getLightnessKey(), percent)
         }
 
         private fun getLightnessKey(): String {
@@ -75,9 +75,9 @@ public class SettingManager {
 
         @Synchronized
         fun saveReadProgress(bookId: String, currentChapter: Int, m_mbBufBeginPos: Int, m_mbBufEndPos: Int) {
-            PreferencesUtils.putInt(getChapterKey(bookId), currentChapter)
-            PreferencesUtils .putInt(getStartPosKey(bookId), m_mbBufBeginPos)
-            PreferencesUtils .putInt(getEndPosKey(bookId), m_mbBufEndPos)
+            SharedPreferencesUtil.putInt(getChapterKey(bookId), currentChapter)
+            SharedPreferencesUtil.putInt(getStartPosKey(bookId), m_mbBufBeginPos)
+            SharedPreferencesUtil.putInt(getEndPosKey(bookId), m_mbBufEndPos)
         }
 
         /**
@@ -87,17 +87,17 @@ public class SettingManager {
          * @return
          */
         fun getReadProgress(bookId: String): IntArray {
-            val lastChapter = PreferencesUtils.getInt(getChapterKey(bookId), 1)
-            val startPos = PreferencesUtils.getInt(getStartPosKey(bookId), 0)
-            val endPos = PreferencesUtils.getInt(getEndPosKey(bookId), 0)
+            val lastChapter = SharedPreferencesUtil.getInt(getChapterKey(bookId), 1)
+            val startPos = SharedPreferencesUtil.getInt(getStartPosKey(bookId), 0)
+            val endPos = SharedPreferencesUtil.getInt(getEndPosKey(bookId), 0)
 
             return intArrayOf(lastChapter, startPos, endPos)
         }
 
         fun removeReadProgress(bookId: String) {
-            PreferencesUtils.remove(getChapterKey(bookId))
-            PreferencesUtils.remove(getStartPosKey(bookId))
-            PreferencesUtils.remove(getEndPosKey(bookId))
+            SharedPreferencesUtil.remove(getChapterKey(bookId))
+            SharedPreferencesUtil.remove(getStartPosKey(bookId))
+            SharedPreferencesUtil.remove(getEndPosKey(bookId))
         }
 
         private fun getChapterKey(bookId: String): String {
@@ -115,7 +115,7 @@ public class SettingManager {
 
         fun addBookMark(bookId: String, mark: BookMark): Boolean {
             val arrayList = ArrayList<BookMark>()
-            var marks = PreferencesUtils.getObject(getBookMarksKey(bookId), arrayList.javaClass)
+            var marks = SharedPreferencesUtil.getObject(getBookMarksKey(bookId), arrayList.javaClass)
             if (marks != null && marks!!.size > 0) {
                 for (item in marks!!) {
                     if (item.chapter === mark.chapter && item.startPos === mark.startPos) {
@@ -126,16 +126,16 @@ public class SettingManager {
                 marks = ArrayList<BookMark>()
             }
             marks!!.add(mark)
-            PreferencesUtils.putObject(getBookMarksKey(bookId), marks)
+            SharedPreferencesUtil.putObject(getBookMarksKey(bookId), marks)
             return true
         }
 
         fun getBookMarks(bookId: String): ArrayList<BookMark>?{
-            return PreferencesUtils.getObject(getBookMarksKey(bookId), ArrayList<BookMark>().javaClass)
+            return SharedPreferencesUtil.getObject(getBookMarksKey(bookId), ArrayList<BookMark>().javaClass)
         }
 
         fun clearBookMarks(bookId: String) {
-            PreferencesUtils.remove(getBookMarksKey(bookId))
+            SharedPreferencesUtil.remove(getBookMarksKey(bookId))
         }
 
         private fun getBookMarksKey(bookId: String): String {
@@ -143,13 +143,13 @@ public class SettingManager {
         }
 
         fun saveReadTheme(theme: Int) {
-            PreferencesUtils.putInt("readTheme", theme)
+            SharedPreferencesUtil.putInt("readTheme", theme)
         }
 
         fun getReadTheme(): Int {
-            return if (PreferencesUtils.getBoolean(ConsTantUtils.ISNIGHT, false)) {
+            return if (SharedPreferencesUtil.getBoolean(ConsTantUtils.ISNIGHT, false)) {
                 ThemeManager.NIGHT
-            } else PreferencesUtils.getInt("readTheme", 3)
+            } else SharedPreferencesUtil.getInt("readTheme", 3)
         }
 
         /**
@@ -158,19 +158,19 @@ public class SettingManager {
          * @param enable
          */
         fun saveVolumeFlipEnable(enable: Boolean) {
-            PreferencesUtils.putBoolean("volumeFlip", enable)
+            SharedPreferencesUtil.putBoolean("volumeFlip", enable)
         }
 
         fun isVolumeFlipEnable(): Boolean {
-            return PreferencesUtils.getBoolean("volumeFlip", true)
+            return SharedPreferencesUtil.getBoolean("volumeFlip", true)
         }
 
         fun saveAutoBrightness(enable: Boolean) {
-            PreferencesUtils.putBoolean("autoBrightness", enable)
+            SharedPreferencesUtil.putBoolean("autoBrightness", enable)
         }
 
         fun isAutoBrightness(): Boolean {
-            return PreferencesUtils.getBoolean("autoBrightness", false)
+            return SharedPreferencesUtil.getBoolean("autoBrightness", false)
         }
 
         /**
@@ -179,7 +179,7 @@ public class SettingManager {
          * @param sex male female
          */
         fun saveUserChooseSex(sex: String) {
-            PreferencesUtils.putString("userChooseSex", sex)
+            SharedPreferencesUtil.putString("userChooseSex", sex)
         }
 
         /**
@@ -188,19 +188,19 @@ public class SettingManager {
          * @return
          */
         fun getUserChooseSex(): String {
-            return PreferencesUtils.getString("userChooseSex", "male")
+            return SharedPreferencesUtil.getString("userChooseSex", "male")
         }
 
         fun isUserChooseSex(): Boolean {
-            return PreferencesUtils.exists("userChooseSex")
+            return SharedPreferencesUtil.exists("userChooseSex")
         }
 
         fun isNoneCover(): Boolean {
-            return PreferencesUtils.getBoolean("isNoneCover", false)
+            return SharedPreferencesUtil.getBoolean("isNoneCover", false)
         }
 
         fun saveNoneCover(isNoneCover: Boolean) {
-            PreferencesUtils.putBoolean("isNoneCover", isNoneCover)
+            SharedPreferencesUtil.putBoolean("isNoneCover", isNoneCover)
         }
 
 

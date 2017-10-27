@@ -115,7 +115,7 @@ class NewsNormalActivity : BaseSwipeBackActivity<NewsNormalPresenter>(),INewsNor
         })
         scroll_view.setFootView(ll_foot_view)
         scroll_view.setOnPullListener(object :PullScrollView.OnPullListener{
-            var isShowPop = PreferencesUtils.getBoolean(ConsTantUtils.SHOW_POPUP_DETAIL, true)
+            var isShowPop = SharedPreferencesUtil.getBoolean(ConsTantUtils.SHOW_POPUP_DETAIL, true)
             override fun isDoPull(): Boolean {
                 if(empty_comment.getEmptyStatus()!=2){
                     return false
@@ -175,7 +175,7 @@ class NewsNormalActivity : BaseSwipeBackActivity<NewsNormalPresenter>(),INewsNor
      * 显示弹出提示
      */
     fun showPop(){
-        if(PreferencesUtils.getBoolean(ConsTantUtils.SHOW_POPUP_DETAIL,true)){
+        if(SharedPreferencesUtil.getBoolean(ConsTantUtils.SHOW_POPUP_DETAIL,true)){
             DialogHelper.creatPopup(this, R.layout.layout_popup)
                     .anchorView(tv_title_2)
                     .gravity(Gravity.BOTTOM)
@@ -192,7 +192,7 @@ class NewsNormalActivity : BaseSwipeBackActivity<NewsNormalPresenter>(),INewsNor
                     .autoDismiss(true)
                     .autoDismissDelay(3500)
                     .show()
-            PreferencesUtils.putBoolean(ConsTantUtils.SHOW_POPUP_DETAIL, false)
+            SharedPreferencesUtil.putBoolean(ConsTantUtils.SHOW_POPUP_DETAIL, false)
         }
     }
 

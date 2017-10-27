@@ -134,7 +134,7 @@ class OverlappedWidget(context: Context, mBookId: String,
     }
 
     override fun startAnimation() {
-        val dx: Int
+        var dx=0
         if (actiondownX > mScreenWidth / 2) {
             dx = -(mScreenWidth + touch_down) as Int
             mScroller.startScroll((mScreenWidth + touch_down) as Int, mTouch.y as Int, dx, 0, 700)
@@ -151,7 +151,7 @@ class OverlappedWidget(context: Context, mBookId: String,
     }
 
     override fun restoreAnimation() {
-        val dx: Int
+        var dx=0
         if (actiondownX > mScreenWidth / 2) {
             dx = (mScreenWidth - mTouch.x) as Int
         } else {

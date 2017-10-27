@@ -12,7 +12,7 @@ import com.example.happyghost.showtimeforkotlin.loacaldao.DaoMaster
 import com.example.happyghost.showtimeforkotlin.loacaldao.DaoSession
 import com.example.happyghost.showtimeforkotlin.loacaldao.MySQLiteOpenHelper
 import com.example.happyghost.showtimeforkotlin.loacaldao.NewsTypeDao
-import com.example.happyghost.showtimeforkotlin.utils.PreferencesUtils
+import com.example.happyghost.showtimeforkotlin.utils.SharedPreferencesUtil
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import kotlin.properties.ReadWriteProperty
 
@@ -58,7 +58,7 @@ class AppApplication : Application() {
     fun init(){
         initDao()
         initInject()
-        PreferencesUtils.init(mContext,"setting", Context.MODE_PRIVATE)
+        SharedPreferencesUtil.init(mContext,"setting", Context.MODE_PRIVATE)
         RetrofitService.init()
     }
     fun initDao(){

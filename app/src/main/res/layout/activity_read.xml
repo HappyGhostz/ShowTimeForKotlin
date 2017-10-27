@@ -11,8 +11,9 @@
         android:id="@+id/status_hight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:visibility="gone"/>
+        android:background="@color/reader_menu_bg_color"
+        android:visibility="gone"
+       tools:visibility="visible"/>
     <LinearLayout
         android:layout_below="@id/status_hight"
         android:id="@+id/llBookReadTop"
@@ -26,7 +27,8 @@
         android:orientation="horizontal"
         android:padding="15dp"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="visible"
+        >
 
         <ImageView
             android:id="@+id/ivBack"
@@ -101,7 +103,10 @@
         android:layout_height="match_parent"
         android:clickable="false"
         android:focusable="false"
-        android:layerType="hardware" >
+        android:layerType="hardware"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tvDownloadProgress"
+        android:layout_toEndOf="@+id/tvDownloadProgress">
     </FrameLayout>
 
     <TextView

@@ -10,7 +10,7 @@ import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
  * @description
  */
 interface IReadView :IBaseView{
-    abstract fun loadBookToc(list: List<BookMixATocBean.MixTocBean.ChaptersBean>)
+    fun loadBookToc(list: List<BookMixATocBean.MixTocBean.ChaptersBean>)
 
-    abstract fun loadChapterRead(data: ChapterReadBean.Chapter?, chapter: Int)
+    fun loadChapterRead(data: ChapterReadBean.Chapter?, chapter: Int)
 }

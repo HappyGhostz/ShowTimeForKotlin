@@ -1,10 +1,8 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
 import com.example.happyghost.showtimeforkotlin.AppApplication
-import java.io.BufferedInputStream
-import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
+import java.io.*
 
 /**
  * @author Zhao Chenping
@@ -31,6 +29,32 @@ class FileUtils {
                 return file
             }
             return null
+        }
+
+        /**
+         * 保存章节内容
+         */
+        fun saveChapterFile( bookId: String, chapter :Int,  data: ChapterReadBean.Chapter){
+            val file = getChapterFile(bookId, chapter)
+            writeFile(file.absolutePath, StringUtils.formatChapterBody(data.body), false)
+        }
+        /**
+         * 将内容写入文件
+         *
+         * @param filePath eg:/mnt/sdcard/demo.txt
+         * @param content  内容
+         * @param isAppend 是否追加
+         */
+        fun writeFile(filePath:String , content:String , isAppend:Boolean ){
+            try {
+                val fout = FileOutputStream(filePath, isAppend)
+                val bytes = content.toByteArray()
+                fout.write(bytes)
+                fout.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
         }
         /**
          * 递归创建文件夹
