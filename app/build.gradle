@@ -16,7 +16,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-
     }
     buildTypes {
         release {
@@ -108,6 +107,8 @@ dependencies {
     // photoview
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
 
+    //分包  解决65536问题
+    dependencies { compile 'com.android.support:multidex:1.0.0' }
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
