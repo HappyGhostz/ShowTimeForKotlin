@@ -230,7 +230,7 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
         calcCornerXY(mTouch.x, mTouch.y)
     }
 
-    fun jumpToChapter(chapter: Int) {
+    open fun jumpToChapter(chapter: Int) {
         resetTouchPoint()
         pagefactory!!.openBook(chapter, intArrayOf(0, 0))
         pagefactory!!.onDraw(mCurrentPageCanvas)
@@ -320,8 +320,8 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
     val readPos: IntArray
         get() = pagefactory!!.getPosition()
 
-//    val headLine: String
-//        get() = pagefactory!!.getHeadLineStr().replaceAll("@", "")
+    val headLine: String
+        get() = pagefactory!!.getHeadLineStr().replace("@", "")
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
