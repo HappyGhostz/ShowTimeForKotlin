@@ -35,8 +35,8 @@
             android:theme="@style/SwipeBackTheme" />
         <activity android:name=".ui.news.photonews.PhotoSetNewsActivity" />
         <!--阅读模块-->
-        <!--android:theme="@style/AppTheme.NoActionBar.FullScreen"-->
         <activity android:name=".ui.book.read.ReadActivity"
+            android:theme="@style/ReadTheme"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
 

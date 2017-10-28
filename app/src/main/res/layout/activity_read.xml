@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     android:background="@mipmap/theme_leather_bg"
     >
-    <!-- 遮挡状态栏透明的部分 -->
-    <TextView
-        android:id="@+id/status_hight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/reader_menu_bg_color"
-        android:visibility="gone"
-       tools:visibility="visible"/>
 
     <FrameLayout
         android:id="@+id/flReadWidget"
@@ -44,6 +36,14 @@
     <include layout="@layout/layout_read_aa_set" />
 
     <include layout="@layout/layout_read_mark" />
+    <!-- 遮挡状态栏透明的部分 -->
+    <TextView
+        android:id="@+id/status_hight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/reader_menu_bg_color"
+        android:visibility="gone"
+        tools:visibility="visible"/>
     <LinearLayout
         android:layout_below="@id/status_hight"
         android:id="@+id/llBookReadTop"

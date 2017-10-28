@@ -85,8 +85,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     override fun upDataView() {
         //显示状态栏
 //        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        //隐藏状态栏
-        window.decorView.systemUiVisibility = View.INVISIBLE
         mPresenter. getBookMixAToc(mBookId, "chapters")
     }
 
@@ -104,6 +102,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
 
 
     override fun initView() {
+        //隐藏状态栏
+        rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         initPagerWidget()
         curTheme = SettingManager.getInstance()!!.getReadTheme()
     }
@@ -136,8 +136,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     }
 
     override fun getContentView(): Int {
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+//        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN)
         statusBarColor = ContextCompat.getColor(this, R.color.reader_menu_bg_color)
         return R.layout.activity_read
     }
@@ -208,16 +208,13 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     @Synchronized
     private fun hideReadBar(){
         gone(llBookReadTop,llBookReadBottom,tvDownloadProgress,rlReadAaSet,rlReadMark,status_hight)
-        window.decorView.systemUiVisibility = View.INVISIBLE
+        rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
     }
     @Synchronized
     private fun showReadBar(){
         visible(llBookReadBottom,llBookReadTop,status_hight)
-//        val params = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
-//        params.topMargin = statusBarHeight
-//        llBookReadTop.layoutParams = params
         //显示状态栏
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
     }
 
 }
