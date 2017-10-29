@@ -1,13 +1,15 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.read
 
+import android.animation.Animator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Point
 import android.support.v4.content.ContextCompat
 import android.view.View
-import android.view.WindowManager
 
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
@@ -24,6 +26,8 @@ import com.example.happyghost.showtimeforkotlin.wegit.read.OnReadStateChangeList
 import com.example.happyghost.showtimeforkotlin.wegit.read.OverlappedWidget
 import com.example.happyghost.showtimeforkotlin.wegit.read.PageWidget
 import com.example.happyghost.showtimeforkotlin.wegit.read.ReadView
+import com.nineoldandroids.animation.AnimatorSet
+import com.nineoldandroids.animation.ObjectAnimator
 import kotlinx.android.synthetic.main.activity_read.*
 import kotlinx.android.synthetic.main.layout_read_aa_set.*
 import kotlinx.android.synthetic.main.layout_read_mark.*
@@ -207,14 +211,68 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     }
     @Synchronized
     private fun hideReadBar(){
-        gone(llBookReadTop,llBookReadBottom,tvDownloadProgress,rlReadAaSet,rlReadMark,status_hight)
+        getMeasureHeight(llBookReadBottom)
+        val measuredHeight = llBookReadBottom.measuredHeight.toFloat()
+        val point = Point()
+        windowManager.defaultDisplay.getSize(point)
+        val height = point.y.toFloat()
+        val llBookReadBottomGone = ValueAnimator.ofFloat(measuredHeight)
+        llBookReadBottomGone.addUpdateListener {
+            val animatedValue = it.animatedValue as Float
+            llBookReadBottom.translationY=animatedValue
+        }
+        llBookReadBottomGone.duration = 500
+        llBookReadBottomGone.addListener(object : Animator.AnimatorListener{
+            override fun onAnimationRepeat(animation: Animator?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                gone(llBookReadTop,llBookReadBottom,tvDownloadProgress,
+                        rlReadAaSet,rlReadMark,status_hight)
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+            }
+        })
+        llBookReadBottomGone.start()
+
+
         rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
     }
     @Synchronized
     private fun showReadBar(){
-        visible(llBookReadBottom,llBookReadTop,status_hight)
+        getMeasureHeight(llBookReadBottom)
+        getMeasureHeight(status_hight)
+        getMeasureHeight(llBookReadTop1)
+        val measuredHeight = llBookReadBottom.measuredHeight.toFloat()
+        val bookReadTopHeight1 = llBookReadTop1.measuredHeight.toFloat()
+        val status_hight = status_hight.measuredHeight.toFloat()
+        val bookTopHeight = bookReadTopHeight1 + status_hight
+        val animatorYReadBottom = ObjectAnimator.ofFloat(llBookReadBottom, "translationY",
+                measuredHeight,0f)
+        animatorYReadBottom.duration=500
+        animatorYReadBottom.start()
+
+        val animatorYReadTop = ObjectAnimator.ofFloat(llBookReadTop, "translationY",
+                -bookTopHeight,0f)
+        animatorYReadTop.duration=500
+        animatorYReadTop.start()
+
+
+//        llBookReadBottom.animate().alpha(-llBookReadBottom.height.toFloat()).setDuration(500).start()
+        visible(llBookReadBottom,llBookReadTop)
         //显示状态栏
         rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+    }
+
+    private fun getMeasureHeight(view:View) {
+        val w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        val h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        view.measure(w, h)
     }
 
 }
