@@ -26,7 +26,6 @@ import com.example.happyghost.showtimeforkotlin.wegit.read.OnReadStateChangeList
 import com.example.happyghost.showtimeforkotlin.wegit.read.OverlappedWidget
 import com.example.happyghost.showtimeforkotlin.wegit.read.PageWidget
 import com.example.happyghost.showtimeforkotlin.wegit.read.ReadView
-import com.nineoldandroids.animation.AnimatorSet
 import com.nineoldandroids.animation.ObjectAnimator
 import kotlinx.android.synthetic.main.activity_read.*
 import kotlinx.android.synthetic.main.layout_read_aa_set.*
@@ -35,7 +34,7 @@ import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
+class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListener {
 
     private var statusBarColor: Int = 0
     lateinit var mBookId :String
@@ -51,6 +50,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     private val sdf = SimpleDateFormat("HH:mm")
     private var receiver = Receiver()
     private val intentFilter = IntentFilter()
+    var bookBean: Recommend.RecommendBooks? = null
 
 
     override fun loadBookToc(list: List<BookMixATocBean.MixTocBean.ChaptersBean>) {
@@ -78,7 +78,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
         if(!startRead){
             startRead=true
             currentChapter = chapter
-            if(mPageWidget.isPrepared){
+            if(!mPageWidget.isPrepared){
                 mPageWidget.init(curTheme)
             }else{
                 mPageWidget.jumpToChapter(currentChapter)
@@ -87,8 +87,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     }
 
     override fun upDataView() {
-        //显示状态栏
-//        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         mPresenter. getBookMixAToc(mBookId, "chapters")
     }
 
@@ -108,9 +106,28 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     override fun initView() {
         //隐藏状态栏
         rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        initDatas()
         initPagerWidget()
+        initClickView()
         curTheme = SettingManager.getInstance()!!.getReadTheme()
     }
+
+    private fun initDatas() {
+    }
+
+    private fun initClickView() {
+        tvBookReadToc.setOnClickListener(this)
+    }
+    override fun onClick(v: View?) {
+         when(v?.id){
+             R.id.tvBookReadToc->initTocList()
+         }
+    }
+
+    private fun initTocList() {
+        CatalogueListActivity.open(this, chapters, mBookId, currentChapter)
+    }
+
     fun initPagerWidget(){
         if(SharedPreferencesUtil.getInt(ConsTantUtils.FLIP_STYLE,0)==0){
             mPageWidget = PageWidget(this, mBookId, chapters, ReadListener())
@@ -130,8 +147,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
 
     override fun initInjector() {
         initStatusBar()
-        val bookBean = intent.getSerializableExtra(BOOK_BEAN)as Recommend.RecommendBooks
-        mBookId = bookBean._id!!
+        bookBean = intent.getSerializableExtra(BOOK_BEAN)as Recommend.RecommendBooks
+        mBookId = bookBean!!._id!!
         DaggerReadComponent.builder()
                 .applicationComponent(getAppComponent())
                 .readModule(ReadModule(this))
@@ -140,8 +157,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     }
 
     override fun getContentView(): Int {
-//        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN)
         statusBarColor = ContextCompat.getColor(this, R.color.reader_menu_bg_color)
         return R.layout.activity_read
     }
@@ -212,6 +227,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
     @Synchronized
     private fun hideReadBar(){
         getMeasureHeight(llBookReadBottom)
+        getMeasureHeight(llBookReadTop)
+        val bookReadTopHeight= llBookReadTop.measuredHeight.toFloat()
         val measuredHeight = llBookReadBottom.measuredHeight.toFloat()
         val point = Point()
         windowManager.defaultDisplay.getSize(point)
@@ -229,7 +246,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
 
             override fun onAnimationEnd(animation: Animator?) {
                 gone(llBookReadTop,llBookReadBottom,tvDownloadProgress,
-                        rlReadAaSet,rlReadMark,status_hight)
+                        rlReadAaSet,rlReadMark)
             }
 
             override fun onAnimationCancel(animation: Animator?) {
@@ -239,40 +256,39 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView {
             }
         })
         llBookReadBottomGone.start()
-
+        setAnimationForView(llBookReadTop,"translationY",0f,-bookReadTopHeight)
 
         rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
     }
     @Synchronized
     private fun showReadBar(){
         getMeasureHeight(llBookReadBottom)
-        getMeasureHeight(status_hight)
-        getMeasureHeight(llBookReadTop1)
+        getMeasureHeight(llBookReadTop)
         val measuredHeight = llBookReadBottom.measuredHeight.toFloat()
-        val bookReadTopHeight1 = llBookReadTop1.measuredHeight.toFloat()
-        val status_hight = status_hight.measuredHeight.toFloat()
-        val bookTopHeight = bookReadTopHeight1 + status_hight
-        val animatorYReadBottom = ObjectAnimator.ofFloat(llBookReadBottom, "translationY",
-                measuredHeight,0f)
-        animatorYReadBottom.duration=500
-        animatorYReadBottom.start()
-
-        val animatorYReadTop = ObjectAnimator.ofFloat(llBookReadTop, "translationY",
-                -bookTopHeight,0f)
-        animatorYReadTop.duration=500
-        animatorYReadTop.start()
-
-
-//        llBookReadBottom.animate().alpha(-llBookReadBottom.height.toFloat()).setDuration(500).start()
+        val bookReadTopHeight= llBookReadTop.measuredHeight.toFloat()
+        setAnimationForView(llBookReadBottom,"translationY",measuredHeight,0f)
+        setAnimationForView(llBookReadTop,"translationY",-bookReadTopHeight,0f)
         visible(llBookReadBottom,llBookReadTop)
         //显示状态栏
         rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+    }
+
+    private fun setAnimationForView(view:View,prop:String,start: Float,end: Float) {
+        val animatorYReadBottom = ObjectAnimator.ofFloat(view, prop,
+                start, end)
+        animatorYReadBottom.duration = 500
+        animatorYReadBottom.start()
     }
 
     private fun getMeasureHeight(view:View) {
         val w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         val h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         view.measure(w, h)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
     }
 
 }

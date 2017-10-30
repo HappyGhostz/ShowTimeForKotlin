@@ -14,6 +14,7 @@
     <dimen name="news_detail_toolbar_height">90dp</dimen>
 
     <dimen name="book_read_bottom_text">12dp</dimen>
+    <dimen name="book_read_catalogue_list_margin">12dp</dimen>
     <dimen name="book_read_top_text">16sp</dimen>
     <dimen name="title_margin">24dp</dimen>
 </resources>

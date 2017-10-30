@@ -68,6 +68,7 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
                 pagefactory!!.onDraw(mCurrentPageCanvas)
                 postInvalidate()
             } catch (e: Exception) {
+                e.printStackTrace()
             }
 
             isPrepared = true
