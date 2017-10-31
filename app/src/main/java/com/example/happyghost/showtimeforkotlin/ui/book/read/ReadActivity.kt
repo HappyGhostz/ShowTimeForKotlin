@@ -34,7 +34,7 @@ import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-abstract class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListener {
+class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListener {
 
     private var statusBarColor: Int = 0
     lateinit var mBookId :String
@@ -51,7 +51,7 @@ abstract class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnCl
     private var receiver = Receiver()
     private val intentFilter = IntentFilter()
     var bookBean: Recommend.RecommendBooks? = null
-    abstract var title:String
+    lateinit var title:String
 
 
     override fun loadBookToc(list: List<BookMixATocBean.MixTocBean.ChaptersBean>) {
