@@ -36,21 +36,17 @@ class FileUtils {
          */
         fun saveChapterFile( bookId: String, chapter :Int,  data: ChapterReadBean.Chapter){
             val file = getChapterFile(bookId, chapter)
-            writeFile(file.absolutePath, StringUtils.formatChapterBody(data.body), false)
+            writeFile(file, StringUtils.formatChapterBody(data.body))
         }
         /**
          * 将内容写入文件
          *
          * @param filePath eg:/mnt/sdcard/demo.txt
          * @param content  内容
-         * @param isAppend 是否追加
          */
-        fun writeFile(filePath:String , content:String , isAppend:Boolean ){
+        fun writeFile(filePath:File , content:String ){
             try {
-                val fout = FileOutputStream(filePath, isAppend)
-                val bytes = content.toByteArray()
-                fout.write(bytes)
-                fout.close()
+                filePath.writeBytes(content.toByteArray())
             } catch (e: Exception) {
                 e.printStackTrace()
             }

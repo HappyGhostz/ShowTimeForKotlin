@@ -34,7 +34,7 @@ import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListener {
+abstract class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListener {
 
     private var statusBarColor: Int = 0
     lateinit var mBookId :String
@@ -51,6 +51,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     private var receiver = Receiver()
     private val intentFilter = IntentFilter()
     var bookBean: Recommend.RecommendBooks? = null
+    abstract var title:String
 
 
     override fun loadBookToc(list: List<BookMixATocBean.MixTocBean.ChaptersBean>) {
@@ -125,7 +126,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     }
 
     private fun initTocList() {
-        CatalogueListActivity.open(this, chapters, mBookId, currentChapter)
+        CatalogueListActivity.open(this, mBookId, currentChapter,title)
     }
 
     fun initPagerWidget(){
@@ -148,6 +149,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     override fun initInjector() {
         initStatusBar()
         bookBean = intent.getSerializableExtra(BOOK_BEAN)as Recommend.RecommendBooks
+        title = bookBean!!.title!!
         mBookId = bookBean!!._id!!
         DaggerReadComponent.builder()
                 .applicationComponent(getAppComponent())

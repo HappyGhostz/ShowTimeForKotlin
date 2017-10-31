@@ -30,6 +30,7 @@
             android:textSize="@dimen/title_margin"
             android:text="目录"/>
         <ImageView
+            android:id="@+id/iv_sort"
             android:layout_width="wrap_content"
             android:layout_marginRight="@dimen/book_read_catalogue_list_margin"
             android:layout_height="wrap_content"
@@ -52,5 +53,15 @@
         android:layout_centerVertical="true"
         android:src="@mipmap/left"
         />
+    <com.github.ybq.android.spinkit.SpinKitView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/empty_loading"
+        android:visibility="gone"
+        style="@style/SpinKitView.DoubleBounce"
+        android:padding="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:SpinKit_Color="@color/grayColor" />
 
 </RelativeLayout>

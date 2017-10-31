@@ -14,6 +14,7 @@ import com.example.happyghost.showtimeforkotlin.loacaldao.MySQLiteOpenHelper
 import com.example.happyghost.showtimeforkotlin.loacaldao.NewsTypeDao
 import com.example.happyghost.showtimeforkotlin.utils.SharedPreferencesUtil
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
+import com.example.happyghost.showtimeforkotlin.utils.ThemeManager
 import kotlin.properties.ReadWriteProperty
 
 /**
@@ -56,10 +57,16 @@ class AppApplication : Application() {
         init()
     }
     fun init(){
+        //初始化本地数据库
         initDao()
+        //初始化dagger
         initInject()
+        //初始化SharedPreferences
         SharedPreferencesUtil.init(mContext,"setting", Context.MODE_PRIVATE)
+        //网络初始化
         RetrofitService.init()
+        //初始化lru缓存
+        ThemeManager.setLruCache()
     }
     fun initDao(){
         val helper = MySQLiteOpenHelper(this, "showTime-db", null)

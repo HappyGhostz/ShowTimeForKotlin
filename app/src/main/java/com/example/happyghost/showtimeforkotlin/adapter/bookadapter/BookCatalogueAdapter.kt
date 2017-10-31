@@ -21,7 +21,7 @@ import java.util.ArrayList
  * @description
  */
 class BookCatalogueAdapter(catalogueList: ArrayList<BookMixATocBean.MixTocBean.ChaptersBean>, bookId:String, currentChapter:Int ) :
-        BaseQuickAdapter<BookMixATocBean.MixTocBean.ChaptersBean,BaseViewHolder>(R.layout.adapter_book_catalogue_item) {
+        BaseQuickAdapter<BookMixATocBean.MixTocBean.ChaptersBean,BaseViewHolder>(R.layout.adapter_book_catalogue_item,catalogueList) {
     var mCatalogues = catalogueList
     var mBookId = bookId
     var mCurrentChapter = currentChapter
