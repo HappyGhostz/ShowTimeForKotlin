@@ -124,7 +124,16 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     }
 
     private fun handleChannelMessage(t: ReadEvent) {
-
+        val mChapterBean = t.mChapterBean
+        val bookId = t.mBookId
+        val chapterFromLog = t.mCurrentChapter
+        startRead=false
+        if(FileUtils.hasChapterFile(bookId,chapterFromLog)!=null){
+            loadChapterRead(null,chapterFromLog)
+        }else{
+            mPresenter.getChapterRead(mChapterBean?.link!!,chapterFromLog)
+        }
+        hideReadBar()
     }
 
     private fun initDatas() {
@@ -306,6 +315,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(receiver)
+        mPresenter.unregisterRxBus()
     }
 
 }

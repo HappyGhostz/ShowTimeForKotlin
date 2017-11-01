@@ -157,6 +157,17 @@ class CatalogueListActivity : AppCompatActivity() {
                             }else{
                                 smoothMoveToPosition(catalogueList, currentChapter-1)
                             }
+                            adapter.setOnItemClickListener { adapter, view, position ->
+                                val chaptersBean = adapter.getItem(position) as BookMixATocBean.MixTocBean.ChaptersBean
+                                if(isReversal&&isSameBook){
+                                    val chapterLog = catalogues!!.size - position
+                                    RxBus.intanceBus?.post(ReadEvent(chaptersBean,bookid,chapterLog))
+                                }else{
+                                    RxBus.intanceBus?.post(ReadEvent(chaptersBean,bookid,position+1))
+                                }
+                                finish()
+                                overridePendingTransition(R.anim.slide_right_entry,R.anim.slide_left_exit)
+                            }
                         }
                     }
 
@@ -172,12 +183,7 @@ class CatalogueListActivity : AppCompatActivity() {
 
                     }
                 })
-        adapter.setOnItemClickListener { adapter, view, position ->
-            val chaptersBean = adapter.getItem(position) as BookMixATocBean.MixTocBean.ChaptersBean
-            RxBus.intanceBus?.post(ReadEvent(chaptersBean))
-            finish()
-            overridePendingTransition(R.anim.slide_right_entry,R.anim.slide_left_exit)
-        }
+
     }
     private fun initGoBackRad() {
         goBack.setOnClickListener {
