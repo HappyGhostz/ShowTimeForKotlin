@@ -47,11 +47,12 @@
         android:layout_marginTop="@dimen/book_read_catalogue_list_margin"
         android:layout_marginLeft="@dimen/book_read_catalogue_list_margin"/>
     <ImageView
+        android:id="@+id/goBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@mipmap/left"
+        android:src="@mipmap/left_128px"
         />
     <com.github.ybq.android.spinkit.SpinKitView
         xmlns:app="http://schemas.android.com/apk/res-auto"

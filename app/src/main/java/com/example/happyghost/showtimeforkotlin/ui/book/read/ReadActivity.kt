@@ -5,6 +5,8 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
+
+
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Point
@@ -12,6 +14,8 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 
 import com.example.happyghost.showtimeforkotlin.R
+import com.example.happyghost.showtimeforkotlin.RxBus.event.ChannelEvent
+import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
@@ -27,6 +31,7 @@ import com.example.happyghost.showtimeforkotlin.wegit.read.OverlappedWidget
 import com.example.happyghost.showtimeforkotlin.wegit.read.PageWidget
 import com.example.happyghost.showtimeforkotlin.wegit.read.ReadView
 import com.nineoldandroids.animation.ObjectAnimator
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_read.*
 import kotlinx.android.synthetic.main.layout_read_aa_set.*
 import kotlinx.android.synthetic.main.layout_read_mark.*
@@ -110,7 +115,16 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         initDatas()
         initPagerWidget()
         initClickView()
+        initRxbus()
         curTheme = SettingManager.getInstance()!!.getReadTheme()
+    }
+
+    private fun initRxbus() {
+        mPresenter.registerRxBus(ReadEvent::class.java, Consumer<ReadEvent> { t -> handleChannelMessage(t) })
+    }
+
+    private fun handleChannelMessage(t: ReadEvent) {
+
     }
 
     private fun initDatas() {
@@ -164,6 +178,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     }
     companion object {
         var BOOK_BEAN = "bookbean"
+        var CHAPTER_BEAN = "CHAPTERBEAN"
         fun open(mContext: Context?, recommendBooks: Recommend.RecommendBooks) {
             mContext?.startActivity<ReadActivity>(BOOK_BEAN to recommendBooks)
             (mContext as Activity).overridePendingTransition(R.anim.fade_entry, R.anim.fade_exit)

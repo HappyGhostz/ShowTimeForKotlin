@@ -1,21 +1,22 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.read
 
-import com.example.happyghost.showtimeforkotlin.AppApplication
+import android.util.Log
+import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
-import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
-import com.example.happyghost.showtimeforkotlin.utils.ListUtils
+import com.example.happyghost.showtimeforkotlin.ui.base.IRxBusPresenter
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
-import org.jetbrains.anko.toast
+import io.reactivex.functions.Consumer
 
 /**
  * @author Zhao Chenping
  * @creat 2017/9/28.
  * @description
  */
-class ReadPresenter(view: ReadActivity) :IBasePresenter {
+class ReadPresenter(view: ReadActivity, rxBus: RxBus) : IRxBusPresenter {
     var mView:IReadView =view
+    var mRxBus = rxBus
     override fun getData() {
 
     }
@@ -55,5 +56,14 @@ class ReadPresenter(view: ReadActivity) :IBasePresenter {
                 .subscribe {
                     mView.loadChapterRead(it.chapter, chapter)
                 }
+    }
+    override fun <T> registerRxBus(eventType: Class<T>, action: Consumer<T>) {
+        val disposable = mRxBus.doSubscribe(eventType, action, Consumer<Throwable> {
+            throwable -> Log.e("NewsMainPresenter", throwable.toString()) })
+        mRxBus.addSubscription(this, disposable)
+    }
+
+    override fun unregisterRxBus() {
+        mRxBus.unSubscribe(this)
     }
 }

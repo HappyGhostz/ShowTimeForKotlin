@@ -1,5 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.inject.module.bookmodule
 
+import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.inject.PerActivity
 import com.example.happyghost.showtimeforkotlin.ui.book.read.ReadActivity
 import com.example.happyghost.showtimeforkotlin.ui.book.read.ReadPresenter
@@ -16,5 +17,5 @@ class ReadModule(readActivity: ReadActivity) {
     var view= readActivity
     @PerActivity
     @Provides
-    fun providesPresenter():ReadPresenter = ReadPresenter(view)
+    fun providesPresenter(rxBus: RxBus):ReadPresenter = ReadPresenter(view,rxBus)
 }

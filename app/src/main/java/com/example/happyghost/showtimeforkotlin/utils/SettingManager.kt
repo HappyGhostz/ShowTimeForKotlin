@@ -172,36 +172,50 @@ public class SettingManager {
         fun isAutoBrightness(): Boolean {
             return SharedPreferencesUtil.getBoolean("autoBrightness", false)
         }
-
-        /**
-         * 保存用户选择的性别
-         *
-         * @param sex male female
-         */
-        fun saveUserChooseSex(sex: String) {
-            SharedPreferencesUtil.putString("userChooseSex", sex)
-        }
-
-        /**
-         * 获取用户选择性别
-         *
-         * @return
-         */
-        fun getUserChooseSex(): String {
-            return SharedPreferencesUtil.getString("userChooseSex", "male")
-        }
-
-        fun isUserChooseSex(): Boolean {
-            return SharedPreferencesUtil.exists("userChooseSex")
-        }
-
-        fun isNoneCover(): Boolean {
-            return SharedPreferencesUtil.getBoolean("isNoneCover", false)
-        }
-
-        fun saveNoneCover(isNoneCover: Boolean) {
-            SharedPreferencesUtil.putBoolean("isNoneCover", isNoneCover)
-        }
+    /**
+     * 保存目录顺序
+     */
+    fun saveCatalogues(sort:Boolean){
+        SharedPreferencesUtil.putBoolean("sortCatalogue",sort)
+    }
+    fun getCatalogues():Boolean{
+        return SharedPreferencesUtil.getBoolean("sortCatalogue",false)
+    }
+    fun saveCataLoguesBookId(bookid:String){
+        SharedPreferencesUtil.putString(bookid,bookid)
+    }
+    fun getCataLoguesBookId(bookid:String):String{
+        return SharedPreferencesUtil.getString(bookid,"")
+    }
+//        /**
+//         * 保存用户选择的性别
+//         *
+//         * @param sex male female
+//         */
+//        fun saveUserChooseSex(sex: String) {
+//            SharedPreferencesUtil.putString("userChooseSex", sex)
+//        }
+//
+//        /**
+//         * 获取用户选择性别
+//         *
+//         * @return
+//         */
+//        fun getUserChooseSex(): String {
+//            return SharedPreferencesUtil.getString("userChooseSex", "male")
+//        }
+//
+//        fun isUserChooseSex(): Boolean {
+//            return SharedPreferencesUtil.exists("userChooseSex")
+//        }
+//
+//        fun isNoneCover(): Boolean {
+//            return SharedPreferencesUtil.getBoolean("isNoneCover", false)
+//        }
+//
+//        fun saveNoneCover(isNoneCover: Boolean) {
+//            SharedPreferencesUtil.putBoolean("isNoneCover", isNoneCover)
+//        }
 
 
 }
