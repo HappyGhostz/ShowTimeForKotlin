@@ -63,6 +63,7 @@ class CatalogueListActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_catalogue)
         val bookid = intent.getStringExtra(BOOK_ID)
+        SettingManager.getInstance()?.saveCataLoguesBookId(bookid)
         val bookName = intent.getStringExtra(BOOK_NAME)
         val currentChapter = intent.getIntExtra(BOOK_CHAPTER, 0)
         initCatalogueSort(currentChapter,bookid)
@@ -74,7 +75,7 @@ class CatalogueListActivity : AppCompatActivity() {
     private fun initCatalogueSort(currentChapter: Int, bookid: String) {
         val hasBookid = SettingManager.getInstance()?.getCataLoguesBookId(bookid)
         isSameBook=TextUtils.equals(hasBookid,bookid)
-        val hasReversal = SettingManager.getInstance()?.getCatalogues()
+        val hasReversal = SettingManager.getInstance()?.getCatalogues(bookid+"isReversal")
 
         if(hasReversal!!&&isSameBook){
             iv_sort.animate().rotation(180f).setDuration(500).start()
@@ -127,7 +128,7 @@ class CatalogueListActivity : AppCompatActivity() {
                     })
                     angle+=180f
                     isReversal=!isReversal
-                    SettingManager.getInstance()?.saveCatalogues(isReversal)
+                    SettingManager.getInstance()?.saveCatalogues(bookid+"isReversal",isReversal)
                     SettingManager.getInstance()?.saveCataLoguesBookId(bookid)
                 }
             }

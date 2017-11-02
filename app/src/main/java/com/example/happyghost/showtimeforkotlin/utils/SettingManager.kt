@@ -175,11 +175,11 @@ public class SettingManager {
     /**
      * 保存目录顺序
      */
-    fun saveCatalogues(sort:Boolean){
-        SharedPreferencesUtil.putBoolean("sortCatalogue",sort)
+    fun saveCatalogues(bookId:String,sort:Boolean){
+        SharedPreferencesUtil.putBoolean(bookId,sort)
     }
-    fun getCatalogues():Boolean{
-        return SharedPreferencesUtil.getBoolean("sortCatalogue",false)
+    fun getCatalogues(bookId:String):Boolean{
+        return SharedPreferencesUtil.getBoolean(bookId,false)
     }
     fun saveCataLoguesBookId(bookid:String){
         SharedPreferencesUtil.putString(bookid,bookid)
