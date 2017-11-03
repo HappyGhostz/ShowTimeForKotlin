@@ -12,9 +12,9 @@ import android.content.IntentFilter
 import android.graphics.Point
 import android.support.v4.content.ContextCompat
 import android.view.View
+import android.widget.SeekBar
 
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.RxBus.event.ChannelEvent
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
@@ -22,10 +22,7 @@ import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerReadComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.ReadModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
-import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
-import com.example.happyghost.showtimeforkotlin.utils.FileUtils
-import com.example.happyghost.showtimeforkotlin.utils.SharedPreferencesUtil
-import com.example.happyghost.showtimeforkotlin.utils.SettingManager
+import com.example.happyghost.showtimeforkotlin.utils.*
 import com.example.happyghost.showtimeforkotlin.wegit.read.OnReadStateChangeListener
 import com.example.happyghost.showtimeforkotlin.wegit.read.OverlappedWidget
 import com.example.happyghost.showtimeforkotlin.wegit.read.PageWidget
@@ -93,7 +90,11 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     }
 
     override fun upDataView() {
-        mPresenter. getBookMixAToc(mBookId, "chapters")
+        if(FileUtils.hasChapterFile(mBookId,currentChapter)!=null){
+            loadChapterRead(null,currentChapter)
+        }else{
+            mPresenter. getBookMixAToc(mBookId, "chapters")
+        }
     }
 
 
@@ -112,11 +113,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     override fun initView() {
         //隐藏状态栏
         rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        initDatas()
         initPagerWidget()
+        initAASet()
         initClickView()
         initRxbus()
-        curTheme = SettingManager.getInstance()!!.getReadTheme()
     }
 
     private fun initRxbus() {
@@ -135,8 +135,17 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         }
         hideReadBar()
     }
+    private fun initAASet() {
+        curTheme = SettingManager.getInstance()!!.getReadTheme()
+        ThemeManager.setReaderTheme(curTheme,rlBookReadRoot)
 
-    private fun initDatas() {
+        seekbarFontSize.max=10
+        val readFontSize = SettingManager.getInstance()?.getReadFontSize()
+        val progress = ((ScreenUtils.pxToDpInt(readFontSize!!.toFloat()) - 12) / 1.7f).toInt()
+        seekbarFontSize.progress = progress
+        seekbarFontSize.setOnSeekBarChangeListener(SeekBarChangeListener())
+
+
     }
 
     private fun initClickView() {
@@ -147,7 +156,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
              R.id.tvBookReadToc->initTocList()
          }
     }
-
     private fun initTocList() {
         CatalogueListActivity.open(this, mBookId, currentChapter,title)
     }
@@ -158,6 +166,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         }else{
             mPageWidget = OverlappedWidget(this, mBookId, chapters, ReadListener())
         }
+        //电量时间广播
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED)
         intentFilter.addAction(Intent.ACTION_TIME_TICK)
         registerReceiver(receiver, intentFilter)
@@ -317,5 +326,34 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         unregisterReceiver(receiver)
         mPresenter.unregisterRxBus()
     }
+    inner class SeekBarChangeListener : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            if (seekBar?.id == seekbarFontSize.id && fromUser) {
+                calcFontSize(progress)
+            } else if (seekBar?.id == seekbarLightness.id && fromUser
+                    && !SettingManager.getInstance()?.isAutoBrightness()!!) { // 非自动调节模式下 才可调整屏幕亮度
+                ScreenUtils.setScreenBrightness(progress, this@ReadActivity)
+                SettingManager.getInstance()?.saveReadBrightness(progress)
+            }
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+        }
+
+        override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+        }
+
+    }
+
+    private fun calcFontSize(progress: Int) {
+// progress range 1 - 10
+        if (progress >= 0 && progress <= 10) {
+            seekbarFontSize.progress = progress
+            mPageWidget.setFontSize(ScreenUtils.dpToPxInt(12 + 1.7f * progress))
+        }
+    }
+
 
 }
