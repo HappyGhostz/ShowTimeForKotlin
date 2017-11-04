@@ -41,5 +41,18 @@ class RecyclerViewHelper {
             }
             recyclerView.adapter = adapter
         }
+        /**
+         * 配置横向列表RecyclerView
+         * @param view
+         */
+        fun initRecycleViewH(mContext:Context?, recyclerView: RecyclerView, adapter:RecyclerView.Adapter<BaseViewHolder>, hasDivider:Boolean) {
+            val layoutManager = LinearLayoutManager(mContext)
+            layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            recyclerView.layoutManager = layoutManager
+            if(hasDivider){
+                recyclerView.addItemDecoration(DividerItemDecoration(mContext, LinearLayoutManager.HORIZONTAL))
+            }
+            recyclerView.adapter = adapter
+        }
     }
 }

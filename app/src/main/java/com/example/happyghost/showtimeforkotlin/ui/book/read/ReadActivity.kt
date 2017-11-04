@@ -12,10 +12,12 @@ import android.content.IntentFilter
 import android.graphics.Point
 import android.support.v4.content.ContextCompat
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.SeekBar
 
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
+import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.ReadThemeAdapter
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
@@ -135,17 +137,62 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         }
         hideReadBar()
     }
+
+    var isAutoLightness: Boolean=false
+
     private fun initAASet() {
         curTheme = SettingManager.getInstance()!!.getReadTheme()
         ThemeManager.setReaderTheme(curTheme,rlBookReadRoot)
-
+        //字体调节
         seekbarFontSize.max=10
         val readFontSize = SettingManager.getInstance()?.getReadFontSize()
         val progress = ((ScreenUtils.pxToDpInt(readFontSize!!.toFloat()) - 12) / 1.7f).toInt()
         seekbarFontSize.progress = progress
         seekbarFontSize.setOnSeekBarChangeListener(SeekBarChangeListener())
+        //亮度调节
+        seekbarLightness.max=100
+        seekbarLightness.setOnSeekBarChangeListener(SeekBarChangeListener())
+        seekbarLightness.progress = SettingManager.getInstance()!!.getReadBrightness()
+        isAutoLightness = ScreenUtils.isAutoBrightness(this)
+        if (SettingManager.getInstance()!!.isAutoBrightness()) {
+            startAutoLightness()
+        } else {
+            stopAutoLightness()
+        }
+        //是否用音量键翻页
+        cbVolume.isChecked = SettingManager.getInstance()!!.isVolumeFlipEnable()
+        cbVolume.setOnCheckedChangeListener(ChechBoxChangeListener())
+        //是都自动调节亮度
+        cbAutoBrightness.isChecked = SettingManager.getInstance()!!.isAutoBrightness()
+        cbAutoBrightness.setOnCheckedChangeListener(ChechBoxChangeListener())
+        //选择阅读背景
+        var themes = ThemeManager.getReaderThemeData(curTheme)
+        var gvAdapter = ReadThemeAdapter(themes , curTheme)
+        RecyclerViewHelper.initRecycleViewH(this@ReadActivity,gvTheme,gvAdapter,false)
+//
+//        gvTheme.adapter = gvAdapter
+//        gvTheme.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+//            if (position < themes.size - 1) {
+//                changedMode(false, position)
+//            } else {
+//                changedMode(true, position)
+//            }
+//        }
+    }
 
+    private fun startAutoLightness() {
+        SettingManager.getInstance()?.saveAutoBrightness(true)
+        ScreenUtils.startAutoBrightness(this@ReadActivity)
+        seekbarLightness.isEnabled = false
+    }
 
+    private fun stopAutoLightness() {
+        SettingManager.getInstance()?.saveAutoBrightness(false)
+        ScreenUtils.stopAutoBrightness(this@ReadActivity)
+        val value = SettingManager.getInstance()!!.getReadBrightness()
+        seekbarLightness.progress = value
+        ScreenUtils.setScreenBrightness(value, this@ReadActivity)
+        seekbarLightness.isEnabled = true
     }
 
     private fun initClickView() {
@@ -154,6 +201,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     override fun onClick(v: View?) {
          when(v?.id){
              R.id.tvBookReadToc->initTocList()
+//             R.id.tvBookReadSettings->
          }
     }
     private fun initTocList() {
@@ -348,12 +396,28 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     }
 
     private fun calcFontSize(progress: Int) {
-// progress range 1 - 10
+    // progress range 1 - 10
         if (progress >= 0 && progress <= 10) {
             seekbarFontSize.progress = progress
             mPageWidget.setFontSize(ScreenUtils.dpToPxInt(12 + 1.7f * progress))
         }
     }
+    inner class ChechBoxChangeListener : CompoundButton.OnCheckedChangeListener {
+        override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+            if (buttonView?.id == cbVolume.id) {
+                SettingManager.getInstance()?.saveVolumeFlipEnable(isChecked)
+            } else if (buttonView?.id == cbAutoBrightness.id) {
+                if (isChecked) {
+                    startAutoLightness()
+                } else {
+                    stopAutoLightness()
+                }
+            }
+        }
+
+    }
+
+
 
 
 }
