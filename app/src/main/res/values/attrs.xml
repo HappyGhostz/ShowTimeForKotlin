@@ -13,4 +13,11 @@
         <attr name="pc_textsize" format="dimension"/>
         <attr name="pc_arc_size" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="CircleImageView">
+        <attr format="dimension" name="civ_border_width"/>
+        <attr format="color" name="civ_border_color"/>
+        <attr format="boolean" name="civ_border_overlay"/>
+        <attr format="color" name="civ_fill_color"/>
+        <attr format="integer" name="civ_animation_end"/>
+    </declare-styleable>
 </resources>

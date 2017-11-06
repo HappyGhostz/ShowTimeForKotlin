@@ -11,13 +11,17 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Point
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatDelegate
 import android.view.View
+import android.widget.AdapterView
 import android.widget.CompoundButton
 import android.widget.SeekBar
 
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
+import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookMarkAdapter
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.ReadThemeAdapter
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMark
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
@@ -25,6 +29,7 @@ import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.D
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.ReadModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import com.example.happyghost.showtimeforkotlin.utils.*
+import com.example.happyghost.showtimeforkotlin.wegit.SelectCricleImageView
 import com.example.happyghost.showtimeforkotlin.wegit.read.OnReadStateChangeListener
 import com.example.happyghost.showtimeforkotlin.wegit.read.OverlappedWidget
 import com.example.happyghost.showtimeforkotlin.wegit.read.PageWidget
@@ -35,6 +40,7 @@ import kotlinx.android.synthetic.main.activity_read.*
 import kotlinx.android.synthetic.main.layout_read_aa_set.*
 import kotlinx.android.synthetic.main.layout_read_mark.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -76,7 +82,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
 
     }
 
-    override fun loadChapterRead(data: ChapterReadBean.Chapter?, chapter: Int) {
+    @Synchronized override fun loadChapterRead(data: ChapterReadBean.Chapter?, chapter: Int) {
         if(data!=null){
             FileUtils.saveChapterFile(mBookId,chapter,data)
         }
@@ -169,15 +175,51 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         var themes = ThemeManager.getReaderThemeData(curTheme)
         var gvAdapter = ReadThemeAdapter(themes , curTheme)
         RecyclerViewHelper.initRecycleViewH(this@ReadActivity,gvTheme,gvAdapter,false)
-//
-//        gvTheme.adapter = gvAdapter
-//        gvTheme.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-//            if (position < themes.size - 1) {
-//                changedMode(false, position)
-//            } else {
-//                changedMode(true, position)
-//            }
-//        }
+        gvAdapter.setOnItemChildClickListener { adapter, view, position ->
+            var index = 0
+            while (index<adapter.itemCount-1){
+                val imageView = adapter.getItem(index) as SelectCricleImageView
+                if(imageView.getMDynamicAngle()==360f){
+                    imageView.setMDynamicAngle(0f)
+                }
+                index++
+            }
+            if(position<themes.size-1){
+                changedMode(false,position)
+            }else{
+                changedMode(true,position)
+            }
+        }
+    }
+
+    private fun changedMode(isNight: Boolean, position: Int) {
+        SharedPreferencesUtil.putBoolean(ConsTantUtils.ISNIGHT, isNight)
+        AppCompatDelegate.setDefaultNightMode(if (isNight)
+            AppCompatDelegate.MODE_NIGHT_YES
+        else
+            AppCompatDelegate.MODE_NIGHT_NO)
+
+        if (position >= 0) {
+            curTheme = position
+        } else {
+            curTheme = SettingManager.getInstance()!!.getReadTheme()
+        }
+        mPageWidget.setTheme(if (isNight) ThemeManager.NIGHT else curTheme)
+        mPageWidget.setTextColor(ContextCompat.getColor(this, if (isNight) R.color.chapter_content_night else R.color.chapter_content_day),
+                ContextCompat.getColor(this, if (isNight) R.color.chapter_title_night else R.color.chapter_title_day))
+
+        tvBookReadMode.text = getString(if (isNight)
+            R.string.book_read_mode_day_manual_setting
+        else
+            R.string.book_read_mode_night_manual_setting)
+        val drawable = ContextCompat.getDrawable(this, if (isNight)
+            R.mipmap.ic_menu_mode_day_manual
+        else
+            R.mipmap.ic_menu_mode_night_manual)
+        drawable.setBounds(0, 0, drawable.minimumWidth, drawable.minimumHeight)
+        tvBookReadMode.setCompoundDrawables(null, drawable, null, null)
+
+        ThemeManager.setReaderTheme(curTheme, rlBookReadRoot)
     }
 
     private fun startAutoLightness() {
@@ -201,9 +243,73 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     override fun onClick(v: View?) {
          when(v?.id){
              R.id.tvBookReadToc->initTocList()
-//             R.id.tvBookReadSettings->
+             R.id.ivBack->finish()
+             R.id.tvBookReadCommunity->toast("社区,稍等!")
+             R.id.tvBookReadIntroduce->toast("书籍详情,稍等!")
+             R.id.tvBookReadSource->toast("换源,稍等!")
+             R.id.tvBookReadMode->{
+                 //日夜间模式切换,待定
+                 gone(rlReadAaSet, rlReadMark)
+                 val isNight = !SharedPreferencesUtil.getBoolean(ConsTantUtils.ISNIGHT, false)
+                 changedMode(isNight, -1)
+             }
+             R.id.tvBookReadSettings->{
+                 if (rlReadAaSet.visibility==View.VISIBLE) {
+                     gone(rlReadAaSet)
+                 } else {
+                     visible(rlReadAaSet)
+                     gone(rlReadMark)
+                 }
+             }
+             R.id.tvBookReadDownload->{
+
+             }
+             R.id.tvBookMark->{
+                 if (llBookReadBottom.visibility==View.VISIBLE) {
+                     if (rlReadMark.visibility==View.VISIBLE) {
+                         gone(rlReadMark)
+                     } else {
+                         gone(rlReadAaSet)
+                         updateMark()
+                         visible(rlReadMark)
+                     }
+                 }
+             }
+             R.id.ivBrightnessMinus->showBrightnessMinus()
+//             R.id.ivBrightnessPlus->
          }
     }
+
+    private fun updateMark() {
+        var arrayList = SettingManager.getInstance()?.getBookMarks(mBookId)
+        if (arrayList != null && arrayList.size > 0) {
+            Collections.reverse(arrayList)
+        }
+        val mMarkList = ArrayList<BookMark>()
+        mMarkList.addAll(arrayList!!)
+        var mMarkAdapter = BookMarkAdapter(mMarkList)
+        RecyclerViewHelper.initRecycleViewV(this@ReadActivity,lvMark,mMarkAdapter!!,false)
+        mMarkAdapter.setOnItemClickListener { adapter, view, position ->
+            val data = adapter.data as BookMark
+            if(data!=null){
+                mPageWidget.setPosition(intArrayOf(data.chapter,data.startPos,data.endPos))
+                hideReadBar()
+            }else{
+                toast("书签无效!")
+            }
+        }
+    }
+
+    private fun showBrightnessMinus() {
+        var curBrightness = SettingManager.getInstance()!!.getReadBrightness()
+        if (curBrightness > 2 && !SettingManager.getInstance()!!.isAutoBrightness()) {
+            curBrightness -= 2
+            seekbarLightness.progress = curBrightness
+            ScreenUtils.setScreenBrightness(curBrightness, this@ReadActivity)
+            SettingManager.getInstance()!!.saveReadBrightness(curBrightness)
+        }
+    }
+
     private fun initTocList() {
         CatalogueListActivity.open(this, mBookId, currentChapter,title)
     }

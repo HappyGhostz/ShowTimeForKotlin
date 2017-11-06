@@ -2,21 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingLeft="6dp"
     android:paddingRight="6dp">
-
-    <ImageView
-        android:id="@+id/ivThemeBg"
-        android:layout_width="match_parent"
-        android:layout_height="45dp" />
     <!--android:background="@drawable/ic_theme_selected"-->
-    <ImageView
-        android:id="@+id/ivSelected"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-
-        android:visibility="gone" />
-
+    <com.example.happyghost.showtimeforkotlin.wegit.SelectCricleImageView
+        android:id="@+id/ivThemeBg"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:civ_border_width ="3dp"
+        app:civ_border_color = "@color/baseColorPrimary"
+        app:civ_animation_end ="3"/>
 </RelativeLayout>
