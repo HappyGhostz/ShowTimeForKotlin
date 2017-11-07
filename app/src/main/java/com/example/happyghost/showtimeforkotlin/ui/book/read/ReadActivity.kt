@@ -152,7 +152,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         if(FileUtils.hasChapterFile(bookId,chapterFromLog)!=null){
             loadChapterRead(null,chapterFromLog)
         }else{
-            mPresenter.getChapterRead(mChapterBean?.link!!,chapterFromLog)
+            currentChapter=t.mCurrentChapter
+            mPresenter. getBookMixAToc(mBookId, "chapters")
         }
         hideReadBar()
     }
@@ -252,8 +253,25 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
 
     private fun initClickView() {
         tvBookReadToc.setOnClickListener(this)
+        ivBack.setOnClickListener(this)
+        tvBookReadCommunity.setOnClickListener(this)
+        tvBookReadIntroduce.setOnClickListener(this)
+        tvBookReadSource.setOnClickListener(this)
+        tvBookReadMode.setOnClickListener(this)
+        tvBookReadSettings.setOnClickListener(this)
+        tvBookReadDownload.setOnClickListener(this)
+        tvBookMark.setOnClickListener(this)
+        ivBrightnessMinus.setOnClickListener(this)
+        ivBrightnessPlus.setOnClickListener(this)
+        tvFontsizeMinus.setOnClickListener(this)
+        tvFontsizePlus.setOnClickListener(this)
+        tvClear.setOnClickListener(this)
+        tvAddMark.setOnClickListener(this)
+//        tvClear.setOnClickListener(this)
+//        tvClear.setOnClickListener(this)
     }
     override fun onClick(v: View?) {
+        val id = v?.id
          when(v?.id){
              R.id.tvBookReadToc->initTocList()
              R.id.ivBack->finish()

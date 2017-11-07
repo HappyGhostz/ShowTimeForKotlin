@@ -41,7 +41,6 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
 
         mScreenWidth = ScreenUtils.getScreenWidth()
         mScreenHeight = ScreenUtils.getScreenHeight()
-
         mCurPageBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeight, Bitmap.Config.ARGB_8888)
         mNextPageBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeight, Bitmap.Config.ARGB_8888)
         mCurrentPageCanvas = Canvas(mCurPageBitmap!!)
