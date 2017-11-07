@@ -57,7 +57,7 @@ public class SettingManager {
 
         fun getReadBrightness(): Int {
             return SharedPreferencesUtil.getInt(getLightnessKey(),
-                    ScreenUtils.getScreenBrightness(AppApplication.instance.getContext()) as Int)
+                    ScreenUtils.getScreenBrightness(AppApplication.instance.getContext()).toInt())
         }
 
         /**

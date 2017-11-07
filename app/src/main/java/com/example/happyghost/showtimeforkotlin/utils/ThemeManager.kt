@@ -40,18 +40,24 @@ class ThemeManager {
         }
 
         fun getThemeDrawable(theme: Int): Bitmap {
-            var bmp = Bitmap.createBitmap(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight(), Bitmap.Config.ARGB_8888)
-            when (theme) {
-                NORMAL -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.read_theme_white))
-                YELLOW -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.read_theme_yellow))
-                GREEN -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.read_theme_green))
-                LEATHER -> bmp = getHandlePicture( R.drawable.theme_leather_bg)
-                GRAY -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.read_theme_gray))
-                NIGHT -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.blackColor))
-                else -> {
+            val bitmapFromMemCache = getBitmapFromMemCache("bmp")
+            if(bitmapFromMemCache!=null&&!bitmapFromMemCache.isRecycled){
+                return bitmapFromMemCache
+            }else{
+                var bmp = Bitmap.createBitmap(ScreenUtils.getScreenWidth()/2, ScreenUtils.getScreenHeight()/2, Bitmap.Config.ARGB_8888)
+                addBitmapToMemoryCache("bmp",bmp)
+                when (theme) {
+                    NORMAL -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.read_theme_white))
+                    YELLOW -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.read_theme_yellow))
+                    GREEN -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.read_theme_green))
+                    LEATHER -> bmp = getHandlePicture( R.drawable.theme_leather_bg)
+                    GRAY -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.read_theme_gray))
+                    NIGHT -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.blackColor))
+                    else -> {
+                    }
                 }
+                return bmp
             }
-            return bmp
         }
 
         fun getReaderThemeData(curTheme: Int): List<ReadTheme> {
@@ -81,7 +87,7 @@ class ThemeManager {
                 val imageHeight = options.outHeight
                 val imageWidth = options.outWidth
                 //默认压缩一半
-                var inSampleSize = 2
+                var inSampleSize = 4
                 if(imageHeight>ScreenUtils.getScreenHeight()||imageWidth>ScreenUtils.getScreenWidth()){
                     // 计算出实际宽高和目标宽高的比率
                     var heightRatio = Math.round( imageHeight.toFloat() / ScreenUtils.getScreenHeight().toFloat())

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
+import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookRackAdapter
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookRackComponent
@@ -18,6 +19,7 @@ import com.example.happyghost.showtimeforkotlin.utils.BookTransformer
 import com.example.happyghost.showtimeforkotlin.utils.DialogHelper
 import com.example.happyghost.showtimeforkotlin.utils.ListUtils
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
+import io.reactivex.functions.Consumer
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.selector
 import org.jetbrains.anko.support.v4.toast
@@ -67,7 +69,16 @@ class BookRackListFragment : BaseFragment<BookRackPresent>(),IBookRackView {
         RecyclerViewHelper.initRecycleViewV(mContext,recyclerView,adapter,true)
         showItemHandle()
         showItemLongHandle()
+        mPresenter.registerRxBus(ReadEvent::class.java, Consumer { t -> handlInsertBookRack(t) })
     }
+
+    private fun handlInsertBookRack(t: ReadEvent) {
+        if(t.mIsInsert&&t.mBookBean!=null){
+            mPresenter.insertBook(t.mBookBean)
+            mPresenter.getData()
+        }
+    }
+
     fun showItemHandle(){
         adapter.setOnItemClickListener { adapter, view, position ->
             val recommendBooks = adapter.getItem(position) as Recommend.RecommendBooks
@@ -124,6 +135,11 @@ class BookRackListFragment : BaseFragment<BookRackPresent>(),IBookRackView {
                 .bookRackMoudle(BookRackMoudle(this))
                 .build()
                 .inject(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.unregisterRxBus()
     }
 
     override fun getFragmentLayout(): Int {

@@ -1,5 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.rack
 
+import android.util.Log
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfo
@@ -11,6 +12,7 @@ import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
 
 /**
  * @author Zhao Chenping
@@ -139,5 +141,14 @@ class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, r
     fun replace(recommendBooks: Recommend.RecommendBooks){
         val localBookInfo = BookTransformer.RecommendBooksConvertlocalBook(recommendBooks)
         mBookDao.insertOrReplace(localBookInfo)
+    }
+    fun <T> registerRxBus(eventType: Class<T>, action: Consumer<T>) {
+        val disposable = mRxBus.doSubscribe(eventType, action, Consumer<Throwable> {
+            throwable -> Log.e("NewsMainPresenter", throwable.toString()) })
+        mRxBus.addSubscription(this, disposable)
+    }
+
+   fun unregisterRxBus() {
+        mRxBus.unSubscribe(this)
     }
 }

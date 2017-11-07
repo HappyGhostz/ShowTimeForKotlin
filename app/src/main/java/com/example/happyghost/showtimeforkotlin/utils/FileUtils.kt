@@ -3,6 +3,9 @@ package com.example.happyghost.showtimeforkotlin.utils
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
 import java.io.*
+import android.R.attr.path
+
+
 
 /**
  * @author Zhao Chenping
@@ -11,6 +14,26 @@ import java.io.*
  */
 class FileUtils {
     companion object {
+        //获取文件夹下的所有文件
+        fun getFileNum(bookId: String):Int{
+            val path = AppApplication.instance.getContext()
+                    .getExternalFilesDir(null)
+                    .absolutePath + "/book/" + bookId
+            var fileCount = 0
+            var folderCount = 0
+            val d = File(path)
+            val list = d.listFiles()
+            if(list!=null){
+                for (i in list.indices) {
+                    if (list[i].isFile) {
+                        fileCount++
+                    } else {
+                        folderCount++
+                    }
+                }
+            }
+            return fileCount
+        }
         fun getChapterPath(bookId:String , chapter:Int ):String{
             return AppApplication.instance.getContext()
                     .getExternalFilesDir(null)

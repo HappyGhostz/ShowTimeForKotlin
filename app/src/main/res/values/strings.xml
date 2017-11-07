@@ -24,4 +24,9 @@
     <string name="book_read_download_complete">缓存完成，失败%1$d章</string>
     <string name="book_read_alreday_download">已缓存过:%1$s(%2$d/%3$d)...</string>
     <string name="book_read_download_progress">正在缓存:%1$s(%2$d/%3$d)...</string>
+
+    <string name="book_read_add_book">添书</string>
+    <string name="book_read_would_you_like_to_add_this_to_the_book_shelf">是否将本书加入书架？</string>
+    <string name="book_read_join_the_book_shelf">加入书架</string>
+    <string name="book_read_not">不了</string>
 </resources>

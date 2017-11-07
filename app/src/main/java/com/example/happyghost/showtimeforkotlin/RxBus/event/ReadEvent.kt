@@ -1,6 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.RxBus.event
 
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
 
 /**
  * @author Zhao Chenping
@@ -8,9 +9,11 @@ import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
  * @description
  */
 class ReadEvent {
-    var mChapterBean:BookMixATocBean.MixTocBean.ChaptersBean?
+    var mChapterBean:BookMixATocBean.MixTocBean.ChaptersBean? = null
     lateinit var mBookId:String
     var mCurrentChapter:Int = 0
+    var mIsInsert = false
+    lateinit var mBookBean :Recommend.RecommendBooks
     constructor(chaptersBean: BookMixATocBean.MixTocBean.ChaptersBean?){
         this.mChapterBean = chaptersBean
     }
@@ -18,5 +21,9 @@ class ReadEvent {
         this.mChapterBean = chaptersBean
         this.mBookId = bookId
         this.mCurrentChapter = currentChapter
+    }
+    constructor(isInsert:Boolean,bookBean: Recommend.RecommendBooks){
+        this.mIsInsert = isInsert
+        this.mBookBean = bookBean
     }
 }

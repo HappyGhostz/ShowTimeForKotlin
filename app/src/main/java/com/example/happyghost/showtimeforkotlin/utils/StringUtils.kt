@@ -175,5 +175,21 @@ class StringUtils {
         fun getTwoSpaces(): String {
             return "\u3000\u3000"
         }
+
+        /**
+         * 获取当前日期的指定格式的字符串
+         *
+         * @param format 指定的日期时间格式，若为null或""则使用指定的格式"yyyy-MM-dd HH:mm:ss.SSS"
+         * @return
+         */
+        fun getCurrentTimeString(format: String?): String {
+            if (format == null || format.trim { it <= ' ' } == "") {
+                mTimeFormat.applyPattern(FORMAT_DATE_TIME)
+            } else {
+                mTimeFormat.applyPattern(format)
+            }
+            return mTimeFormat.format(Date())
+        }
+
     }
 }

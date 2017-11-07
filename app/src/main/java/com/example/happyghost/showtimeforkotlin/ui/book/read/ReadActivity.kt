@@ -3,21 +3,22 @@ package com.example.happyghost.showtimeforkotlin.ui.book.read
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.app.Activity
-import android.content.BroadcastReceiver
-import android.content.Context
+import android.content.*
 
 
-import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Point
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatDelegate
+import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.CompoundButton
 import android.widget.SeekBar
+import com.example.happyghost.showtimeforkotlin.AppApplication
 
 import com.example.happyghost.showtimeforkotlin.R
+import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookMarkAdapter
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.ReadThemeAdapter
@@ -98,8 +99,20 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     }
 
     override fun upDataView() {
+        val fileNum = FileUtils.getFileNum(mBookId)
+        val chaptersBean = BookMixATocBean.MixTocBean.ChaptersBean()
+        chaptersBean.title = bookBean?.title
         if(FileUtils.hasChapterFile(mBookId,currentChapter)!=null){
-            loadChapterRead(null,currentChapter)
+            if(fileNum<=0){
+                mPresenter. getBookMixAToc(mBookId, "chapters")
+            }else{
+                var index = 0
+                while (index<fileNum){
+                    chapters.add(chaptersBean)
+                    index++
+                }
+                loadChapterRead(null,currentChapter)
+            }
         }else{
             mPresenter. getBookMixAToc(mBookId, "chapters")
         }
@@ -261,9 +274,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
                      gone(rlReadMark)
                  }
              }
-             R.id.tvBookReadDownload->{
-
-             }
+             R.id.tvBookReadDownload->showDownLoadDialog()
              R.id.tvBookMark->{
                  if (llBookReadBottom.visibility==View.VISIBLE) {
                      if (rlReadMark.visibility==View.VISIBLE) {
@@ -276,8 +287,33 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
                  }
              }
              R.id.ivBrightnessMinus->showBrightnessMinus()
-//             R.id.ivBrightnessPlus->
+             R.id.ivBrightnessPlus->showBrightnessPlus()
+             R.id.tvFontsizeMinus-> calcFontSize(seekbarFontSize.progress - 1)
+             R.id.tvFontsizePlus->calcFontSize(seekbarFontSize.progress + 1)
+             R.id.tvClear-> {
+                 SettingManager.getInstance()?.clearBookMarks(mBookId)
+                 updateMark()
+             }
+             R.id.tvAddMark->addBookMark()
+
+
          }
+    }
+
+    private fun showDownLoadDialog() {
+        gone(rlReadAaSet)
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("缓存多少章？")
+                .setItems(arrayOf("后面五十章", "后面全部", "全部")) { dialog, which ->
+                    when (which) {
+//                        0 -> DownloadBookService.post(DownloadQueue(bookId, mChapterList, currentChapter + 1, currentChapter + 50))
+//                        1 -> DownloadBookService.post(DownloadQueue(bookId, mChapterList, currentChapter + 1, mChapterList.size))
+//                        2 -> DownloadBookService.post(DownloadQueue(bookId, mChapterList, 1, mChapterList.size))
+//                        else -> {
+//                        }
+                    }
+                }
+        builder.show()
     }
 
     private fun updateMark() {
@@ -309,6 +345,15 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
             SettingManager.getInstance()!!.saveReadBrightness(curBrightness)
         }
     }
+    private fun showBrightnessPlus() {
+        var curBrightness = SettingManager.getInstance()!!.getReadBrightness()
+        if (curBrightness < 99 && !SettingManager.getInstance()!!.isAutoBrightness()) {
+            curBrightness += 2
+            seekbarLightness.progress = (curBrightness)
+            ScreenUtils.setScreenBrightness(curBrightness, this@ReadActivity)
+            SettingManager.getInstance()!!.saveReadBrightness(curBrightness)
+        }
+    }
 
     private fun initTocList() {
         CatalogueListActivity.open(this, mBookId, currentChapter,title)
@@ -331,6 +376,25 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         flReadWidget.removeAllViews()
         flReadWidget.addView(mPageWidget)
     }
+    private fun addBookMark() {
+        val readPos = mPageWidget.readPos
+        val mark = BookMark()
+        mark.chapter = readPos[0]
+        mark.startPos = readPos[1]
+        mark.endPos = readPos[2]
+        if (mark.chapter >= 1 && mark.chapter <= chapters.size) {
+            mark.title = chapters.get(mark.chapter - 1).title
+        }
+        mark.desc = mPageWidget.headLine
+        if (SettingManager.getInstance()!!.addBookMark(mBookId, mark)) {
+            toast("添加书签成功")
+            updateMark()
+        } else {
+            toast("书签已存在")
+        }
+    }
+
+
 
     override fun initInjector() {
         initStatusBar()
@@ -356,6 +420,72 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
             (mContext as Activity).overridePendingTransition(R.anim.fade_entry, R.anim.fade_exit)
         }
     }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> if (tvBookReadReading.visibility==View.VISIBLE) {
+                visible(tvBookReadReading, tvBookReadCommunity, tvBookReadIntroduce)
+                finish()
+                return true
+            } else if (rlReadAaSet.visibility==View.VISIBLE) {
+                gone(rlReadAaSet)
+                return true
+            } else if (llBookReadBottom.visibility==View.VISIBLE) {
+                hideReadBar()
+                return true
+            } else if (!mPresenter.queryBook(mBookId)) {
+                showJoinBookShelfDialog(bookBean!!)
+                return true
+            }
+            KeyEvent.KEYCODE_MENU -> {
+                toggleReadBar()
+                return true
+            }
+            KeyEvent.KEYCODE_VOLUME_DOWN -> if (SettingManager.getInstance()!!.isVolumeFlipEnable()) {
+                return true
+            }
+            KeyEvent.KEYCODE_VOLUME_UP -> if (SettingManager.getInstance()!!.isVolumeFlipEnable()) {
+                return true
+            }
+            else -> {
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            if (SettingManager.getInstance()!!.isVolumeFlipEnable()) {
+                mPageWidget.nextPage()
+                return true// 防止翻页有声音
+            }
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            if (SettingManager.getInstance()!!.isVolumeFlipEnable()) {
+                mPageWidget.prePage()
+                return true
+            }
+        }
+        return super.onKeyUp(keyCode, event)
+    }
+
+    private fun showJoinBookShelfDialog(recommendBooks: Recommend.RecommendBooks) {
+        AlertDialog.Builder(this@ReadActivity)
+                .setTitle(getString(R.string.book_read_add_book))
+                .setMessage(getString(R.string.book_read_would_you_like_to_add_this_to_the_book_shelf))
+                .setPositiveButton(getString(R.string.book_read_join_the_book_shelf)) { dialog, which ->
+                    dialog.dismiss()
+                    recommendBooks.recentReadingTime = StringUtils.getCurrentTimeString(StringUtils.FORMAT_DATE_TIME)
+                    AppApplication.instance.mRxBus?.post(ReadEvent(true,recommendBooks))
+                    finish()
+                }
+                .setNegativeButton(getString(R.string.book_read_not)) { dialog, which ->
+                    dialog.dismiss()
+                    finish()
+                }
+                .create()
+                .show()
+    }
+
     inner class ReadListener : OnReadStateChangeListener {
         override fun onChapterChanged(chapter: Int) {
             currentChapter = chapter
@@ -479,6 +609,11 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         super.onDestroy()
         unregisterReceiver(receiver)
         mPresenter.unregisterRxBus()
+        if (isAutoLightness) {
+            ScreenUtils.startAutoBrightness(this@ReadActivity)
+        } else {
+            ScreenUtils.stopAutoBrightness(this@ReadActivity)
+        }
     }
     inner class SeekBarChangeListener : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

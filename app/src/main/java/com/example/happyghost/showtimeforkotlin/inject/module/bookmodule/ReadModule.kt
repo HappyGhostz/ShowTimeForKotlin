@@ -2,6 +2,7 @@ package com.example.happyghost.showtimeforkotlin.inject.module.bookmodule
 
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.inject.PerActivity
+import com.example.happyghost.showtimeforkotlin.loacaldao.DaoSession
 import com.example.happyghost.showtimeforkotlin.ui.book.read.ReadActivity
 import com.example.happyghost.showtimeforkotlin.ui.book.read.ReadPresenter
 import dagger.Module
@@ -17,5 +18,5 @@ class ReadModule(readActivity: ReadActivity) {
     var view= readActivity
     @PerActivity
     @Provides
-    fun providesPresenter(rxBus: RxBus):ReadPresenter = ReadPresenter(view,rxBus)
+    fun providesPresenter(rxBus: RxBus,daoSession : DaoSession):ReadPresenter = ReadPresenter(view,rxBus,daoSession.localBookInfoDao)
 }
