@@ -429,16 +429,19 @@ class SelectCricleImageView :ImageView{
         objectAnimator!!.start()
 
     }
+
+    var objectAnimatorReversal: ObjectAnimator? = null
+
     /**
      * 反转动画
      */
     fun reversalAnimation() {
-        if (objectAnimator == null) {
+        if (objectAnimatorReversal == null) {
 //            mAnimation = ObjectAnimator.ofFloat(this, "mDynamicAngle", 0, 360)
-            objectAnimator = ObjectAnimator.ofFloat(this,"mDynamicAngle",360f,0f)
+            objectAnimatorReversal = ObjectAnimator.ofFloat(this,"mDynamicAngle",360f,0f)
         }
-        objectAnimator!!.duration = (mTimeEnd * 1000).toLong()
-        objectAnimator!!.start()
+        objectAnimatorReversal!!.duration = (mTimeEnd * 1000).toLong()
+        objectAnimatorReversal!!.start()
 
     }
     fun setMDynamicAngle(downTime: Float) {

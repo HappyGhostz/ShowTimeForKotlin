@@ -53,7 +53,7 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
     }
 
     @Synchronized
-    fun init(theme: Int) {
+    fun initRead(theme: Int) {
         if (!isPrepared) {
             try {
                 pagefactory!!.setBgBitmap(ThemeManager.getThemeDrawable(theme))
@@ -127,8 +127,8 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
             }
             MotionEvent.ACTION_MOVE -> {
                 if (center){
-//                    return@loop
-                    return false
+                    return@loop
+//                    return false
                 }
 //                    break
                 val mx = e.x.toInt()
@@ -151,8 +151,8 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
                         listener.onCenterClick()
                         return false
                     }
-                    return false
-//                    return@loop
+//                    return false
+                    return@loop
 //                    break
                 }
 

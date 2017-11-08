@@ -92,7 +92,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
             startRead=true
             currentChapter = chapter
             if(!mPageWidget.isPrepared){
-                mPageWidget.init(curTheme)
+                mPageWidget.initRead(curTheme)
             }else{
                 mPageWidget.jumpToChapter(currentChapter)
             }
@@ -194,7 +194,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         gvAdapter.setOnItemClickListener { adapter, view, position ->
             val selectCricleImageView = adapter.getViewByPosition(position, R.id.ivThemeBg) as SelectCricleImageView
             var index = 0
-            while (index<adapter.itemCount-1){
+            while (index<adapter.itemCount){
                 val viewByPosition = adapter.getViewByPosition(index, R.id.ivThemeBg) as SelectCricleImageView
                 if(viewByPosition.getMDynamicAngle()==360f){
                     viewByPosition.reversalAnimation()
@@ -204,10 +204,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
             }
             selectCricleImageView.startAnimation()
             selectCricleImageView.setMDynamicAngle(360f)
-            if(position<themes.size-1){
-//                changedMode(false,position)
+            if(position<themes.size){
+                changedMode(false,position)
             }else{
-//                changedMode(true,position)
+                changedMode(true,position)
             }
         }
     }
@@ -520,7 +520,11 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
             while (i <= chapter + 3 && i <= chapters.size) {
                 if (i > 0 && i != chapter
                         && FileUtils.hasChapterFile(mBookId, i) == null) {
-                    mPresenter.getChapterRead(chapters.get(i - 1).link!!, i)
+                    if(chapters.get(i - 1).link==null){
+                        mPresenter. getBookMixAToc(mBookId, "chapters")
+                    }else{
+                        mPresenter.getChapterRead(chapters.get(i - 1).link!!, i)
+                    }
                 }
                 i++
             }
