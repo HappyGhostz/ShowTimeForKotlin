@@ -82,7 +82,7 @@ class SelectCricleImageView :ImageView{
         a.recycle()
 
         init()
-        initClickListener(context)
+//        initClickListener(context)
     }
 
     private fun initClickListener(context: Context) {
@@ -424,6 +424,18 @@ class SelectCricleImageView :ImageView{
         if (objectAnimator == null) {
 //            mAnimation = ObjectAnimator.ofFloat(this, "mDynamicAngle", 0, 360)
             objectAnimator = ObjectAnimator.ofFloat(this,"mDynamicAngle",0f,360f)
+        }
+        objectAnimator!!.duration = (mTimeEnd * 1000).toLong()
+        objectAnimator!!.start()
+
+    }
+    /**
+     * 反转动画
+     */
+    fun reversalAnimation() {
+        if (objectAnimator == null) {
+//            mAnimation = ObjectAnimator.ofFloat(this, "mDynamicAngle", 0, 360)
+            objectAnimator = ObjectAnimator.ofFloat(this,"mDynamicAngle",360f,0f)
         }
         objectAnimator!!.duration = (mTimeEnd * 1000).toLong()
         objectAnimator!!.start()

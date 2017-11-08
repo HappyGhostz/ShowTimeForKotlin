@@ -119,7 +119,7 @@
             android:textSize="14dp" />
 
     </LinearLayout>
-
+    <!--android:listSelector="@android:color/transparent"-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gvTheme"
         android:layout_width="match_parent"
@@ -128,7 +128,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
-        android:listSelector="@android:color/transparent"
         android:numColumns="6"
         android:scrollbars="none" />
 </LinearLayout>

@@ -40,6 +40,7 @@ import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_read.*
 import kotlinx.android.synthetic.main.layout_read_aa_set.*
 import kotlinx.android.synthetic.main.layout_read_mark.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
@@ -189,19 +190,24 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         var themes = ThemeManager.getReaderThemeData(curTheme)
         var gvAdapter = ReadThemeAdapter(themes , curTheme)
         RecyclerViewHelper.initRecycleViewH(this@ReadActivity,gvTheme,gvAdapter,false)
-        gvAdapter.setOnItemChildClickListener { adapter, view, position ->
+        gvAdapter.bindToRecyclerView(gvTheme)
+        gvAdapter.setOnItemClickListener { adapter, view, position ->
+            val selectCricleImageView = adapter.getViewByPosition(position, R.id.ivThemeBg) as SelectCricleImageView
             var index = 0
             while (index<adapter.itemCount-1){
-                val imageView = adapter.getItem(index) as SelectCricleImageView
-                if(imageView.getMDynamicAngle()==360f){
-                    imageView.setMDynamicAngle(0f)
+                val viewByPosition = adapter.getViewByPosition(index, R.id.ivThemeBg) as SelectCricleImageView
+                if(viewByPosition.getMDynamicAngle()==360f){
+                    viewByPosition.reversalAnimation()
+                    viewByPosition.setMDynamicAngle(0f)
                 }
                 index++
             }
+            selectCricleImageView.startAnimation()
+            selectCricleImageView.setMDynamicAngle(360f)
             if(position<themes.size-1){
-                changedMode(false,position)
+//                changedMode(false,position)
             }else{
-                changedMode(true,position)
+//                changedMode(true,position)
             }
         }
     }
@@ -340,7 +346,9 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
             Collections.reverse(arrayList)
         }
         val mMarkList = ArrayList<BookMark>()
-        mMarkList.addAll(arrayList!!)
+        if(!ListUtils.isEmpty(arrayList)){
+            mMarkList.addAll(arrayList!!)
+        }
         var mMarkAdapter = BookMarkAdapter(mMarkList)
         RecyclerViewHelper.initRecycleViewV(this@ReadActivity,lvMark,mMarkAdapter!!,false)
         mMarkAdapter.setOnItemClickListener { adapter, view, position ->

@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.support.v4.content.ContextCompat
 import android.support.v4.util.LruCache
 import android.view.View
+import android.widget.ImageView
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
 import java.util.ArrayList
@@ -26,6 +27,18 @@ class ThemeManager {
         val GRAY = 4
         val NIGHT = 5
 
+        fun setReaderTheme(theme: Int, view: ImageView) {
+            when (theme) {
+                NORMAL -> view.setImageResource(R.drawable.theme_white_bg)
+                YELLOW -> view.setImageResource(R.drawable.theme_yellow_bg)
+                GREEN -> view.setImageResource(R.drawable.theme_green_bg)
+                LEATHER -> view.setImageResource(R.drawable.theme_leather_bg)
+                GRAY -> view.setImageResource(R.drawable.theme_gray_bg)
+                NIGHT -> view.setImageResource(R.drawable.theme_night_bg)
+                else -> {
+                }
+            }
+        }
         fun setReaderTheme(theme: Int, view: View) {
             when (theme) {
                 NORMAL -> view.setBackgroundResource(R.drawable.theme_white_bg)
