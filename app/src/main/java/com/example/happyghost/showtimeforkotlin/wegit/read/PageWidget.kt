@@ -488,7 +488,9 @@ class PageWidget:ReadView {
                 pagefactory?.onDraw(mCurrentPageCanvas)
                 pagefactory?.onDraw(mNextPageCanvas)
                 postInvalidate()
+//                invalidate()
             }
+
         }
         if (theme < 5) {
             SettingManager.getInstance()?.saveReadTheme(theme)
