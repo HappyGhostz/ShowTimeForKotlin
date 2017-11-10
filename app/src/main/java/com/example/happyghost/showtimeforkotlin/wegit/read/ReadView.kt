@@ -18,8 +18,7 @@ import org.jetbrains.anko.toast
  * @creat 2017/9/30.
  * @description
  */
-abstract class ReadView(context: Context, protected var bookId: String, chaptersList: List<BookMixATocBean.MixTocBean.ChaptersBean>,
-                        protected var listener: OnReadStateChangeListener) : View(context) {
+abstract class ReadView : View {
     protected var mScreenWidth: Int = 0
     protected var mScreenHeight: Int = 0
 
@@ -34,11 +33,14 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
     protected var mNextPageCanvas: Canvas
     protected var pagefactory: PageFactory? = null
     var isPrepared = false
+    protected var listener: OnReadStateChangeListener
+    protected var bookId: String
 
     internal var mScroller: Scroller
-
-    init {
-
+    constructor(context: Context, bookId: String, chaptersList: List<BookMixATocBean.MixTocBean.ChaptersBean>,
+                 listener: OnReadStateChangeListener):super(context){
+        this.listener = listener
+        this.bookId = bookId
         mScreenWidth = ScreenUtils.getScreenWidth()
         mScreenHeight = ScreenUtils.getScreenHeight()
         mCurPageBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeight, Bitmap.Config.ARGB_8888)
@@ -51,7 +53,6 @@ abstract class ReadView(context: Context, protected var bookId: String, chapters
         pagefactory = PageFactory(getContext(), bookId, chaptersList)
         pagefactory!!.setOnReadStateChangeListener(listener)
     }
-
     @Synchronized
     fun initRead(theme: Int) {
         if (!isPrepared) {

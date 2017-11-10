@@ -451,6 +451,17 @@ class SelectCricleImageView :ImageView{
     fun getMDynamicAngle():Float {
        return mDynamicAngle
     }
+    fun isAnimationRunning():Boolean{
+        if(objectAnimator!!.isRunning||objectAnimatorReversal!!.isRunning){
+            return true
+        }
+        return false
+
+    }
+    fun getEndTime(): Int {
+        return mTimeEnd
+    }
+
     //view销毁的时候执行该方法
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()

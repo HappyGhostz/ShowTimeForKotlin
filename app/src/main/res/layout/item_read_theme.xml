@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="6dp"
+    android:background="@color/reader_menu_bg_color"
     android:paddingRight="6dp">
     <!--android:background="@drawable/ic_theme_selected"-->
     <com.example.happyghost.showtimeforkotlin.wegit.SelectCricleImageView
@@ -12,6 +13,5 @@
         android:layout_height="40dp"
         app:civ_border_width ="3dp"
         app:civ_border_color = "@color/baseColorPrimary"
-        android:background="@color/reader_menu_bg_color"
         app:civ_animation_end ="1"/>
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.utils.SettingManager
 import com.example.happyghost.showtimeforkotlin.utils.ThemeManager
+import java.util.logging.Handler
 
 /**
  * @author Zhao Chenping
@@ -490,13 +491,32 @@ class PageWidget:ReadView {
                 postInvalidate()
 //                invalidate()
             }
-
         }
         if (theme < 5) {
             SettingManager.getInstance()?.saveReadTheme(theme)
         }
     }
-
+//    @Synchronized
+//    fun initRead(theme: Int) {
+//        if (!isPrepared) {
+//            try {
+//                pagefactory!!.setBgBitmap(ThemeManager.getThemeDrawable(theme))
+//                // 自动跳转到上次阅读位置
+//                val pos = SettingManager.getInstance()?.getReadProgress(bookId)
+//                val ret = pagefactory!!.openBook(pos!![0], intArrayOf(pos[1], pos[2]))
+//                if (ret == 0) {
+//                    listener.onLoadChapterFailure(pos[0])
+//                    return
+//                }
+//                pagefactory!!.onDraw(mCurrentPageCanvas)
+//                postInvalidate()
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//
+//            isPrepared = true
+//        }
+//    }
     override fun jumpToChapter(chapter: Int) {
         calcCornerXY(mTouch.x, mTouch.y)
         super.jumpToChapter(chapter)

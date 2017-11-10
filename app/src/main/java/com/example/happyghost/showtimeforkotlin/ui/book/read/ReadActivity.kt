@@ -7,9 +7,12 @@ import android.content.*
 
 
 import android.graphics.Point
+import android.os.Handler
+import android.os.Message
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatDelegate
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
@@ -19,6 +22,7 @@ import com.example.happyghost.showtimeforkotlin.AppApplication
 
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
+import com.example.happyghost.showtimeforkotlin.RxBus.event.DownloadEvent
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookMarkAdapter
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.ReadThemeAdapter
@@ -26,6 +30,7 @@ import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMark
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.downloadservice.DownloadBookService
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerReadComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.ReadModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
@@ -38,6 +43,7 @@ import com.example.happyghost.showtimeforkotlin.wegit.read.ReadView
 import com.nineoldandroids.animation.ObjectAnimator
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_read.*
+import kotlinx.android.synthetic.main.item_book_mark.*
 import kotlinx.android.synthetic.main.layout_read_aa_set.*
 import kotlinx.android.synthetic.main.layout_read_mark.*
 import org.jetbrains.anko.find
@@ -52,6 +58,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     lateinit var mBookId :String
     var currentChapter = 1
     var chapters = ArrayList<BookMixATocBean.MixTocBean.ChaptersBean>()
+    var mWholeChapters = ArrayList<BookMixATocBean.MixTocBean.ChaptersBean>()
     lateinit var mPageWidget: ReadView
     var statusBarHeight : Int =-1
     /**
@@ -69,6 +76,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     override fun loadBookToc(list: List<BookMixATocBean.MixTocBean.ChaptersBean>) {
         chapters.clear()
         chapters.addAll(list)
+        mWholeChapters.clear()
+        mWholeChapters.addAll(list)
         loadCurrentChapter()
     }
 
@@ -158,9 +167,16 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         }
         hideReadBar()
     }
-
     var isAutoLightness: Boolean=false
-
+    var isThemeClick = false
+    var mHandler: Handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            val what = msg.what
+            if(what==0){
+                isThemeClick = false
+            }
+        }
+    }
     private fun initAASet() {
         curTheme = SettingManager.getInstance()!!.getReadTheme()
         ThemeManager.setReaderTheme(curTheme,rlBookReadRoot)
@@ -192,22 +208,32 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         RecyclerViewHelper.initRecycleViewH(this@ReadActivity,gvTheme,gvAdapter,false)
         gvAdapter.bindToRecyclerView(gvTheme)
         gvAdapter.setOnItemClickListener { adapter, view, position ->
-            val selectCricleImageView = adapter.getViewByPosition(position, R.id.ivThemeBg) as SelectCricleImageView
-            var index = 0
-            while (index<adapter.itemCount){
-                val viewByPosition = adapter.getViewByPosition(index, R.id.ivThemeBg) as SelectCricleImageView
-                if(viewByPosition.getMDynamicAngle()==360f){
-                    viewByPosition.reversalAnimation()
-                    viewByPosition.setMDynamicAngle(0f)
+            if(!isThemeClick){
+                isThemeClick=true
+                val selectCricleImageView = adapter.getViewByPosition(position, R.id.ivThemeBg) as SelectCricleImageView
+                mHandler.sendEmptyMessageDelayed(0, selectCricleImageView.getEndTime()*1000.toLong())
+                if(selectCricleImageView.getMDynamicAngle()==360f){
+                    toast("已选择!")
+                    return@setOnItemClickListener
                 }
-                index++
-            }
-            selectCricleImageView.startAnimation()
-            selectCricleImageView.setMDynamicAngle(360f)
-            if(position<themes.size){
-                changedMode(false,position)
+                var index = 0
+                while (index<adapter.itemCount){
+                    val viewByPosition = adapter.getViewByPosition(index, R.id.ivThemeBg) as SelectCricleImageView
+                    if(viewByPosition.getMDynamicAngle()==360f){
+                        viewByPosition.reversalAnimation()
+                        viewByPosition.setMDynamicAngle(0f)
+                    }
+                    index++
+                }
+                selectCricleImageView.startAnimation()
+                selectCricleImageView.setMDynamicAngle(360f)
+                if(position<themes.size){
+                    changedMode(false,position)
+                }else{
+                    changedMode(true,position)
+                }
             }else{
-                changedMode(true,position)
+                toast("让人家缓一缓嘛!")
             }
         }
     }
@@ -330,11 +356,11 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         builder.setTitle("缓存多少章？")
                 .setItems(arrayOf("后面五十章", "后面全部", "全部")) { dialog, which ->
                     when (which) {
-//                        0 -> DownloadBookService.post(DownloadQueue(bookId, mChapterList, currentChapter + 1, currentChapter + 50))
-//                        1 -> DownloadBookService.post(DownloadQueue(bookId, mChapterList, currentChapter + 1, mChapterList.size))
-//                        2 -> DownloadBookService.post(DownloadQueue(bookId, mChapterList, 1, mChapterList.size))
-//                        else -> {
-//                        }
+                        0 -> DownloadBookService.post(DownloadEvent(mBookId, chapters, currentChapter + 1, currentChapter + 50))
+                        1 -> DownloadBookService.post(DownloadEvent(mBookId, chapters, currentChapter + 1, chapters.size))
+                        2 -> DownloadBookService.post(DownloadEvent(mBookId, chapters, 1, chapters.size))
+                        else -> {
+                        }
                     }
                 }
         builder.show()
@@ -450,7 +476,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> if (tvBookReadReading.visibility==View.VISIBLE) {
-                visible(tvBookReadReading, tvBookReadCommunity, tvBookReadIntroduce)
+                gone(tvBookReadReading, tvBookReadCommunity, tvBookReadIntroduce)
                 finish()
                 return true
             } else if (rlReadAaSet.visibility==View.VISIBLE) {
@@ -575,6 +601,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     }
     @Synchronized
     private fun hideReadBar(){
+        if(rlReadAaSet.visibility==View.VISIBLE||tvDownloadProgress.visibility==View.VISIBLE||
+                rlReadMark.visibility==View.VISIBLE){
+            gone(tvDownloadProgress, rlReadAaSet,rlReadMark)
+        }
         getMeasureHeight(llBookReadBottom)
         getMeasureHeight(llBookReadTop)
         val bookReadTopHeight= llBookReadTop.measuredHeight.toFloat()
@@ -594,8 +624,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
             }
 
             override fun onAnimationEnd(animation: Animator?) {
-                gone(llBookReadTop,llBookReadBottom,tvDownloadProgress,
-                        rlReadAaSet,rlReadMark)
+                gone(llBookReadTop,llBookReadBottom)
             }
 
             override fun onAnimationCancel(animation: Animator?) {

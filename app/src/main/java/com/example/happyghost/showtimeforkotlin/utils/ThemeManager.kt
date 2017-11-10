@@ -50,10 +50,10 @@ class ThemeManager {
             val imageWidth = options.outWidth
             //默认压缩
             var inSampleSize = 4
-            if (imageHeight > view.measuredHeight || imageWidth > view.maxWidth) {
+            if (imageHeight > view.height || imageWidth > view.width) {
                 // 计算出实际宽高和目标宽高的比率
-                var heightRatio = Math.round(imageHeight.toFloat() / view.measuredHeight.toFloat())
-                var widthRatio = Math.round(imageWidth.toFloat() / view.maxWidth.toFloat())
+                var heightRatio = Math.round(imageHeight.toFloat() / view.height.toFloat())
+                var widthRatio = Math.round(imageWidth.toFloat() / view.width.toFloat())
                 // 选择宽和高中最小的比率作为inSampleSize的值，这样可以保证最终图片的宽和高
                 // 一定都会大于等于目标的宽和高。
                 inSampleSize = Math.min(widthRatio, heightRatio)
@@ -93,12 +93,12 @@ class ThemeManager {
         }
 
         fun getThemeDrawable(theme: Int): Bitmap {
-            val bitmapFromMemCache = getBitmapFromMemCache(theme.toString() + "bmp")
-            if (bitmapFromMemCache != null && !bitmapFromMemCache.isRecycled) {
-                return bitmapFromMemCache
-            } else {
+//            val bitmapFromMemCache = getBitmapFromMemCache(theme.toString() + "bmp")
+//            if (bitmapFromMemCache != null && !bitmapFromMemCache.isRecycled) {
+//                return bitmapFromMemCache
+//            } else {BitmapFactory.decodeResource(AppApplication.instance.resources, R.drawable.theme_leather_bg)
                 var bmp = Bitmap.createBitmap(ScreenUtils.getScreenWidth() / 16, ScreenUtils.getScreenHeight() / 16, Bitmap.Config.ARGB_8888)
-                addBitmapToMemoryCache(theme.toString() + "bmp", bmp)
+//                addBitmapToMemoryCache(theme.toString() + "bmp", bmp)
                 when (theme) {
                     NORMAL -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.read_theme_white))
                     YELLOW -> bmp.eraseColor(ContextCompat.getColor(AppApplication.instance.getContext(), R.color.read_theme_yellow))
@@ -110,7 +110,7 @@ class ThemeManager {
                     }
                 }
                 return bmp
-            }
+//            }
         }
 
         fun getReaderThemeData(curTheme: Int): List<ReadTheme> {
@@ -128,7 +128,7 @@ class ThemeManager {
 
         //图片处理,防止OOM
         fun getHandlePicture(imgId: Int, theme: Int): Bitmap {
-            val bitmapFromMemCache = getBitmapFromMemCache(imgId.toString())
+            val bitmapFromMemCache = getBitmapFromMemCache(imgId.toString()+"bmp")
             if (bitmapFromMemCache != null && !bitmapFromMemCache.isRecycled) {
                 return bitmapFromMemCache
             } else {
