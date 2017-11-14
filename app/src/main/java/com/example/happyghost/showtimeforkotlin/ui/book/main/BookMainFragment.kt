@@ -1,5 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.main
 
+import android.content.Intent
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
@@ -7,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.ViewPagerAdapter
+import com.example.happyghost.showtimeforkotlin.downloadservice.DownloadBookService
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
 import com.example.happyghost.showtimeforkotlin.ui.book.classify.BookClassifyListFragment
 import com.example.happyghost.showtimeforkotlin.ui.book.community.BookCommunityListFragment
@@ -14,6 +16,7 @@ import com.example.happyghost.showtimeforkotlin.ui.book.main.BookMainPresenter
 import com.example.happyghost.showtimeforkotlin.ui.book.rack.BookRackListFragment
 import com.example.happyghost.showtimeforkotlin.ui.book.rank.BookRankListFragment
 import org.jetbrains.anko.find
+import org.jetbrains.anko.support.v4.startService
 import java.util.ArrayList
 
 /**
@@ -29,6 +32,7 @@ class BookMainFragment: BaseFragment<BookMainPresenter>() {
     }
 
     private fun initData() {
+        startService<DownloadBookService>()
         var titles = ArrayList<String>()
         titles.add("书架")
         titles.add("分类")
@@ -60,6 +64,12 @@ class BookMainFragment: BaseFragment<BookMainPresenter>() {
 
     override fun getFragmentLayout(): Int {
         return R.layout.fragment_book_main
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        DownloadBookService.cancel()
+        mContext?.stopService(Intent(mContext,DownloadBookService.javaClass))
     }
 
 }

@@ -3,7 +3,8 @@ package com.example.happyghost.showtimeforkotlin.utils
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
 import java.io.*
-import android.R.attr.path
+
+
 
 
 
@@ -38,6 +39,11 @@ class FileUtils {
             return AppApplication.instance.getContext()
                     .getExternalFilesDir(null)
                     .absolutePath+"/book/"+bookId + File.separator + chapter + ".txt"
+        }
+        fun getBookPath(bookId:String):String{
+            return AppApplication.instance.getContext()
+                    .getExternalFilesDir(null)
+                    .absolutePath+"/book/"+bookId
         }
         fun getChapterFile(bookId:String , chapter:Int ):File{
             val file = File(getChapterPath(bookId, chapter))
@@ -74,6 +80,24 @@ class FileUtils {
                 e.printStackTrace()
             }
 
+        }
+
+        //删除文件夹和文件夹里面的文件
+        fun deleteDir(bookId: String) {
+            val dir = File(getBookPath(bookId))
+            deleteDirWihtFile(dir)
+        }
+
+        fun deleteDirWihtFile(dir: File?) {
+            if (dir == null || !dir.exists() || !dir.isDirectory)
+                return
+            for (file in dir.listFiles()) {
+                if (file.isFile)
+                    file.delete() // 删除所有文件
+                else if (file.isDirectory)
+                    deleteDirWihtFile(file) // 递规的方式删除文件夹
+            }
+            dir.delete()// 删除目录本身
         }
         /**
          * 递归创建文件夹

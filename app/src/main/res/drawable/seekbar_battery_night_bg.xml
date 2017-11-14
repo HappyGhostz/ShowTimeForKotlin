@@ -16,8 +16,8 @@
                 <size android:height="3dp" />
 
                 <gradient
-                    android:endColor="@android:color/white"
-                    android:startColor="@android:color/white" />
+                    android:endColor="@android:color/black"
+                    android:startColor="@android:color/black" />
             </shape>
         </clip>
     </item>

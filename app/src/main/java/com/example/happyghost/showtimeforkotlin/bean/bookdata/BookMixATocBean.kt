@@ -62,6 +62,7 @@ class BookMixATocBean() :Parcelable{
 
             var title: String? = null
             var link: String? = null
+            var bookid :String? = null
             var isUnreadble: Boolean = false
 
             constructor(parcel: Parcel) : this() {

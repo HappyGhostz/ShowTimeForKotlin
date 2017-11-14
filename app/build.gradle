@@ -25,7 +25,7 @@ android {
     }
 }
 greendao {
-    schemaVersion 2
+    schemaVersion 3
 //    daoPackage 'com.example.happyghost.showtimeforkotlin.loacaldao.dao'
 //    targetGenDir 'src/main/java'
 }

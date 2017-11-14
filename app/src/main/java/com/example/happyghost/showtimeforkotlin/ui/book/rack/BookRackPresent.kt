@@ -3,6 +3,7 @@ package com.example.happyghost.showtimeforkotlin.ui.book.rack
 import android.util.Log
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.loacaldao.BookChapterInfoDao
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfo
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfoDao
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
@@ -19,10 +20,11 @@ import io.reactivex.functions.Consumer
  * @creat 2017/9/15.
  * @description
  */
-class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, rxBus: RxBus) :IBasePresenter {
+class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, rxBus: RxBus, bookChapterInfoDao: BookChapterInfoDao) :IBasePresenter {
     var mView = view
     var mBookDao = localBookInfoDao
     var mRxBus = rxBus
+    var mBookChapterDao = bookChapterInfoDao
     override fun getData() {
         val mLocalBooks = mBookDao.queryBuilder().list()
         if(!ListUtils.isEmpty(mLocalBooks)){
@@ -76,6 +78,7 @@ class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, r
         var id:Long=0
         val localBookInfo = BookTransformer.RecommendBooksConvertlocalBook(recommendBooks)
         localBookInfo.id = size+id
+        localBookInfo.isFromSD=true
         mBookDao.insert(localBookInfo)
     }
     fun insertBooks(recBooks:List<Recommend.RecommendBooks>){
@@ -87,6 +90,7 @@ class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, r
             var  book = recBooks.get(index)
             val localBookInfo = BookTransformer.RecommendBooksConvertlocalBook(book)
             localBookInfo.id=size+index.toLong()
+            localBookInfo.isFromSD=true
             mBookDao.insert(localBookInfo)
             index++
 
@@ -101,6 +105,14 @@ class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, r
         val localBookInfo = BookTransformer.RecommendBooksConvertlocalBook(recommendBooks)
         mBookDao.delete(localBookInfo)
 //        mBookDao.deleteAll()
+    }
+    /**
+     * 同时删除所有章节
+     */
+    fun deleteBookChapters(bookId :String){
+        val build = mBookChapterDao.queryBuilder().where(BookChapterInfoDao.Properties.BookId.eq(bookId)).build()
+        val list = build.list()
+        mBookChapterDao.deleteInTx(list)
     }
 
     /**
@@ -140,6 +152,7 @@ class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, r
      */
     fun replace(recommendBooks: Recommend.RecommendBooks){
         val localBookInfo = BookTransformer.RecommendBooksConvertlocalBook(recommendBooks)
+        localBookInfo.isFromSD = true
         mBookDao.insertOrReplace(localBookInfo)
     }
     fun <T> registerRxBus(eventType: Class<T>, action: Consumer<T>) {

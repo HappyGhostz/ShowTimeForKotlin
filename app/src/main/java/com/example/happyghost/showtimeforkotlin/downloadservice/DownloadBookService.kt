@@ -2,6 +2,7 @@ package com.example.happyghost.showtimeforkotlin.downloadservice
 
 import android.app.Service
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.IBinder
 import android.text.TextUtils
 import android.util.Log
@@ -16,12 +17,16 @@ import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
 import com.example.happyghost.showtimeforkotlin.utils.FileUtils
 import com.example.happyghost.showtimeforkotlin.utils.NetUtil
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
+import com.example.happyghost.showtimeforkotlin.utils.StringUtils
 import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.net.URL
 import java.util.ArrayList
 
 /**
@@ -72,7 +77,6 @@ class DownloadBookService : Service() {
             downloadBook(downloadQueues[0])
         }
     }
-
     private fun downloadBook(downloadEvent: DownloadEvent) {
         var list = downloadEvent.list
         var bookId = downloadEvent.bookId
@@ -131,7 +135,8 @@ class DownloadBookService : Service() {
 
     private fun download(url: String?, bookId: String, title: String?, chapter: Int, chapterSize: Int): Int {
         val result = intArrayOf(-1)
-        val observable = RetrofitService.getChapterBody(url!!)
+        RetrofitService.getChapterBody(url!!)
+                .subscribeOn(Schedulers.newThread())
                 .subscribe(object :Observer<ChapterReadBean>{
                     override fun onComplete() {
                         result[0] = 1
@@ -156,8 +161,7 @@ class DownloadBookService : Service() {
                         e.printStackTrace()
                         result[0] = 0
                     }
-                }) as Disposable
-        addSubscrebe(observable,this@DownloadBookService)
+                })
         while (result[0] == -1) {
             try {
                 Thread.sleep(350)
@@ -171,37 +175,37 @@ class DownloadBookService : Service() {
 
     }
 
-    private var mSubscriptionMap: HashMap<String, CompositeDisposable>? = null
+//    private var mSubscriptionMap: HashMap<String, CompositeDisposable>? = null
 
-    private fun addSubscrebe(observable: Disposable, downloadBookService: DownloadBookService) {
-        if (mSubscriptionMap == null) {
-            mSubscriptionMap = HashMap()
-        }
-        val key = downloadBookService.javaClass.name
-        if (mSubscriptionMap!![key] != null) {
-            mSubscriptionMap!![key]?.add(observable)
-        } else {
-            //一次性容器,可以持有多个并提供 添加和移除。
-            val disposables = CompositeDisposable()
-            disposables.add(observable)
-            mSubscriptionMap!!.put(key, disposables)
-        }
-    }
-    fun unSubscribe(o: Any) {
-        if (mSubscriptionMap == null) {
-            return
-        }
-
-        val key = o.javaClass.name
-        if (!mSubscriptionMap!!.containsKey(key)) {
-            return
-        }
-        if (mSubscriptionMap!![key] != null) {
-            mSubscriptionMap!![key]?.dispose()
-        }
-
-        mSubscriptionMap!!.remove(key)
-    }
+//    private fun addSubscrebe(observable: Disposable, downloadBookService: DownloadBookService) {
+//        if (mSubscriptionMap == null) {
+//            mSubscriptionMap = HashMap()
+//        }
+//        val key = downloadBookService.javaClass.name
+//        if (mSubscriptionMap!![key] != null) {
+//            mSubscriptionMap!![key]?.add(observable)
+//        } else {
+//            //一次性容器,可以持有多个并提供 添加和移除。
+//            val disposables = CompositeDisposable()
+//            disposables.add(observable)
+//            mSubscriptionMap!!.put(key, disposables)
+//        }
+//    }
+//    fun unSubscribe(o: Any) {
+//        if (mSubscriptionMap == null) {
+//            return
+//        }
+//
+//        val key = o.javaClass.name
+//        if (!mSubscriptionMap!!.containsKey(key)) {
+//            return
+//        }
+//        if (mSubscriptionMap!![key] != null) {
+//            mSubscriptionMap!![key]?.dispose()
+//        }
+//
+//        mSubscriptionMap!!.remove(key)
+//    }
 
     private fun doUiTask(downloadEvent: DownloadEvent, failureCount: Int, bookId: String) {
         downloadEvent.isFinish = true
@@ -226,7 +230,7 @@ class DownloadBookService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterRxBus()
-        unSubscribe(this@DownloadBookService)
+//        unSubscribe(this@DownloadBookService)
     }
 
     fun <T> registerRxBus(eventType: Class<T>, action: Consumer<T>) {

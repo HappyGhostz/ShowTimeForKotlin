@@ -3,14 +3,13 @@ package com.example.happyghost.showtimeforkotlin.ui.book.read
 import android.text.TextUtils
 import android.util.Log
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
-import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.loacaldao.BookChapterInfo
+import com.example.happyghost.showtimeforkotlin.loacaldao.BookChapterInfoDao
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfoDao
 import com.example.happyghost.showtimeforkotlin.ui.base.IRxBusPresenter
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
-import io.reactivex.Observable
 import io.reactivex.Observer
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
@@ -21,10 +20,11 @@ import io.reactivex.schedulers.Schedulers
  * @creat 2017/9/28.
  * @description
  */
-class ReadPresenter(view: ReadActivity, rxBus: RxBus, localBookInfoDao: LocalBookInfoDao) : IRxBusPresenter {
+class ReadPresenter(view: ReadActivity, rxBus: RxBus, localBookInfoDao: LocalBookInfoDao, bookChapterInfoDao: BookChapterInfoDao) : IRxBusPresenter {
     var mView:IReadView =view
     var mRxBus = rxBus
     var mBookDao = localBookInfoDao
+    var mBookChapterDao = bookChapterInfoDao
     override fun getData() {
 
     }
@@ -60,6 +60,10 @@ class ReadPresenter(view: ReadActivity, rxBus: RxBus, localBookInfoDao: LocalBoo
 
     fun getChapterRead(url: String, chapter: Int){
         RetrofitService.getChapterBody(url)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .compose(mView.bindToLife())
                 .subscribe {
                     mView.loadChapterRead(it.chapter, chapter)
@@ -82,5 +86,23 @@ class ReadPresenter(view: ReadActivity, rxBus: RxBus, localBookInfoDao: LocalBoo
             return TextUtils.equals(bookInfo.url,bookId)
         }
        return false
+    }
+
+    fun insertBooks(bookId: String,bookChapters:List<BookMixATocBean.MixTocBean.ChaptersBean>){
+        var index = 0
+        while (index<bookChapters.size){
+            val chaptersBean = bookChapters[index]
+            val bookChapterInfo = BookChapterInfo()
+            bookChapterInfo.setTitle(chaptersBean.title)
+            bookChapterInfo.setLink(chaptersBean.link)
+            bookChapterInfo.setBookId(bookId)
+            mBookChapterDao.insert(bookChapterInfo)
+            index++
+        }
+    }
+    fun queryChapters(bookId: String): MutableList<BookChapterInfo>? {
+        val build = mBookChapterDao.queryBuilder().where(BookChapterInfoDao.Properties.BookId.eq(bookId)).build()
+        val list = build.list()
+        return list
     }
 }

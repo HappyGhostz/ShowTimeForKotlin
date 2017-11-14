@@ -18,5 +18,5 @@ class ReadModule(readActivity: ReadActivity) {
     var view= readActivity
     @PerActivity
     @Provides
-    fun providesPresenter(rxBus: RxBus,daoSession : DaoSession):ReadPresenter = ReadPresenter(view,rxBus,daoSession.localBookInfoDao)
+    fun providesPresenter(rxBus: RxBus,daoSession : DaoSession):ReadPresenter = ReadPresenter(view,rxBus,daoSession.localBookInfoDao,daoSession.bookChapterInfoDao)
 }

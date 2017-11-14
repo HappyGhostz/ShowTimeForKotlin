@@ -220,10 +220,7 @@ class RetrofitService  {
          */
         fun getChapterBody(url: String):Observable<ChapterReadBean>{
             return iBookApi!!.getChapterRead(url)
-                    .subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .observeOn(AndroidSchedulers.mainThread())
+
         }
         /**
          * 类型转换

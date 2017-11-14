@@ -12,17 +12,16 @@ import android.os.Message
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatDelegate
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.widget.AdapterView
 import android.widget.CompoundButton
 import android.widget.SeekBar
 import com.example.happyghost.showtimeforkotlin.AppApplication
 
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.RxBus.event.DownloadEvent
+import com.example.happyghost.showtimeforkotlin.RxBus.event.DownloadMessageEvent
+import com.example.happyghost.showtimeforkotlin.RxBus.event.DownloadProgressEvent
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookMarkAdapter
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.ReadThemeAdapter
@@ -43,12 +42,12 @@ import com.example.happyghost.showtimeforkotlin.wegit.read.ReadView
 import com.nineoldandroids.animation.ObjectAnimator
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_read.*
-import kotlinx.android.synthetic.main.item_book_mark.*
 import kotlinx.android.synthetic.main.layout_read_aa_set.*
 import kotlinx.android.synthetic.main.layout_read_mark.*
-import org.jetbrains.anko.find
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -56,9 +55,9 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
 
     private var statusBarColor: Int = 0
     lateinit var mBookId :String
+    var mIsFromSd :Boolean  =false
     var currentChapter = 1
     var chapters = ArrayList<BookMixATocBean.MixTocBean.ChaptersBean>()
-    var mWholeChapters = ArrayList<BookMixATocBean.MixTocBean.ChaptersBean>()
     lateinit var mPageWidget: ReadView
     var statusBarHeight : Int =-1
     /**
@@ -76,8 +75,11 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     override fun loadBookToc(list: List<BookMixATocBean.MixTocBean.ChaptersBean>) {
         chapters.clear()
         chapters.addAll(list)
-        mWholeChapters.clear()
-        mWholeChapters.addAll(list)
+        if(mIsFromSd){
+            doAsync {
+                mPresenter.insertBooks(mBookId,list)
+            }
+        }
         loadCurrentChapter()
     }
 
@@ -109,19 +111,18 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     }
 
     override fun upDataView() {
-        val fileNum = FileUtils.getFileNum(mBookId)
-        val chaptersBean = BookMixATocBean.MixTocBean.ChaptersBean()
-        chaptersBean.title = bookBean?.title
-        if(FileUtils.hasChapterFile(mBookId,currentChapter)!=null){
-            if(fileNum<=0){
-                mPresenter. getBookMixAToc(mBookId, "chapters")
-            }else{
-                var index = 0
-                while (index<fileNum){
-                    chapters.add(chaptersBean)
-                    index++
+        if(mIsFromSd){
+            doAsync {
+                val queryChapters = mPresenter.queryChapters(mBookId)
+                uiThread {
+                    if(queryChapters!!.size<0||queryChapters.size==0){
+                        mPresenter. getBookMixAToc(mBookId, "chapters")
+                    }else{
+                        val convertChaptersBean = BookTransformer.locaBookChaptersConvertChaptersBean(queryChapters)
+                        chapters.addAll(convertChaptersBean)
+                        loadCurrentChapter()
+                    }
                 }
-                loadChapterRead(null,currentChapter)
             }
         }else{
             mPresenter. getBookMixAToc(mBookId, "chapters")
@@ -152,6 +153,32 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
 
     private fun initRxbus() {
         mPresenter.registerRxBus(ReadEvent::class.java, Consumer<ReadEvent> { t -> handleChannelMessage(t) })
+        mPresenter.registerRxBus(DownloadMessageEvent::class.java, Consumer { t -> handleDownloadMessage(t) })
+        mPresenter.registerRxBus(DownloadProgressEvent::class.java, Consumer { t -> handleDownloadProgress(t) })
+    }
+
+    private fun handleDownloadProgress(t: DownloadProgressEvent) {
+        if (mBookId == t.bookId) {
+            if (llBookReadBottom.visibility ==View.VISIBLE) { // 如果工具栏显示，则进度条也显示
+                visible(tvDownloadProgress)
+                // 如果之前缓存过，就给提示
+                tvDownloadProgress.text = t.message
+            } else {
+                gone(tvDownloadProgress)
+            }
+        }
+    }
+
+    private fun handleDownloadMessage(t: DownloadMessageEvent) {
+        if (llBookReadBottom.visibility == View.VISIBLE) { // 如果工具栏显示，则进度条也显示
+            if (mBookId == t.bookId) {
+                tvDownloadProgress.visibility = View.VISIBLE
+                tvDownloadProgress.text = t.message
+                if (t.isComplete) {
+                    tvDownloadProgress.postDelayed({ gone(tvDownloadProgress) }, 2500)
+                }
+            }
+        }
     }
 
     private fun handleChannelMessage(t: ReadEvent) {
@@ -163,7 +190,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
             loadChapterRead(null,chapterFromLog)
         }else{
             currentChapter=t.mCurrentChapter
-            mPresenter. getBookMixAToc(mBookId, "chapters")
+            upDataView()
         }
         hideReadBar()
     }
@@ -354,7 +381,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         gone(rlReadAaSet)
         val builder = AlertDialog.Builder(this)
         builder.setTitle("缓存多少章？")
-                .setItems(arrayOf("后面五十章", "后面全部", "全部")) { dialog, which ->
+                .setItems(arrayOf("后面五十章", "后面全部", "全部")) { _, which ->
                     when (which) {
                         0 -> DownloadBookService.post(DownloadEvent(mBookId, chapters, currentChapter + 1, currentChapter + 50))
                         1 -> DownloadBookService.post(DownloadEvent(mBookId, chapters, currentChapter + 1, chapters.size))
@@ -453,6 +480,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         bookBean = intent.getSerializableExtra(BOOK_BEAN)as Recommend.RecommendBooks
         title = bookBean!!.title!!
         mBookId = bookBean!!._id!!
+        mIsFromSd = bookBean!!.isFromSD
         DaggerReadComponent.builder()
                 .applicationComponent(getAppComponent())
                 .readModule(ReadModule(this))

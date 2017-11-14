@@ -1,11 +1,14 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.rack
 
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
+import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookRackAdapter
@@ -15,14 +18,15 @@ import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookRac
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfo
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
 import com.example.happyghost.showtimeforkotlin.ui.book.read.ReadActivity
-import com.example.happyghost.showtimeforkotlin.utils.BookTransformer
-import com.example.happyghost.showtimeforkotlin.utils.DialogHelper
-import com.example.happyghost.showtimeforkotlin.utils.ListUtils
-import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
+import com.example.happyghost.showtimeforkotlin.utils.*
 import io.reactivex.functions.Consumer
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
+import org.jetbrains.anko.progressDialog
+import org.jetbrains.anko.support.v4.progressDialog
 import org.jetbrains.anko.support.v4.selector
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.uiThread
 import javax.inject.Inject
 
 /**
@@ -103,21 +107,29 @@ class BookRackListFragment : BaseFragment<BookRackPresent>(),IBookRackView {
                             toast("该书籍已置顶，请不要重复！")
                         }else{
                             mPresenter.isTop(recommendBooks)
-//                        adapter.remove(position)
-//                        adapter.addData(0,recommendBooks)
-//                            adapter.notifyItemMoved(position,0)
                             loadLocalBookList(mPresenter.queryAll())
-//                        adapter.notifyDataSetChanged()
                             toast("置顶成功！")
                         }
                     }
                     1-> toast("书籍详情")
                     2-> toast("缓存全本")
                     3-> {
-                        mPresenter.deleteBook(recommendBooks)
-                        adapter.remove(position)
-                        adapter.notifyDataSetChanged()
-                        toast("删除成功！")
+                        val progressDialog = ProgressDialog(mContext)
+                        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                        progressDialog.setMessage("请稍后,正在删除...")
+                        progressDialog.setCancelable(false)
+                        progressDialog.show()
+                        doAsync {
+                            mPresenter.deleteBook(recommendBooks)
+                            mPresenter.deleteBookChapters(recommendBooks._id!!)
+                            FileUtils.deleteDir(recommendBooks._id!!)
+                            uiThread {
+                                adapter.remove(position)
+                                adapter.notifyDataSetChanged()
+                                progressDialog.dismiss()
+                                toast("删除成功！")
+                            }
+                        }
                     }
 
                 }
@@ -128,7 +140,6 @@ class BookRackListFragment : BaseFragment<BookRackPresent>(),IBookRackView {
             return@setOnItemLongClickListener true
         }
     }
-
     override fun initInject() {
         DaggerBookRackComponent.builder()
                 .applicationComponent(getAppComponent())

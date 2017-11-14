@@ -50,6 +50,7 @@
             </intent-filter>
             </activity>
         <activity android:name=".ui.book.read.CatalogueListActivity"/>
+        <service android:name=".downloadservice.DownloadBookService"/>
     </application>
 
 </manifest>

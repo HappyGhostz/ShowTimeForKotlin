@@ -20,7 +20,7 @@ class BookRackMoudle(bookRackListFragment: BookRackListFragment) {
     @PerFragment
     @Provides
     fun providesPresenter(daoSession : DaoSession, rxBus: RxBus):BookRackPresent{
-        return BookRackPresent(bookRackView,daoSession.localBookInfoDao,rxBus)
+        return BookRackPresent(bookRackView,daoSession.localBookInfoDao,rxBus,daoSession.bookChapterInfoDao)
     }
     @PerFragment
     @Provides

@@ -1,7 +1,10 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.loacaldao.BookChapterInfo
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfo
+import java.util.ArrayList
 
 /**
  * @author Zhao Chenping
@@ -53,6 +56,16 @@ class BookTransformer {
             localBook.lastChapter = book.lastChapter
             localBook.recentReadingTime = book.recentReadingTime
             return localBook
+        }
+        fun locaBookChaptersConvertChaptersBean(queryChapters: MutableList<BookChapterInfo>?): ArrayList<BookMixATocBean.MixTocBean.ChaptersBean> {
+            var chapters = ArrayList<BookMixATocBean.MixTocBean.ChaptersBean>()
+            val chaptersBean = BookMixATocBean.MixTocBean.ChaptersBean()
+            queryChapters?.forEach {
+                chaptersBean.title = it.title
+                chaptersBean.link = it.link
+                chapters.add(chaptersBean)
+            }
+            return chapters
         }
     }
 }

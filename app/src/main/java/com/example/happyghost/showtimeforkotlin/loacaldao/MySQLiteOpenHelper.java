@@ -31,6 +31,6 @@ public class MySQLiteOpenHelper extends DaoMaster.OpenHelper {
             public void onDropAllTables(Database db, boolean ifExists) {
                 DaoMaster.dropAllTables(db, ifExists);
             }
-        },NewsTypeInfoDao.class, LocalBookInfoDao.class);
+        },NewsTypeInfoDao.class, LocalBookInfoDao.class,BookChapterInfoDao.class);
     }
 }
