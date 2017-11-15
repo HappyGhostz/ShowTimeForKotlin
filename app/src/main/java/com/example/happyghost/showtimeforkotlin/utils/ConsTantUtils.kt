@@ -1,5 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
+import android.graphics.Color
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 
@@ -21,6 +22,9 @@ class ConsTantUtils {
 
         val FLIP_STYLE = "flipStyle"
         val ISNIGHT = "isNight"
+        val tagColors = intArrayOf(Color.parseColor("#90C5F0"), Color.parseColor("#91CED5"),
+                Color.parseColor("#F88F55"), Color.parseColor("#C0AFD0"), Color.parseColor("#E78F8F"),
+                Color.parseColor("#67CCB7"), Color.parseColor("#F6BC7E"))
     }
 
 }

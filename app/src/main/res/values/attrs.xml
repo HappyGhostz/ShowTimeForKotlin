@@ -20,4 +20,28 @@
         <attr format="color" name="civ_fill_color"/>
         <attr format="integer" name="civ_animation_end"/>
     </declare-styleable>
+    <declare-styleable name="TagGroup">
+        <attr name="atg_isAppendMode" format="boolean" />
+        <attr name="atg_inputHint" format="string" />
+
+        <attr name="atg_borderColor" format="color" />
+        <attr name="atg_textColor" format="color" />
+        <attr name="atg_backgroundColor" format="color" />
+
+        <attr name="atg_dashBorderColor" format="color" />
+        <attr name="atg_inputHintColor" format="color" />
+        <attr name="atg_inputTextColor" format="color" />
+
+        <attr name="atg_checkedBorderColor" format="color" />
+        <attr name="atg_checkedTextColor" format="color" />
+        <attr name="atg_checkedMarkerColor" format="color" />
+        <attr name="atg_checkedBackgroundColor" format="color" />
+        <attr name="atg_pressedBackgroundColor" format="color" />
+        <attr name="atg_borderStrokeWidth" format="dimension" />
+        <attr name="atg_textSize" format="dimension" />
+        <attr name="atg_horizontalSpacing" format="dimension" />
+        <attr name="atg_verticalSpacing" format="dimension" />
+        <attr name="atg_horizontalPadding" format="dimension" />
+        <attr name="atg_verticalPadding" format="dimension" />
+    </declare-styleable>
 </resources>

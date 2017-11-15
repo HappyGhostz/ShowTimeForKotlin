@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BooksByCats
-import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.BookDetailActivity
+import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.BookDetailInfoActivity
 import com.example.happyghost.showtimeforkotlin.utils.*
 
 /**
@@ -33,7 +33,7 @@ class ClassifyDetailAdapter:BaseQuickAdapter<BooksByCats.BooksBean,BaseViewHolde
                         item?.latelyFollower,
                         if (TextUtils.isEmpty(item?.retentionRatio)) "0" else item?.retentionRatio))
         helper.itemView.setOnClickListener {
-            BookDetailActivity.lunch(mContext, item?._id)
+            BookDetailInfoActivity.open(mContext, item?._id)
         }
     }
 }

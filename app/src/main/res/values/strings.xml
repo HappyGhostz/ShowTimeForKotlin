@@ -25,6 +25,8 @@
     <string name="book_read_alreday_download">已缓存过:%1$s(%2$d/%3$d)...</string>
     <string name="book_read_download_progress">正在缓存:%1$s(%2$d/%3$d)...</string>
     <string name="category_book_msg">%1$d人在追 |&#160; %2$s%%读者留存</string>
+    <string name="book_detail_remove_collection">不追了</string>
+    <string name="book_detail_join_collection">追更新</string>
 
     <string name="book_read_add_book">添书</string>
     <string name="book_read_would_you_like_to_add_this_to_the_book_shelf">是否将本书加入书架？</string>

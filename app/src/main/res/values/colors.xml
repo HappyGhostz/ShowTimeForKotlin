@@ -21,6 +21,8 @@
     <color name="common_h2">#727272</color>
     <!--通用三级标题的颜色-->
     <color name="common_h3">#B2B2B2</color>
+    <!--通用分割线细-->
+    <color name="common_divider_narrow">#E3E3E3</color>
     <!--barlauouttextcolor-->
     <color name="layout_bar">#ECF9FF</color>
     <color name="layout_bar_normal">#AEE5FF</color>
