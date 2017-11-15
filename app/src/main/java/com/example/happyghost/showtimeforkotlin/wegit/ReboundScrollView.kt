@@ -3,6 +3,7 @@ package com.example.happyghost.showtimeforkotlin.wegit
 import android.content.Context
 import android.graphics.Rect
 import android.os.Looper
+import android.support.v4.widget.NestedScrollView
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -13,10 +14,11 @@ import android.widget.ScrollView
  * @author Zhao Chenping
  * @creat 2017/9/4.
  * @description
+ * 如果该布局外面没有使用CoordinatorLayout，这里的NestedScrollView可以换成ScrollView
  */
-class ReboundScrollView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = -1) : ScrollView(context,attrs,defStyleAttr) {
+class ReboundScrollView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = -1) : NestedScrollView(context,attrs,defStyleAttr) {
 
-    //ScrollView中的唯一子控件
+    //NestedScrollView中的唯一子控件
     lateinit var contentView:View
     //记录子View的原始位置
     var rect :Rect = Rect()
@@ -59,13 +61,13 @@ class ReboundScrollView @JvmOverloads constructor(context: Context, attrs: Attri
                 canPullDown = isPullDown()
                 canPullUp = isPullUp()
             }
-            MotionEvent.ACTION_MOVE-> run {
+            MotionEvent.ACTION_MOVE->{
                 // 在移动的过程中， 既没有滚动到可以上拉的程度， 也没有滚动到可以下拉的程度
                 if(!canPullDown&&!canPullUp){
                     downY = ev.y
                     canPullUp = isPullUp()
                     canPullDown = isPullDown()
-                    return@run
+                    return super.dispatchTouchEvent(ev)
                 }
                 moveY = ev.y
                 val dansY =(moveY - downY) .toInt()
@@ -81,9 +83,9 @@ class ReboundScrollView @JvmOverloads constructor(context: Context, attrs: Attri
                     isMove = true
                 }
             }
-            MotionEvent.ACTION_UP-> run {
+            MotionEvent.ACTION_UP->{
                 if(!isMove){
-                    return@run
+                    return super.dispatchTouchEvent(ev)
                 }
                 var transAnimation = TranslateAnimation(0.0F,0.0f,contentView.top.toFloat(),rect.top.toFloat())
                 transAnimation.duration = ANIMAT_TIME

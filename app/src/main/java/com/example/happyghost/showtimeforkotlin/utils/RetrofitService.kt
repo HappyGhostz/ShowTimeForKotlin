@@ -222,6 +222,20 @@ class RetrofitService  {
             return iBookApi!!.getChapterRead(url)
 
         }
+
+        /**
+         * 获取分类列表
+         * @param mSex
+         * @param mType
+         * @param mMajor
+         * @param mMinor
+         * @param start
+         * @param limit
+         * @return
+         */
+        fun getBooksByCatsInfo(mSex: String, mType: String, mMajor: String, mMinor: String, start: Int, limit: Int): Observable<BooksByCats> {
+            return iBookApi!!.getBooksByCats(mSex, mType, mMajor, mMinor, start, limit)
+        }
         /**
          * 类型转换
          * @param newsId 新闻类型

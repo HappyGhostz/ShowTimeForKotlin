@@ -54,4 +54,18 @@ interface IBookApi {
 
     @GET("http://chapter2.zhuishushenqi.com/chapter/{url}")
     fun getChapterRead(@Path("url") url: String): Observable<ChapterReadBean>
+
+    /**
+     * 按分类获取书籍列表
+     *
+     * @param gender male、female
+     * @param type   hot(热门)、new(新书)、reputation(好评)、over(完结)
+     * @param major  玄幻
+     * @param minor  东方玄幻、异界大陆、异界争霸、远古神话
+     * @param limit  50
+     * @return
+     */
+    @GET("/book/by-categories")
+    fun getBooksByCats(@Query("gender") gender: String, @Query("type") type: String, @Query("major") major: String, @Query("minor") minor: String, @Query("start") start: Int, @Query("limit") limit: Int): Observable<BooksByCats>
+
 }

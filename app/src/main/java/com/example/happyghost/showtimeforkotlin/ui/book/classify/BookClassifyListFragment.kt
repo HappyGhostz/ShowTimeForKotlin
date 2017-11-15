@@ -41,8 +41,6 @@ class BookClassifyListFragment: BaseFragment<BookClassifyPresenter>(),IBookClass
         val femaleView = mRootView!!.find<RecyclerView>(R.id.rv_unchecked_list)
         RecyclerViewHelper.initRecycleViewG(mContext,maleView,maleAdapter,3,true)
         RecyclerViewHelper.initRecycleViewG(mContext,femaleView,femaleAdapter,3,true)
-
-
     }
 
     override fun initInject() {

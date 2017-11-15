@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.CategoryList
+import com.example.happyghost.showtimeforkotlin.ui.book.classify.classifydetail.ClassifyDetailActivity
 
 /**
  * @author Zhao Chenping
@@ -15,5 +16,8 @@ class BookFemaleClassifyAdapter : BaseQuickAdapter<CategoryList.MaleBean, BaseVi
         helper?.setText(R.id.tvName, item?.name)
                 ?.setText(R.id.tvBookCount, String.format(mContext.getString(R.string
                         .category_book_count), item?.bookCount))
+        helper?.itemView?.setOnClickListener {
+            ClassifyDetailActivity.start(mContext!!,item?.name!!,"female")
+        }
     }
 }
