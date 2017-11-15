@@ -152,8 +152,6 @@ class TagGroup : ViewGroup {
             setOnClickListener { submitTag() }
         }
     }
-
-
     /**
      * Returns the INPUT tag view in this group.
      *
@@ -163,7 +161,7 @@ class TagGroup : ViewGroup {
         if (isAppendMode) {
             val inputTagIndex = childCount - 1
             val inputTag = getTagAt(inputTagIndex)
-            return if (inputTag != null && inputTag.mState == TagView.STATE_INPUT) {
+            return if (inputTag != null && inputTag.mState == STATE_INPUT) {
                 inputTag
             } else {
                 null
@@ -172,21 +170,6 @@ class TagGroup : ViewGroup {
             return null
         }
     }
-//    protected val inputTag: TagView?
-//        get() {
-//            if (isAppendMode) {
-//                val inputTagIndex = childCount - 1
-//                val inputTag = getTagAt(inputTagIndex)
-//                return if (inputTag != null && inputTag.mState == TagView.STATE_INPUT) {
-//                    inputTag
-//                } else {
-//                    null
-//                }
-//            } else {
-//                return null
-//            }
-//        }
-
     /**
      * Returns the INPUT state tag in this group.
      *
@@ -194,7 +177,7 @@ class TagGroup : ViewGroup {
      */
     val inputTagText: String?
         get() {
-            val inputTagView = inputTag
+            val inputTagView = getInputTag()
             return inputTagView?.text?.toString()
         }
 
@@ -219,7 +202,7 @@ class TagGroup : ViewGroup {
             val tagList = ArrayList<String>()
             for (i in 0 until count) {
                 val tagView = getTagAt(i)
-                if (tagView!!.mState == TagView.STATE_NORMAL) {
+                if (tagView!!.mState == STATE_NORMAL) {
                     tagList.add(tagView.text.toString())
                 }
             }
@@ -259,8 +242,8 @@ class TagGroup : ViewGroup {
      * Call this to submit the INPUT tag.
      */
     fun submitTag() {
-        val inputTag = inputTag
-        if (inputTag != null && inputTag.isInputAvailable) {
+        val inputTag = getInputTag()
+        if (inputTag != null && inputTag.isInputAvailable()) {
             inputTag.endInput()
 
             if (mOnTagChangeListener != null) {
@@ -354,13 +337,14 @@ class TagGroup : ViewGroup {
         }
     }
 
+
     public override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
         val ss = SavedState(superState)
         ss.tags = tags
-        ss.checkedPosition = checkedTagIndex
-        if (inputTag != null) {
-            ss.input = inputTag!!.text.toString()
+        ss.checkedPosition = getCheckedTagIndex()
+        if (getInputTag() != null) {
+            ss.input = getInputTag()!!.text.toString()
         }
         return ss
     }
@@ -370,14 +354,14 @@ class TagGroup : ViewGroup {
             super.onRestoreInstanceState(state)
             return
         }
-
+        val ss = state
         super.onRestoreInstanceState(state.superState)
 
-        setTags(*state.tags)
+        setTags(*ss.tags)
         val checkedTagView = getTagAt(state.checkedPosition)
         checkedTagView?.setCheckedTagView(true)
-        if (inputTag != null) {
-            inputTag!!.text = state.input
+        if (getInputTag() != null) {
+            getInputTag()!!.text = state.input
         }
     }
 
@@ -443,12 +427,12 @@ class TagGroup : ViewGroup {
     }
 
     protected fun appendInputTag(color: TagColor?, tag: String?) {
-        val previousInputTag = inputTag
+        val previousInputTag = getInputTag()
         if (previousInputTag != null) {
             throw IllegalStateException("Already has a INPUT tag in group.")
         }
 
-        val newInputTag = TagView(context, TagView.STATE_INPUT, color, tag)
+        val newInputTag = TagView(context, STATE_INPUT, color!!, tag!!)
         newInputTag.setOnClickListener(mInternalTagClickListener)
         addView(newInputTag)
     }
@@ -459,7 +443,7 @@ class TagGroup : ViewGroup {
      * @param tag the tag to append.
      */
     protected fun appendTag(color: TagColor?, tag: CharSequence) {
-        val newTag = TagView(context, TagView.STATE_NORMAL, color, tag)
+        val newTag = TagView(context, STATE_NORMAL, color!!, tag)
         newTag.setOnClickListener(mInternalTagClickListener)
         addView(newTag)
     }
@@ -539,41 +523,43 @@ class TagGroup : ViewGroup {
      */
     internal class SavedState : View.BaseSavedState {
         var tagCount: Int = 0
-        var tags: Array<String>
+        lateinit var tags: Array<String>
         var checkedPosition: Int = 0
-        var input: String
+        lateinit var input: String
 
-        constructor(source: Parcel) : super(source) {
-            tagCount = source.readInt()
-            tags = arrayOfNulls(tagCount)
-            source.readStringArray(tags)
+        constructor(source: Parcel):super(source){
+            tagCount = source!!.readInt()
+            tags = source.createStringArray()
             checkedPosition = source.readInt()
             input = source.readString()
         }
 
-        constructor(superState: Parcelable) : super(superState) {}
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            super.writeToParcel(dest, flags)
-            tagCount = tags.size
-            dest.writeInt(tagCount)
-            dest.writeStringArray(tags)
-            dest.writeInt(checkedPosition)
-            dest.writeString(input)
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            super.writeToParcel(parcel, flags)
+            parcel.writeInt(tagCount)
+            parcel.writeStringArray(tags)
+            parcel.writeInt(checkedPosition)
+            parcel.writeString(input)
         }
 
-        companion object {
-            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
-                override fun createFromParcel(`in`: Parcel): SavedState {
-                    return SavedState(`in`)
-                }
+        constructor(superState: Parcelable):super(superState) {
+        }
 
-                override fun newArray(size: Int): Array<SavedState> {
-                    return arrayOfNulls(size)
-                }
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<SavedState> {
+            override fun createFromParcel(parcel: Parcel): SavedState {
+                return SavedState(parcel)
+            }
+
+            override fun newArray(size: Int): Array<SavedState?> {
+                return arrayOfNulls(size)
             }
         }
     }
+
 
     /**
      * The tag view click listener for internal use.
@@ -582,9 +568,9 @@ class TagGroup : ViewGroup {
         override fun onClick(v: View) {
             val tag = v as TagView
             if (isAppendMode) {
-                if (tag.mState == TagView.stateInput()) {
+                if (tag.mState == STATE_INPUT) {
                     // If the clicked tag is in INPUT state, uncheck the previous checked tag if exists.
-                    val checkedTag = checkedTag
+                    val checkedTag = getCheckedTag()
                     checkedTag?.setCheckedTagView(false)
                 } else {
                     // If the clicked tag is currently checked, delete the tag.
@@ -593,7 +579,7 @@ class TagGroup : ViewGroup {
                     } else {
                         // If the clicked tag is unchecked, uncheck the previous checked tag if exists,
                         // then check the clicked tag.
-                        val checkedTag = checkedTag
+                        val checkedTag = getCheckedTag()
                         checkedTag?.setCheckedTagView(false)
                         tag.setCheckedTagView(true)
                     }
@@ -605,25 +591,22 @@ class TagGroup : ViewGroup {
             }
         }
     }
-    fun TagView.stateInput() = this != null && this.STATE_INPUT == 2
-    fun TagView.stateNormal() = this != null && this.STATE_NORMAL == 1
+    public var STATE_NORMAL = 1
+    public var STATE_INPUT = 2
 
+    /** The offset to the text.  */
+    public val CHECKED_MARKER_OFFSET = 3
+    /** The stroke width of the checked marker  */
+    public val CHECKED_MARKER_STROKE_WIDTH = 4
     /**
      * The tag view which has two states can be either NORMAL or INPUT.
      */
     inner class TagView: TextView {
 
-        public var STATE_NORMAL = 1
-        public var STATE_INPUT = 2
-
-        /** The offset to the text.  */
-        private val CHECKED_MARKER_OFFSET = 3
-        /** The stroke width of the checked marker  */
-        private val CHECKED_MARKER_STROKE_WIDTH = 4
         /** Indicates the tag if checked.  */
         var isChecked = false
         /** The current state.  */
-        private var mState: Int = 0
+        var mState: Int = 0
 
         /** Indicates the tag if pressed.  */
         var isPress:Boolean = false
@@ -672,9 +655,8 @@ class TagGroup : ViewGroup {
          * @return True if the input content is available, false otherwise.
          */
         fun isInputAvailable(): Boolean {
-            return text != null && text.length > 0
+            return text != null && text.isNotEmpty()
         }
-
         constructor(context: Context, state: Int, color: TagColor, text: CharSequence):super(context) {
             this.color = color
             setPadding(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding)
@@ -957,17 +939,6 @@ class TagGroup : ViewGroup {
                     sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL)) && sendKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL))
                 } else super.deleteSurroundingText(beforeLength, afterLength)
             }
-        }
-
-        companion object {
-            val STATE_NORMAL = 1
-            val STATE_INPUT = 2
-
-            /** The offset to the text.  */
-            private val CHECKED_MARKER_OFFSET = 3
-
-            /** The stroke width of the checked marker  */
-            private val CHECKED_MARKER_STROKE_WIDTH = 4
         }
     }
 }

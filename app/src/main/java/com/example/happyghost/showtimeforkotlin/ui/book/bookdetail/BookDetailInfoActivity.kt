@@ -3,6 +3,9 @@ package com.example.happyghost.showtimeforkotlin.ui.book.bookdetail
 import android.app.Activity
 import android.content.Context
 import com.example.happyghost.showtimeforkotlin.R
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookDetail
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.HotReview
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.RecommendBookList
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import org.jetbrains.anko.startActivity
 
@@ -11,7 +14,19 @@ import org.jetbrains.anko.startActivity
  * @creat 2017/11/15.
  * @description
  */
-class BookDetailInfoActivity: BaseActivity<BookDetailPresent>() {
+class BookDetailInfoActivity: BaseActivity<BookDetailPresent>(),IBookDetailBaseView {
+    override fun loadBookDetail(data: BookDetail) {
+
+    }
+
+    override fun loadHotReview(list: List<HotReview.Reviews>) {
+
+    }
+
+    override fun loadRecommendBookList(list: List<RecommendBookList.RecommendBook>) {
+
+    }
+
     override fun upDataView() {
 
     }

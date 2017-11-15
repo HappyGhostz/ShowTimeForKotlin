@@ -27,6 +27,10 @@
     <string name="category_book_msg">%1$d人在追 |&#160; %2$s%%读者留存</string>
     <string name="book_detail_remove_collection">不追了</string>
     <string name="book_detail_join_collection">追更新</string>
+    <string name="book_detail_hot_reviews">热门书评</string>
+    <string name="book_detail_community">%1$s的社区</string>
+    <string name="book_detail_post_count">共有%1$d个帖子</string>
+    <string name="book_detail_recommend_book_list">推荐书单</string>
 
     <string name="book_read_add_book">添书</string>
     <string name="book_read_would_you_like_to_add_this_to_the_book_shelf">是否将本书加入书架？</string>

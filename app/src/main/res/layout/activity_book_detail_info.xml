@@ -249,7 +249,7 @@
                 android:layout_margin="10dp"
                 android:background="@color/common_divider_narrow" />
 
-            <com.example.rumens.showtime.widget.TagGroup
+            <com.example.happyghost.showtimeforkotlin.wegit.TagGroup
                 android:id="@+id/tag_group"
                 style="@style/TagGroup"
                 android:layout_marginLeft="15dp"

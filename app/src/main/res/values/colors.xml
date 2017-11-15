@@ -6,6 +6,7 @@
     <color name="baseColorPrimary">#00AFFF</color>
     <color name="baseColorPrimaryDark">#0080E3</color>
     <color name="whiteColor">#ffffffff</color>
+    <color name="light_white">#eeeeee</color>
     <color name="blackColor">#000000</color>
     <color name="grayColor">#959595</color>
     <color name="divider_line">#dddddd</color>
@@ -23,6 +24,8 @@
     <color name="common_h3">#B2B2B2</color>
     <!--通用分割线细-->
     <color name="common_divider_narrow">#E3E3E3</color>
+    <!--通用分割线粗-->
+    <color name="common_divider_wide">@color/light_white</color>
     <!--barlauouttextcolor-->
     <color name="layout_bar">#ECF9FF</color>
     <color name="layout_bar_normal">#AEE5FF</color>
