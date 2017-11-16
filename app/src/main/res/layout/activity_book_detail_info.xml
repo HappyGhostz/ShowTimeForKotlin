@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <!--android:fitsSystemWindows="true"-->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/whiteColor"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
+    <!--&lt;!&ndash; 遮挡状态栏透明的部分 &ndash;&gt;-->
+    <TextView
+        android:id="@+id/status_hight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/common_toolbar"
@@ -16,6 +27,7 @@
         app:navigationIcon="@mipmap/ab_back"
         app:layout_scrollFlags="scroll|enterAlways|snap"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextAppearance="@style/Toolbar.TitleColor"
         />
 
     <ScrollView
@@ -367,3 +379,5 @@
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
+    <include layout="@layout/layout_comment_empty"/>
+</FrameLayout>

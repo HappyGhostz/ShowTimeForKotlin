@@ -8,7 +8,7 @@ package com.example.happyghost.showtimeforkotlin.utils
 class ListUtils {
     companion object {
           fun <T>isEmpty(list: List<T>?):Boolean{
-              return (list==null || list.size==0)
+              return (list==null || list.isEmpty())
           }
     }
 }

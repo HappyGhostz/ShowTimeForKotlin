@@ -354,7 +354,7 @@ class TagGroup : ViewGroup {
             super.onRestoreInstanceState(state)
             return
         }
-        val ss = state
+        val ss = SavedState(state)
         super.onRestoreInstanceState(state.superState)
 
         setTags(*ss.tags)
@@ -525,7 +525,7 @@ class TagGroup : ViewGroup {
         var tagCount: Int = 0
         lateinit var tags: Array<String>
         var checkedPosition: Int = 0
-        lateinit var input: String
+        var input: String? = null
 
         constructor(source: Parcel):super(source){
             tagCount = source!!.readInt()

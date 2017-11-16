@@ -68,4 +68,15 @@ interface IBookApi {
     @GET("/book/by-categories")
     fun getBooksByCats(@Query("gender") gender: String, @Query("type") type: String, @Query("major") major: String, @Query("minor") minor: String, @Query("start") start: Int, @Query("limit") limit: Int): Observable<BooksByCats>
 
+    /**
+     * 获取书籍详情数据
+     */
+    @GET("/book/{bookId}")
+    abstract fun getBookDetail(@Path("bookId") bookId: String): Observable<BookDetail>
+
+    @GET("/post/review/best-by-book")
+    abstract fun getHotReview(@Query("book") book: String): Observable<HotReview>
+
+    @GET("/book-list/{bookId}/recommend")
+    abstract fun getRecommendBookList(@Path("bookId") bookId: String, @Query("limit") limit: String): Observable<RecommendBookList>
 }

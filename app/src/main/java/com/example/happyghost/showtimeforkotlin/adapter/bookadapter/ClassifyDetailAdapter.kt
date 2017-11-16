@@ -33,7 +33,7 @@ class ClassifyDetailAdapter:BaseQuickAdapter<BooksByCats.BooksBean,BaseViewHolde
                         item?.latelyFollower,
                         if (TextUtils.isEmpty(item?.retentionRatio)) "0" else item?.retentionRatio))
         helper.itemView.setOnClickListener {
-            BookDetailInfoActivity.open(mContext, item?._id)
+            BookDetailInfoActivity.open(mContext, item?._id!!)
         }
     }
 }

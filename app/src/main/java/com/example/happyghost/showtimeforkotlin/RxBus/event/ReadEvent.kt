@@ -13,6 +13,7 @@ class ReadEvent {
     lateinit var mBookId:String
     var mCurrentChapter:Int = 0
     var mIsInsert = false
+    var mIsFromDetial = false
     lateinit var mBookBean :Recommend.RecommendBooks
     constructor(chaptersBean: BookMixATocBean.MixTocBean.ChaptersBean?){
         this.mChapterBean = chaptersBean
@@ -25,5 +26,8 @@ class ReadEvent {
     constructor(isInsert:Boolean,bookBean: Recommend.RecommendBooks){
         this.mIsInsert = isInsert
         this.mBookBean = bookBean
+    }
+    constructor(isFromDetial:Boolean){
+        this.mIsFromDetial = isFromDetial
     }
 }

@@ -13,16 +13,18 @@ class TagColor {
     var borderColor = Color.parseColor("#49C120")
     var backgroundColor = Color.parseColor("#49C120")
     var textColor = Color.WHITE
+    companion object {
+        fun getRandomColors(size: Int): List<TagColor> {
 
-    fun getRandomColors(size: Int): List<TagColor> {
-
-        val list = ArrayList<TagColor>()
-        for (i in 0 until size) {
-            val color = TagColor()
-            color.backgroundColor = ConsTantUtils.tagColors[i % ConsTantUtils.tagColors.size]
-            color.borderColor = color.backgroundColor
-            list.add(color)
+            val list = ArrayList<TagColor>()
+            for (i in 0 until size) {
+                val color = TagColor()
+                color.backgroundColor = ConsTantUtils.tagColors[i % ConsTantUtils.tagColors.size]
+                color.borderColor = color.backgroundColor
+                list.add(color)
+            }
+            return list
         }
-        return list
     }
+
 }

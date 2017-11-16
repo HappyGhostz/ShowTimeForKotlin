@@ -10,13 +10,16 @@ import android.text.TextUtils
 import android.view.View
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
+import com.example.happyghost.showtimeforkotlin.RxBus.event.DownloadEvent
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookRackAdapter
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.downloadservice.DownloadBookService
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookRackComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookRackMoudle
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfo
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
+import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.BookDetailInfoActivity
 import com.example.happyghost.showtimeforkotlin.ui.book.read.ReadActivity
 import com.example.happyghost.showtimeforkotlin.utils.*
 import io.reactivex.functions.Consumer
@@ -79,6 +82,11 @@ class BookRackListFragment : BaseFragment<BookRackPresent>(),IBookRackView {
     private fun handlInsertBookRack(t: ReadEvent) {
         if(t.mIsInsert&&t.mBookBean!=null){
             mPresenter.insertBook(t.mBookBean)
+
+        }
+        if(t.mIsFromDetial){
+            mPresenter.getData()
+        }else{
             mPresenter.getData()
         }
     }
@@ -111,8 +119,18 @@ class BookRackListFragment : BaseFragment<BookRackPresent>(),IBookRackView {
                             toast("置顶成功！")
                         }
                     }
-                    1-> toast("书籍详情")
-                    2-> toast("缓存全本")
+                    1-> BookDetailInfoActivity.open(mContext!!,recommendBooks._id!!)
+                    2-> {
+                        if(recommendBooks.isFromSD){
+                            doAsync {
+                                val chapterAll = mPresenter.queryChapterAll(recommendBooks._id!!)
+                               uiThread {
+                                   DownloadBookService.post(DownloadEvent(recommendBooks._id!!, chapterAll, 1, chapterAll.size))
+                                   toast("正在缓存")
+                               }
+                            }
+                        }
+                    }
                     3-> {
                         val progressDialog = ProgressDialog(mContext)
                         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)

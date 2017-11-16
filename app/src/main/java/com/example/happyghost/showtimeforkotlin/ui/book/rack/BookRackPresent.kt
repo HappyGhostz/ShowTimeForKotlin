@@ -2,7 +2,9 @@ package com.example.happyghost.showtimeforkotlin.ui.book.rack
 
 import android.util.Log
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
+import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.loacaldao.BookChapterInfo
 import com.example.happyghost.showtimeforkotlin.loacaldao.BookChapterInfoDao
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfo
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfoDao
@@ -75,7 +77,7 @@ class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, r
     fun insertBook(recommendBooks: Recommend.RecommendBooks){
         val allBooks = mBookDao.queryBuilder().list()
         val size = allBooks.size
-        var id:Long=0
+        var id:Long=1
         val localBookInfo = BookTransformer.RecommendBooksConvertlocalBook(recommendBooks)
         localBookInfo.id = size+id
         localBookInfo.isFromSD=true
@@ -84,7 +86,7 @@ class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, r
     fun insertBooks(recBooks:List<Recommend.RecommendBooks>){
         val allBooks = mBookDao.queryBuilder().list()
         val size = allBooks.size
-        var index = 0
+        var index = 1
         while (index <= recBooks.size-1)
         {
             var  book = recBooks.get(index)
@@ -146,6 +148,15 @@ class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, r
      */
     fun queryAll():List<LocalBookInfo>{
         return mBookDao.queryBuilder().list()
+    }
+    /**
+     * 查询所有章节数据
+     */
+    fun queryChapterAll(bookId: String): ArrayList<BookMixATocBean.MixTocBean.ChaptersBean> {
+        val build = mBookChapterDao.queryBuilder().where(BookChapterInfoDao.Properties.BookId.eq(bookId)).build()
+        val list = build.list()
+        val chaptersBean = BookTransformer.locaBookChaptersConvertChaptersBean(list)
+        return chaptersBean
     }
     /**
      * 替换

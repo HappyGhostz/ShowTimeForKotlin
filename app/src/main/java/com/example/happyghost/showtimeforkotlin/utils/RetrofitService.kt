@@ -236,6 +236,29 @@ class RetrofitService  {
         fun getBooksByCatsInfo(mSex: String, mType: String, mMajor: String, mMinor: String, start: Int, limit: Int): Observable<BooksByCats> {
             return iBookApi!!.getBooksByCats(mSex, mType, mMajor, mMinor, start, limit)
         }
+
+        /**
+         * 获取书籍详情
+         * @param mBookId
+         * @return
+         */
+        fun getBookDetailInfo(mBookId: String): Observable<BookDetail> {
+            return iBookApi!!.getBookDetail(mBookId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun getHotReview(mBookId: String): Observable<HotReview> {
+            return iBookApi!!.getHotReview(mBookId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun getRecommendBookList(mBookId: String, limit: String): Observable<RecommendBookList> {
+            return iBookApi!!.getRecommendBookList(mBookId, limit)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
         /**
          * 类型转换
          * @param newsId 新闻类型

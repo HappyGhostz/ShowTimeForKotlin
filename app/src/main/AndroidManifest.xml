@@ -51,6 +51,8 @@
             </activity>
         <activity android:name=".ui.book.read.CatalogueListActivity"/>
         <activity android:name=".ui.book.classify.classifydetail.ClassifyDetailActivity"/>
+        <activity android:name=".ui.book.bookdetail.BookDetailInfoActivity"
+            android:theme="@style/BaseTheme"/>
         <service android:name=".downloadservice.DownloadBookService"/>
     </application>
 
