@@ -17,6 +17,7 @@ import com.example.happyghost.showtimeforkotlin.bean.bookdata.RecommendBookList
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookDetailInfoComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookDetailInfoModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
+import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.community.BookDetailCommunityActivity
 import com.example.happyghost.showtimeforkotlin.ui.book.read.ReadActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
@@ -29,7 +30,6 @@ import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import java.util.ArrayList
 import javax.inject.Inject
-import kotlin.text.Typography.times
 
 /**
  * @author Zhao Chenping
@@ -43,6 +43,8 @@ class BookDetailInfoActivity: BaseActivity<BookDetailPresent>(),IBookDetailBaseV
     private var times = 0
     lateinit var recommendBooks:Recommend.RecommendBooks
     private var isJoinedCollections = false
+    private var collapseLongIntro = true
+    var mBookId:String = ""
     override fun loadBookDetail(data: BookDetail) {
         Glide.with(this)
                 .load(ConsTantUtils.IMG_BASE_URL + data.cover)
@@ -180,10 +182,24 @@ class BookDetailInfoActivity: BaseActivity<BookDetailPresent>(),IBookDetailBaseV
             ReadActivity.open(this, recommendBooks)
             overridePendingTransition(R.anim.fade_entry, R.anim.hold)
         }
+        tvlongIntro.setOnClickListener{
+            if (collapseLongIntro) {
+                tvlongIntro.maxLines = 20
+            } else {
+                tvlongIntro.maxLines = 4
+            }
+            collapseLongIntro = !collapseLongIntro
+        }
+        commonMore.setOnClickListener{
+            BookDetailCommunityActivity.startActivity(this, mBookId, tvBookListTitle.text.toString(), 1)
+        }
+        rlCommunity.setOnClickListener {
+            BookDetailCommunityActivity.startActivity(this, mBookId, tvBookListTitle.text.toString(), 0)
+        }
     }
 
     override fun initInjector() {
-        val mBookId = intent.getStringExtra(BOOK_INFO_ID)
+         mBookId = intent.getStringExtra(BOOK_INFO_ID)
          DaggerBookDetailInfoComponent.builder()
                  .applicationComponent(getAppComponent())
                  .bookDetailInfoModule(BookDetailInfoModule(this,mBookId))
@@ -191,10 +207,7 @@ class BookDetailInfoActivity: BaseActivity<BookDetailPresent>(),IBookDetailBaseV
                  .inject(this)
     }
 
-    override fun getContentView():  Int {
-
-        return R.layout.activity_book_detail_info
-    }
+    override fun getContentView():  Int = R.layout.activity_book_detail_info
     companion object {
         var BOOK_INFO_ID:String = "bookid"
         fun open(context: Context, id: String) {

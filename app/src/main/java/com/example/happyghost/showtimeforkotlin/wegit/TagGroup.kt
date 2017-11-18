@@ -357,7 +357,7 @@ class TagGroup : ViewGroup {
         val ss = SavedState(state)
         super.onRestoreInstanceState(state.superState)
 
-        setTags(*ss.tags)
+        setTags(*ss.tags!!)
         val checkedTagView = getTagAt(state.checkedPosition)
         checkedTagView?.setCheckedTagView(true)
         if (getInputTag() != null) {
@@ -523,7 +523,7 @@ class TagGroup : ViewGroup {
      */
     internal class SavedState : View.BaseSavedState {
         var tagCount: Int = 0
-        lateinit var tags: Array<String>
+        var tags: Array<String>? = null
         var checkedPosition: Int = 0
         var input: String? = null
 

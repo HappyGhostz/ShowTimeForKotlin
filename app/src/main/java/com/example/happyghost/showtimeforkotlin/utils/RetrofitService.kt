@@ -260,6 +260,44 @@ class RetrofitService  {
                     .observeOn(AndroidSchedulers.mainThread())
         }
         /**
+         * 获取评论详情
+         */
+        fun getBookDisscussionDetail(disscussionId: String): Observable<Disscussion> {
+            return iBookApi!!.getBookDisscussionDetail(disscussionId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun getBestComments(disscussionId: String): Observable<CommentList> {
+            return iBookApi!!.getBestComments(disscussionId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun getBookDisscussionComments(disscussionId: String, start: String, limit: String): Observable<CommentList> {
+            return iBookApi!!.getBookDisscussionComments(disscussionId, start, limit)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun getBookListDetail(bookListId: String): Observable<BookListDetail> {
+            return iBookApi!!.getBookListDetail(bookListId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun getBookDetailDisscussionList(book: String, sort: String, type: String, start: String, limit: String): Observable<DiscussionList> {
+            return iBookApi!!.getBookDetailDisscussionList(book, sort, type, start, limit)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun getBookDetailReviewList(book: String, sort: String, start: String, limit: String): Observable<HotReview> {
+            return iBookApi!!.getBookDetailReviewList(book, sort, start, limit)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        /**
          * 类型转换
          * @param newsId 新闻类型
          * @return

@@ -79,4 +79,73 @@ interface IBookApi {
 
     @GET("/book-list/{bookId}/recommend")
     abstract fun getRecommendBookList(@Path("bookId") bookId: String, @Query("limit") limit: String): Observable<RecommendBookList>
+
+    /**
+     * 获取综合讨论区帖子详情
+     *
+     * @param disscussionId->_id
+     * @return
+     */
+    @GET("/post/{disscussionId}")
+    abstract fun getBookDisscussionDetail(@Path("disscussionId") disscussionId: String): Observable<Disscussion>
+
+    /**
+     * 获取神评论列表(综合讨论区、书评区、书荒区皆为同一接口)
+     *
+     * @param disscussionId->_id
+     * @return
+     */
+    @GET("/post/{disscussionId}/comment/best")
+    abstract fun getBestComments(@Path("disscussionId") disscussionId: String): Observable<CommentList>
+
+    /**
+     * 获取综合讨论区帖子详情内的评论列表
+     *
+     * @param disscussionId->_id
+     * @param start              0
+     * @param limit              30
+     * @return
+     */
+    @GET("/post/{disscussionId}/comment")
+    abstract fun getBookDisscussionComments(@Path("disscussionId") disscussionId: String, @Query("start") start: String, @Query("limit") limit: String): Observable<CommentList>
+
+    /**
+     * 获取书单详情
+     *
+     * @return
+     */
+    @GET("/book-list/{bookListId}")
+    abstract fun getBookListDetail(@Path("bookListId") bookListId: String): Observable<BookListDetail>
+
+    /**
+     * 获取书籍详情讨论列表
+     *
+     * @param book  bookId
+     * @param sort  updated(默认排序)
+     * created(最新发布)
+     * comment-count(最多评论)
+     * @param type  normal
+     * vote
+     * @param start 0
+     * @param limit 20
+     * @return
+     */
+    @GET("/post/by-book")
+    fun getBookDetailDisscussionList(@Query("book") book: String, @Query("sort") sort: String, @Query("type") type: String, @Query("start") start: String, @Query("limit") limit: String): Observable<DiscussionList>
+
+    /**
+     * 获取书籍详情书评列表
+     *
+     * @param book  bookId
+     * @param sort  updated(默认排序)
+     * created(最新发布)
+     * helpful(最有用的)
+     * comment-count(最多评论)
+     * @param start 0
+     * @param limit 20
+     * @return
+     */
+    @GET("/post/review/by-book")
+    fun getBookDetailReviewList(@Query("book") book: String, @Query("sort") sort: String, @Query("start") start: String, @Query("limit") limit: String): Observable<HotReview>
+
 }

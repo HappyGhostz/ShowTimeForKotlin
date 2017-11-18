@@ -5,6 +5,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.RecommendBookList
+import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.subject.SubjectBookListDetailActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
 import com.example.happyghost.showtimeforkotlin.utils.NetUtil
@@ -30,5 +31,8 @@ class RecommendBookListAdapter:BaseQuickAdapter<RecommendBookList.RecommendBook,
                         .book_detail_recommend_book_list_book_count), item?.bookCount))
                 ?.setText(R.id.tvCollectorCount, String.format(mContext.getString(R.string
                         .book_detail_recommend_book_list_collector_count), item?.collectorCount))
+        helper?.itemView?.setOnClickListener {
+            SubjectBookListDetailActivity.open(mContext,item!!)
+        }
     }
 }

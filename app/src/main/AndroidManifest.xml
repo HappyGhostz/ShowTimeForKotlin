@@ -51,8 +51,10 @@
             </activity>
         <activity android:name=".ui.book.read.CatalogueListActivity"/>
         <activity android:name=".ui.book.classify.classifydetail.ClassifyDetailActivity"/>
-        <activity android:name=".ui.book.bookdetail.BookDetailInfoActivity"
-            android:theme="@style/BaseTheme"/>
+        <activity android:name=".ui.book.bookdetail.BookDetailInfoActivity"/>
+        <activity android:name=".ui.book.bookdetail.discussion.BookDiscussionDetailActivity"/>
+        <activity android:name=".ui.book.bookdetail.subject.SubjectBookListDetailActivity"/>
+        <activity android:name=".ui.book.bookdetail.community.BookDetailCommunityActivity"/>
         <service android:name=".downloadservice.DownloadBookService"/>
     </application>
 

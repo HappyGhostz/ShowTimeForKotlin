@@ -33,6 +33,7 @@ import com.example.happyghost.showtimeforkotlin.downloadservice.DownloadBookServ
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerReadComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.ReadModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
+import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.BookDetailInfoActivity
 import com.example.happyghost.showtimeforkotlin.utils.*
 import com.example.happyghost.showtimeforkotlin.wegit.SelectCricleImageView
 import com.example.happyghost.showtimeforkotlin.wegit.read.OnReadStateChangeListener
@@ -147,8 +148,23 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
         rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         initPagerWidget()
         initAASet()
+        initDayMode()
         initClickView()
         initRxbus()
+    }
+
+    private fun initDayMode() {
+        val isNight = !SharedPreferencesUtil.getBoolean(ConsTantUtils.ISNIGHT, false)
+        tvBookReadMode.text = getString(if (isNight)
+            R.string.book_read_mode_day_manual_setting
+        else
+            R.string.book_read_mode_night_manual_setting)
+        val drawable = ContextCompat.getDrawable(this, if (isNight)
+            R.mipmap.ic_menu_mode_day_manual
+        else
+            R.mipmap.ic_menu_mode_night_manual)
+        drawable.setBounds(0, 0, drawable.minimumWidth, drawable.minimumHeight)
+        tvBookReadMode.setCompoundDrawables(null, drawable, null, null)
     }
 
     private fun initRxbus() {
@@ -160,6 +176,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     private fun handleDownloadProgress(t: DownloadProgressEvent) {
         if (mBookId == t.bookId) {
             if (llBookReadBottom.visibility ==View.VISIBLE) { // 如果工具栏显示，则进度条也显示
+                visible(flReadWidget,llBookReadTop)
                 visible(tvDownloadProgress)
                 // 如果之前缓存过，就给提示
                 tvDownloadProgress.text = t.message
@@ -171,6 +188,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
 
     private fun handleDownloadMessage(t: DownloadMessageEvent) {
         if (llBookReadBottom.visibility == View.VISIBLE) { // 如果工具栏显示，则进度条也显示
+            visible(flReadWidget,llBookReadTop)
             if (mBookId == t.bookId) {
                 tvDownloadProgress.visibility = View.VISIBLE
                 tvDownloadProgress.text = t.message
@@ -335,7 +353,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
              R.id.tvBookReadToc->initTocList()
              R.id.ivBack->finish()
              R.id.tvBookReadCommunity->toast("社区,稍等!")
-             R.id.tvBookReadIntroduce->toast("书籍详情,稍等!")
+             R.id.tvBookReadIntroduce->BookDetailInfoActivity.open(this@ReadActivity,mBookId)
              R.id.tvBookReadSource->toast("换源,稍等!")
              R.id.tvBookReadMode->{
                  //日夜间模式切换,待定

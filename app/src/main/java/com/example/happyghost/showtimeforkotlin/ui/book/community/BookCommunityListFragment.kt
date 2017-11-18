@@ -39,7 +39,7 @@ class BookCommunityListFragment: BaseFragment<BookCommunityPresenter>(),IBookCom
         val imageView = inflate.find<ImageView>(R.id.iv_noData)
         ImageLoader.loadImageFromRes(this!!.mContext!!, DefIconFactory.provideNoDataIcon(),imageView)
         mAdapter.addFooterView(inflate)
-        smart_refresh.setLoadmoreFinished(true)
+        smart_refresh.isLoadmoreFinished = true
     }
 
 

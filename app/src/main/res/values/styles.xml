@@ -61,7 +61,7 @@
         <item name="atg_horizontalPadding">12dp</item>
         <item name="atg_verticalPadding">6dp</item>
     </style>
-    <!-- 设置Toolbar标题字体的大小 -->
+    <!-- 设置Toolbar标题字体的颜色 -->
     <style name="Toolbar.TitleColor" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">@color/whiteColor</item>
     </style>

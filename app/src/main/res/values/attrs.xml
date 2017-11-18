@@ -53,4 +53,26 @@
         <attr name="stateResId" format="reference" /><!--单个星星不同状态下对应的图标-->
         <attr name="differentSize" format="boolean" /><!--是否支持大小不等星星样式-->
     </declare-styleable>
+    <!-- RVPIndicator -->
+    <declare-styleable name="RVPIndicator">
+        <attr name="item_count" />
+        <attr name="text_color_normal" />
+        <attr name="text_color_hightlight" />
+        <attr name="text_size" />
+        <attr name="indicator_color" />
+        <attr name="indicator_src" />
+        <attr name="indicator_style" />
+    </declare-styleable>
+    <attr name="item_count" format="integer" />
+    <attr name="text_color_normal" format="color" />
+    <attr name="text_color_hightlight" format="color" />
+    <attr name="text_size" format="dimension" />
+    <attr name="indicator_color" format="color" />
+    <attr name="indicator_src" format="reference" />
+    <attr name="indicator_style">
+        <enum name="bitmap" value="0" />
+        <enum name="line" value="1" />
+        <enum name="square" value="2" />
+        <enum name="triangle" value="3" />
+    </attr>
 </resources>
