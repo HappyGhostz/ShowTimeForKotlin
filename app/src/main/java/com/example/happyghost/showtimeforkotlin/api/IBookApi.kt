@@ -168,4 +168,12 @@ interface IBookApi {
     @GET("/post/review/{bookReviewId}/comment")
     fun getBookReviewComments(@Path("bookReviewId") bookReviewId: String, @Query("start") start: String, @Query("limit") limit: String): Observable<CommentList>
 
+    /**
+     * 获取书荒区帖子详情
+     *
+     * @param helpId->_id
+     * @return
+     */
+    @GET("/post/help/{helpId}")
+    fun getBookHelpDetail(@Path("helpId") helpId: String): Observable<BookHelp>
 }

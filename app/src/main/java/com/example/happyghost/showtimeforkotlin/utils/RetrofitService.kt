@@ -309,6 +309,13 @@ class RetrofitService  {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
+
+        fun getBookHelpDetail(mHelpBeanId: String): Observable<BookHelp> {
+            return iBookApi!!.getBookHelpDetail(mHelpBeanId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
         /**
          * 类型转换
          * @param newsId 新闻类型

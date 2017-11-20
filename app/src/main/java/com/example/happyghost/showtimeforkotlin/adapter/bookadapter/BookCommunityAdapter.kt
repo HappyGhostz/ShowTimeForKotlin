@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookHelpList
+import com.example.happyghost.showtimeforkotlin.ui.book.community.item.BookHelpDetailActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
 import com.example.happyghost.showtimeforkotlin.utils.StringUtils
@@ -41,6 +42,6 @@ class BookCommunityAdapter:BaseQuickAdapter<BookHelpList.HelpsBean,BaseViewHolde
         }
         val imageView = helper?.getView<CircleImageView>(R.id.ivBookCover)
         ImageLoader.loadCenterCrop(mContext, ConsTantUtils.IMG_BASE_URL + item?.author?.avatar, imageView as ImageView, R.mipmap.avatar_default)
-//        helper.getConvertView().setOnClickListener(View.OnClickListener { BookHelpDetailActivity.lunch(mContext, item._id) })
+        helper.itemView.setOnClickListener { BookHelpDetailActivity.lunch(mContext, item?._id!!) }
     }
 }
