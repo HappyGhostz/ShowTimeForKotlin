@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.DiscussionList
+import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.discussion.BookDiscussionDetailActivity
 import com.example.happyghost.showtimeforkotlin.utils.*
 
 /**
@@ -53,6 +54,9 @@ class BookDetailDiscussionAdapter:BaseQuickAdapter<DiscussionList.PostsBean,Base
                 helper.setText(R.id.tvTime, StringUtils.getDescriptionTimeFromDateString(item?.created))
             }
         } catch (e: Exception) {
+        }
+        helper.itemView.setOnClickListener {
+            BookDiscussionDetailActivity.open(mContext,item?._id!!)
         }
 
     }

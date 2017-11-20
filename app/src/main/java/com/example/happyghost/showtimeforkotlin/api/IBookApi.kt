@@ -148,4 +148,24 @@ interface IBookApi {
     @GET("/post/review/by-book")
     fun getBookDetailReviewList(@Query("book") book: String, @Query("sort") sort: String, @Query("start") start: String, @Query("limit") limit: String): Observable<HotReview>
 
+    /**
+     * 获取书评区帖子详情
+     *
+     * @param bookReviewId->_id
+     * @return
+     */
+    @GET("/post/review/{bookReviewId}")
+    fun getBookReviewDetail(@Path("bookReviewId") bookReviewId: String): Observable<BookReview>
+
+    /**
+     * 获取书评区、书荒区帖子详情内的评论列表
+     *
+     * @param bookReviewId->_id
+     * @param start             0
+     * @param limit             30
+     * @return
+     */
+    @GET("/post/review/{bookReviewId}/comment")
+    fun getBookReviewComments(@Path("bookReviewId") bookReviewId: String, @Query("start") start: String, @Query("limit") limit: String): Observable<CommentList>
+
 }

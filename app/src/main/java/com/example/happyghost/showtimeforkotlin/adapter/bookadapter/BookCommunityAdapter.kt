@@ -30,14 +30,14 @@ class BookCommunityAdapter:BaseQuickAdapter<BookHelpList.HelpsBean,BaseViewHolde
                 ?.setText(R.id.tvHelpfulYes, item?.commentCount.toString() + "")
         if (TextUtils.equals(item?.state, "distillate")) {
             val tvDistillate = helper?.getView<TextView>(R.id.tvDistillate)
-            tvDistillate?.setVisibility(View.VISIBLE)
+            tvDistillate?.visibility = View.VISIBLE
         } else if (TextUtils.equals(item?.state, "hot")) {
             val tvHot = helper?.getView<TextView>(R.id.tvHot)
-            tvHot?.setVisibility(View.VISIBLE)
+            tvHot?.visibility = View.VISIBLE
         } else if (TextUtils.equals(item?.state, "normal")) {
             val tvTime = helper?.getView<TextView>(R.id.tvTime)
-            tvTime?.setVisibility(View.VISIBLE)
-            tvTime?.setText(latelyUpdate)
+            tvTime?.visibility = View.VISIBLE
+            tvTime?.text = latelyUpdate
         }
         val imageView = helper?.getView<CircleImageView>(R.id.ivBookCover)
         ImageLoader.loadCenterCrop(mContext, ConsTantUtils.IMG_BASE_URL + item?.author?.avatar, imageView as ImageView, R.mipmap.avatar_default)

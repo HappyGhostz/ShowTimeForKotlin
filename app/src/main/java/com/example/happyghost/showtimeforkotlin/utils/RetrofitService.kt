@@ -297,6 +297,18 @@ class RetrofitService  {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
+
+        fun getBookReviewDetail(bookReviewId: String): Observable<BookReview> {
+            return  iBookApi!!.getBookReviewDetail(bookReviewId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun getBookReviewComments(bookReviewId: String, start: String, limit: String): Observable<CommentList> {
+            return  iBookApi!!.getBookReviewComments(bookReviewId, start, limit)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
         /**
          * 类型转换
          * @param newsId 新闻类型

@@ -5,6 +5,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.HotReview
+import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.community.BookReviewDetailActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.GlideCircleTransform
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
@@ -30,5 +31,8 @@ class BookDetailReviewAdapter: BaseQuickAdapter<HotReview.Reviews, BaseViewHolde
         helper.setVisible(R.id.tvTime, true)
         val ratingBar = helper.getView<XLHRatingBar>(R.id.rating)
         ratingBar.setCountSelected(item?.rating!!)
+        helper.itemView.setOnClickListener {
+            BookReviewDetailActivity.open(mContext,item._id!!)
+        }
     }
 }

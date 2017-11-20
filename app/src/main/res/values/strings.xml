@@ -46,6 +46,10 @@
     <string name="comment_reply_nickname">回复 %1$s</string>
     <string name="subject_book_list_detail_book_lately_follower">%1$d&#160;人在追</string>
     <string name="subject_book_list_detail_book_word_count">|&#160;%1$d&#160;万字</string>
+    <string name="book_review_detail_helpful_yes">有用</string>
+    <string name="book_review_detail_helpful_no">无用</string>
+    <string name="book_review_detail_to_review_the_scoring">给书评打分</string>
+    <string name="book_review_detail_score">楼主打分：</string>
 
     <string name="book_read_add_book">添书</string>
     <string name="book_read_would_you_like_to_add_this_to_the_book_shelf">是否将本书加入书架？</string>
