@@ -57,6 +57,8 @@
         <activity android:name=".ui.book.bookdetail.community.BookDetailCommunityActivity"/>
         <activity android:name=".ui.book.bookdetail.community.BookReviewDetailActivity"/>
         <activity android:name=".ui.book.community.item.BookHelpDetailActivity"/>
+        <activity android:name=".ui.book.rank.iteminfo.SubRankActivity"/>
+        <activity android:name=".ui.book.rank.iteminfo.SubOtherHomeRankActivity"/>
         <service android:name=".downloadservice.DownloadBookService"/>
     </application>
 

@@ -11,7 +11,6 @@ import com.example.happyghost.showtimeforkotlin.bean.bookdata.CommentList
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookHelpDetailComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookHelpDetailModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
-import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.community.BookReviewDetailPresenter
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper

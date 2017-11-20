@@ -176,4 +176,15 @@ interface IBookApi {
      */
     @GET("/post/help/{helpId}")
     fun getBookHelpDetail(@Path("helpId") helpId: String): Observable<BookHelp>
+
+    /**
+     * 获取单一排行榜
+     * 周榜：rankingId->_id
+     * 月榜：rankingId->monthRank
+     * 总榜：rankingId->totalRank
+     *
+     * @return
+     */
+    @GET("/ranking/{rankingId}")
+    abstract fun getRanking(@Path("rankingId") rankingId: String): Observable<Rankings>
 }

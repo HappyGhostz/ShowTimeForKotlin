@@ -6,8 +6,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.RankingListBean
+import com.example.happyghost.showtimeforkotlin.ui.book.rank.iteminfo.SubOtherHomeRankActivity
+import com.example.happyghost.showtimeforkotlin.ui.book.rank.iteminfo.SubRankActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
+import org.jetbrains.anko.toast
 
 /**
  * @author Zhao Chenping
@@ -25,6 +28,13 @@ class BookFemaleRankAdapter(femalegroups: ArrayList<RankingListBean.MaleBean>, f
             val view = helper?.getView<ImageView>(R.id.ivRankArrow)
             view.visibility = View.GONE
             helper.setText(R.id.tvRankGroupName,item?.title)
+            helper.itemView.setOnClickListener {
+                if(helper.position<5){
+                    SubRankActivity.startActivity(mContext, item?._id!!, item.monthRank!!, item.totalRank!!, item.title!!)
+                }else if(helper.position>5){
+                    SubOtherHomeRankActivity.startActivity(mContext, item?._id!!, item.title!!)
+                }
+            }
         }else{
             val view = helper.getView<ImageView>(R.id.ivRankCover)
             val ima = helper.getView<ImageView>(R.id.ivRankArrow)

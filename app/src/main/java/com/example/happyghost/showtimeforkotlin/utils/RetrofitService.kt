@@ -316,6 +316,12 @@ class RetrofitService  {
                     .observeOn(AndroidSchedulers.mainThread())
         }
 
+        fun getRanking(mRankType: String): Observable<Rankings> {
+            return iBookApi!!.getRanking(mRankType)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
         /**
          * 类型转换
          * @param newsId 新闻类型
