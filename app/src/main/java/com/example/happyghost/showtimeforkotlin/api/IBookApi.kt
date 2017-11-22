@@ -187,4 +187,25 @@ interface IBookApi {
      */
     @GET("/ranking/{rankingId}")
     abstract fun getRanking(@Path("rankingId") rankingId: String): Observable<Rankings>
+
+    /**
+     * 关键字自动补全
+     *
+     * @param query
+     * @return
+     */
+    @GET("/book/auto-complete")
+    fun autoComplete(@Query("query") query: String): Observable<AutoComplete>
+
+    @GET("/book/hot-word")
+    fun getHotWord(): Observable<HotWord>
+
+    /**
+     * 书籍查询
+     *
+     * @param query
+     * @return
+     */
+    @GET("/book/fuzzy-search")
+    fun searchBooks(@Query("query") query: String): Observable<SearchDetail>
 }

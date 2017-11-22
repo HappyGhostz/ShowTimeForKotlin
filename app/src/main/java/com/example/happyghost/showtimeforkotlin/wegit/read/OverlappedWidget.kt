@@ -59,11 +59,11 @@ class OverlappedWidget(context: Context, mBookId: String,
         val shadow: GradientDrawable
         if (actiondownX > mScreenWidth shr 1) {
             shadow = mBackShadowDrawableLR
-            shadow.setBounds((mScreenWidth + touch_down - 5) as Int, 0, (mScreenWidth + touch_down + 5) as Int, mScreenHeight)
+            shadow.setBounds((mScreenWidth + touch_down - 5).toInt() , 0, (mScreenWidth + touch_down + 5).toInt() , mScreenHeight)
 
         } else {
             shadow = mBackShadowDrawableRL
-            shadow.setBounds((touch_down - 5) as Int, 0, (touch_down + 5) as Int, mScreenHeight)
+            shadow.setBounds((touch_down - 5).toInt() , 0, (touch_down + 5).toInt() , mScreenHeight)
         }
         shadow.draw(canvas)
         try {
@@ -136,11 +136,11 @@ class OverlappedWidget(context: Context, mBookId: String,
     override fun startAnimation() {
         var dx=0
         if (actiondownX > mScreenWidth / 2) {
-            dx = -(mScreenWidth + touch_down) as Int
-            mScroller.startScroll((mScreenWidth + touch_down) as Int, mTouch.y as Int, dx, 0, 700)
+            dx = -(mScreenWidth + touch_down).toInt()
+            mScroller.startScroll((mScreenWidth + touch_down) .toInt(), mTouch.y.toInt(), dx, 0, 700)
         } else {
-            dx = (mScreenWidth - touch_down) as Int
-            mScroller.startScroll(touch_down as Int, mTouch.y as Int, dx, 0, 700)
+            dx = (mScreenWidth - touch_down).toInt()
+            mScroller.startScroll(touch_down .toInt(), mTouch.y.toInt(), dx, 0, 700)
         }
     }
 
@@ -153,11 +153,11 @@ class OverlappedWidget(context: Context, mBookId: String,
     override fun restoreAnimation() {
         var dx=0
         if (actiondownX > mScreenWidth / 2) {
-            dx = (mScreenWidth - mTouch.x) as Int
+            dx = (mScreenWidth - mTouch.x).toInt()
         } else {
-            dx = -mTouch.x as Int
+            dx = -mTouch.x.toInt()
         }
-        mScroller.startScroll(mTouch.x as Int, mTouch.y as Int, dx, 0, 300)
+        mScroller.startScroll(mTouch.x.toInt(), mTouch.y.toInt(), dx, 0, 300)
     }
 
     override fun setBitmaps(bm1: Bitmap?, bm2: Bitmap?) {

@@ -50,6 +50,12 @@
     <string name="book_review_detail_helpful_no">无用</string>
     <string name="book_review_detail_to_review_the_scoring">给书评打分</string>
     <string name="book_review_detail_score">楼主打分：</string>
+    <string name="menu_book_scan_local_book">扫描本地书籍</string>
+    <string name="menu_book_set_page">翻页模式</string>
+    <string name="menu_book_search">搜索</string>
+    <string name="search">搜索</string>
+    <string name="search_hot_search">大家都在搜</string>
+    <string name="search_change_a_lot">换一批</string>
 
     <string name="book_read_add_book">添书</string>
     <string name="book_read_would_you_like_to_add_this_to_the_book_shelf">是否将本书加入书架？</string>

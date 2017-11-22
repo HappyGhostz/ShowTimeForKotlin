@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:navigationIcon="@mipmap/ab_back"
+        app:theme="@style/OverflowMenuStyle"/>
+
+    <RelativeLayout
+        android:id="@+id/layoutHotWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_hot_search" />
+
+        <TextView
+            android:id="@+id/tvChangeWords"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@mipmap/refresh"
+            android:drawablePadding="5dp"
+            android:visibility="gone"
+            android:text="@string/search_change_a_lot" />
+    </RelativeLayout>
+
+    <com.example.happyghost.showtimeforkotlin.wegit.TagGroup
+        android:id="@+id/tag_group"
+        style="@style/TagGroup"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" />
+
+    <RelativeLayout
+        android:id="@+id/rlHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/tvSearchHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="搜索历史"
+            android:textColor="@color/common_h1"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tvClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/touch_bg"
+            android:clickable="true"
+            android:drawableLeft="@drawable/delete_selector"
+            android:drawablePadding="5dp"
+            android:enabled="true"
+            android:padding="3dp"
+            android:text="清空"
+            android:textColor="@drawable/delete_text_selector" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lvSearchHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvSearchHistory"
+            android:layout_marginTop="5dp"
+            android:divider="@null"
+            android:scrollbars="none"
+            android:listSelector="@drawable/touch_bg" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+       />
+
+</LinearLayout>

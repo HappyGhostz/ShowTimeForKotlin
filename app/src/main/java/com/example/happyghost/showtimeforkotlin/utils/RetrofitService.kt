@@ -322,6 +322,20 @@ class RetrofitService  {
                     .observeOn(AndroidSchedulers.mainThread())
         }
 
+        fun getAutoComplete(query: String): Observable<AutoComplete> {
+            return iBookApi!!.autoComplete(query)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun getHotWord(): Observable<HotWord> = iBookApi!!.getHotWord()
+                                                  .subscribeOn(Schedulers.io())
+                                                  .observeOn(AndroidSchedulers.mainThread())
+
+        fun getSearchResult(query: String): Observable<SearchDetail> = iBookApi!!.searchBooks(query)
+                                                  .subscribeOn(Schedulers.io())
+                                                  .observeOn(AndroidSchedulers.mainThread())
+
         /**
          * 类型转换
          * @param newsId 新闻类型

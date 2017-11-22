@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_seach"
+        android:title="@string/menu_book_search"
+        android:orderInCategory="90"
+        android:icon="@mipmap/book_detail_info_search_img"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/item_channel"
+        android:title="@string/menu_book_set_page"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_sync_bookshelf"
+        android:title="@string/menu_book_scan_local_book"
+        app:showAsAction="never" />
+
+</menu>

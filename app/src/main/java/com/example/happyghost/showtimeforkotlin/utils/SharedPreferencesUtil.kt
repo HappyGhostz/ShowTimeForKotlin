@@ -78,7 +78,7 @@ class SharedPreferencesUtil {
             return null
         }
 
-        fun putObject(key: String, `object`: Any) {
+        fun putObject(key: String, `object`: Any?) {
             val baos = ByteArrayOutputStream()
             var out: ObjectOutputStream? = null
             try {
