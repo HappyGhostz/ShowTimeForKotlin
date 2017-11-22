@@ -82,6 +82,13 @@
         <!-- 设置弹出菜单文字颜色 -->
         <item name="android:textColor">@color/whiteColor</item>
     </style>
+    <style name="ToolbarOverflowTheme" parent="BaseTheme">
+        <!-- 修改toolbar最右边图标的风格 -->
+        <item name="actionOverflowButtonStyle">@style/ToolbarOverflow</item>
+    </style>
+    <style name="ToolbarOverflow" parent="@android:style/Widget.ActionButton.Overflow">
+        <item name="android:src">@mipmap/book_detail_info_search_img</item>
+    </style>
 
 
 </resources>

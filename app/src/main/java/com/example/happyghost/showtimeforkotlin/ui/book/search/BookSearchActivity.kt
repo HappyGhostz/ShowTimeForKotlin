@@ -25,6 +25,7 @@ import com.example.happyghost.showtimeforkotlin.utils.SharedPreferencesUtil
 import com.example.happyghost.showtimeforkotlin.wegit.TagColor
 import com.example.happyghost.showtimeforkotlin.wegit.TagGroup
 import org.jetbrains.anko.find
+import org.jetbrains.anko.toast
 import java.util.ArrayList
 import javax.inject.Inject
 
