@@ -25,6 +25,11 @@ class ConsTantUtils {
         val tagColors = intArrayOf(Color.parseColor("#90C5F0"), Color.parseColor("#91CED5"),
                 Color.parseColor("#F88F55"), Color.parseColor("#C0AFD0"), Color.parseColor("#E78F8F"),
                 Color.parseColor("#67CCB7"), Color.parseColor("#F6BC7E"))
+        val SUFFIX_TXT = ".txt"
+        val SUFFIX_PDF = ".pdf"
+        val SUFFIX_EPUB = ".epub"
+        val SUFFIX_ZIP = ".zip"
+        val SUFFIX_CHM = ".chm"
     }
 
 }

@@ -7,11 +7,13 @@ import android.content.*
 
 
 import android.graphics.Point
+import android.net.Uri
 import android.os.Handler
 import android.os.Message
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatDelegate
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.CompoundButton
@@ -55,7 +57,7 @@ import java.util.*
 class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListener {
 
     private var statusBarColor: Int = 0
-    lateinit var mBookId :String
+    var mBookId :String = ""
     var mIsFromSd :Boolean  =false
     var currentChapter = 1
     var chapters = ArrayList<BookMixATocBean.MixTocBean.ChaptersBean>()
@@ -70,7 +72,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     private var receiver = Receiver()
     private val intentFilter = IntentFilter()
     var bookBean: Recommend.RecommendBooks? = null
-    lateinit var title:String
+    var title:String = ""
 
 
     override fun loadBookToc(list: List<BookMixATocBean.MixTocBean.ChaptersBean>) {
@@ -113,20 +115,26 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
 
     override fun upDataView() {
         if(mIsFromSd){
-            doAsync {
-                val queryChapters = mPresenter.queryChapters(mBookId)
-                uiThread {
-                    if(queryChapters!!.size<0||queryChapters.size==0){
-                        mPresenter. getBookMixAToc(mBookId, "chapters")
-                    }else{
-                        val convertChaptersBean = BookTransformer.locaBookChaptersConvertChaptersBean(queryChapters)
-                        chapters.addAll(convertChaptersBean)
-                        loadCurrentChapter()
-                    }
+            val chapter = BookMixATocBean.MixTocBean.ChaptersBean()
+            chapter.title = bookBean?.title
+            chapters.add(chapter)
+            //加载章节内容
+            loadChapterRead(null, currentChapter)
+            //本地书籍隐藏社区、简介、缓存按钮
+            gone(tvBookReadCommunity, tvBookReadIntroduce, tvBookReadDownload)
+            return
+        }
+        doAsync {
+            val queryChapters = mPresenter.queryChapters(mBookId)
+            uiThread {
+                if(queryChapters!!.size<0||queryChapters.size==0){
+                    mPresenter. getBookMixAToc(mBookId, "chapters")
+                }else{
+                    val convertChaptersBean = BookTransformer.locaBookChaptersConvertChaptersBean(queryChapters)
+                    chapters.addAll(convertChaptersBean)
+                    loadCurrentChapter()
                 }
             }
-        }else{
-            mPresenter. getBookMixAToc(mBookId, "chapters")
         }
     }
 
@@ -492,20 +500,43 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
     }
 
 
+    var outBook: Boolean=false
 
     override fun initInjector() {
-        initStatusBar()
-        bookBean = intent.getSerializableExtra(BOOK_BEAN)as Recommend.RecommendBooks
-        title = bookBean!!.title!!
-        mBookId = bookBean!!._id!!
-        mIsFromSd = bookBean!!.isFromSD
         DaggerReadComponent.builder()
                 .applicationComponent(getAppComponent())
                 .readModule(ReadModule(this))
                 .build()
                 .inject(this)
+        initStatusBar()
+        val action = intent.action
+        if(Intent.ACTION_VIEW == action) {
+            var  uri  = intent.data
+            if (uri != null) {
+                initView()
+                toast("请去书架页面扫描书籍!")
+               return
+            }
+        }else{
+            outBook=false
+            bookBean = intent.getSerializableExtra(BOOK_BEAN)as Recommend.RecommendBooks
+            title = bookBean!!.title!!
+            mBookId = bookBean!!._id!!
+            mIsFromSd = bookBean!!.isFromSD
+        }
+
     }
 
+    fun getInsideString(str: String, strStart: String, strEnd: String): String {
+        if (str.lastIndexOf(strStart) < 0) {
+            return ""
+        }
+        if (str.indexOf(strEnd) < 0) {
+            return ""
+        }
+        val substring = str.substring(str.lastIndexOf(strStart) + strStart.length, str.indexOf(strEnd))
+        return substring
+    }
     override fun getContentView(): Int {
         statusBarColor = ContextCompat.getColor(this, R.color.reader_menu_bg_color)
         return R.layout.activity_read
@@ -586,20 +617,20 @@ class ReadActivity : BaseActivity<ReadPresenter>(),IReadView, View.OnClickListen
 
     inner class ReadListener : OnReadStateChangeListener {
         override fun onChapterChanged(chapter: Int) {
-            currentChapter = chapter
-            // 加载前一节 与 后三节
-            var i = chapter - 1
-            while (i <= chapter + 3 && i <= chapters.size) {
-                if (i > 0 && i != chapter
-                        && FileUtils.hasChapterFile(mBookId, i) == null) {
-                    if(chapters.get(i - 1).link==null){
-                        mPresenter. getBookMixAToc(mBookId, "chapters")
-                    }else{
-                        mPresenter.getChapterRead(chapters.get(i - 1).link!!, i)
+                currentChapter = chapter
+                // 加载前一节 与 后三节
+                var i = chapter - 1
+                while (i <= chapter + 3 && i <= chapters.size) {
+                    if (i > 0 && i != chapter
+                            && FileUtils.hasChapterFile(mBookId, i) == null) {
+                        if(chapters.get(i - 1).link==null){
+                            mPresenter. getBookMixAToc(mBookId, "chapters")
+                        }else{
+                            mPresenter.getChapterRead(chapters.get(i - 1).link!!, i)
+                        }
                     }
+                    i++
                 }
-                i++
-            }
         }
 
         override fun onPageChanged(chapter: Int, page: Int) {

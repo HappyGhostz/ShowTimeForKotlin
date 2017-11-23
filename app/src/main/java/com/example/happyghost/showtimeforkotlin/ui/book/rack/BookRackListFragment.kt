@@ -11,6 +11,7 @@ import android.view.View
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.event.DownloadEvent
+import com.example.happyghost.showtimeforkotlin.RxBus.event.LocalBookEvent
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookRackAdapter
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
@@ -77,6 +78,13 @@ class BookRackListFragment : BaseFragment<BookRackPresent>(),IBookRackView {
         showItemHandle()
         showItemLongHandle()
         mPresenter.registerRxBus(ReadEvent::class.java, Consumer { t -> handlInsertBookRack(t) })
+        mPresenter.registerRxBus(LocalBookEvent::class.java, Consumer { t -> handlReBookRack(t) })
+    }
+
+    private fun handlReBookRack(t: LocalBookEvent) {
+        if(t.isLocal){
+            mPresenter.getData()
+        }
     }
 
     private fun handlInsertBookRack(t: ReadEvent) {

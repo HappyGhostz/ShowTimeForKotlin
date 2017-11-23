@@ -11,6 +11,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import com.example.happyghost.showtimeforkotlin.R
+import com.example.happyghost.showtimeforkotlin.ui.book.search.BookSearchActivity
 
 /**
  * @author Zhao Chenping
@@ -19,7 +20,7 @@ import com.example.happyghost.showtimeforkotlin.R
  */
 class BookContentTextView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : TextView(context, attrs, defStyleAttr) {
 
-    fun setText(text: String) {
+    fun setSpannedText(text: String) {
         var text = text
         val startIndex = 0
         while (true) {
@@ -51,7 +52,7 @@ class BookContentTextView @JvmOverloads constructor(context: Context, attrs: Att
         }
 
         override fun onClick(v: View) {
-//            SearchActivity.startActivity(context, name.replace("》".toRegex(), "").replace("《".toRegex(), ""))
+            BookSearchActivity.open(context, name.replace("》".toRegex(), "").replace("《".toRegex(), ""))
         }
     }
 }

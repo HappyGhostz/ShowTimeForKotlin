@@ -46,7 +46,6 @@ class BookSearchActivity: BaseActivity<BookSearchPresenter>(),IBookSearchBaseVie
     lateinit var mAutoAdapter:AutoCompleteAdapter
     @Inject lateinit var  mHisAdapter: SearchHistoryAdapter
     @Inject lateinit var  mSearchResultAdapter: SearchResultAdapter
-    val INTENT_QUERY = "query"
     internal var hotIndex = 0
     private var key: String? = null
     override fun showHotWordList(list: List<String>) {
@@ -120,9 +119,6 @@ class BookSearchActivity: BaseActivity<BookSearchPresenter>(),IBookSearchBaseVie
             SharedPreferencesUtil.putObject("searchHistory",null)
             initSearchHistory()
         }
-        key = intent.getStringExtra(INTENT_QUERY)
-
-
         mHisAdapter.setOnItemClickListener { _, _, position ->
             search(mHistory[position])
         }
@@ -145,6 +141,7 @@ class BookSearchActivity: BaseActivity<BookSearchPresenter>(),IBookSearchBaseVie
     }
 
     override fun initInjector() {
+        key = intent.getStringExtra(QUERY_KEY)
         DaggerBookSearchComponent.builder()
                 .applicationComponent(getAppComponent())
                 .bookSearchModule(BookSearchModule(this))
@@ -155,8 +152,13 @@ class BookSearchActivity: BaseActivity<BookSearchPresenter>(),IBookSearchBaseVie
 
     override fun getContentView(): Int = R.layout.activity_book_search
     companion object {
+        var QUERY_KEY = "querykey"
         fun open(mContext: Context?) {
             mContext?.startActivity<BookSearchActivity>()
+            (mContext as Activity).overridePendingTransition(R.anim.fade_entry, R.anim.fade_exit)
+        }
+        fun open(mContext: Context?,key: String){
+            mContext?.startActivity<BookSearchActivity>(QUERY_KEY to key)
             (mContext as Activity).overridePendingTransition(R.anim.fade_entry, R.anim.fade_exit)
         }
     }
@@ -165,7 +167,7 @@ class BookSearchActivity: BaseActivity<BookSearchPresenter>(),IBookSearchBaseVie
         inflater.inflate(R.menu.menu_book_search,menu)
         menuItem = menu?.findItem(R.id.action_search)!!//在菜单中找到对应控件的item
         searchView = MenuItemCompat.getActionView(menuItem) as SearchView
-//        searchView.onActionViewExpanded()
+        searchView.isIconified = false
         searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 key = query
@@ -190,11 +192,13 @@ class BookSearchActivity: BaseActivity<BookSearchPresenter>(),IBookSearchBaseVie
                 object : MenuItemCompat.OnActionExpandListener {
                     //设置打开关闭动作监听
                     override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                        searchView.isIconified = false
                         initTagGroup()
                         return true
                     }
 
                     override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                        searchView.isIconified = true
                         initTagGroup()
                         return true
                     }
@@ -250,9 +254,9 @@ class BookSearchActivity: BaseActivity<BookSearchPresenter>(),IBookSearchBaseVie
             mListPopupWindow?.dismiss()
     }
     fun search(key: String?) {
-        initSearchResult()
         MenuItemCompat.expandActionView(menuItem)
         if (!TextUtils.isEmpty(key)) {
+            initSearchResult()
             searchView.setQuery(key, true)
             saveSearchHistory(key!!)
         }

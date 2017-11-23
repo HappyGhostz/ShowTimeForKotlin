@@ -1,11 +1,11 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
+import android.content.Context
+import android.os.Environment
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
 import java.io.*
-
-
-
+import java.text.DecimalFormat
 
 
 /**
@@ -15,6 +15,35 @@ import java.io.*
  */
 class FileUtils {
     companion object {
+        /**
+         * 文件拷贝
+         *
+         * @param src  源文件
+         * @param desc 目的文件
+         */
+        fun fileChannelCopy(src: File, desc: File) {
+            //createFile(src);
+            creatFilr(desc)
+            var fi: FileInputStream? = null
+            var fo: FileOutputStream? = null
+            try {
+                fi = FileInputStream(src)
+                fo = FileOutputStream(desc)
+                val `in` = fi.channel//得到对应的文件通道
+                val out = fo.channel//得到对应的文件通道
+                `in`.transferTo(0, `in`.size(), out)//连接两个通道，并且从in通道读取，然后写入out通道
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } finally {
+                try {
+                    if (fo != null) fo.close()
+                    if (fi != null) fi.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
         //获取文件夹下的所有文件
         fun getFileNum(bookId: String):Int{
             val path = AppApplication.instance.getContext()
@@ -203,6 +232,42 @@ class FileUtils {
             }
 
             return charset
+        }
+        fun createRootPath(context: Context): String {
+            var cacheRootPath = ""
+            if (isSdCardAvailable()) {
+                // /sdcard/Android/data/<application package>/cache
+                cacheRootPath = context.externalCacheDir!!.path
+            } else {
+                // /data/data/<application package>/cache
+                cacheRootPath = context.cacheDir.path
+            }
+            return cacheRootPath
+        }
+
+        private fun isSdCardAvailable(): Boolean {
+            return Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()
+        }
+
+        /**
+         * 转换文件大小
+         *
+         * @param fileLen 单位B
+         * @return
+         */
+        fun formatFileSizeToString(fileLen: Long): String {
+            val df = DecimalFormat("0.00")
+            var fileSizeString = ""
+            if (fileLen < 1024) {
+                fileSizeString = df.format(fileLen.toDouble()) + "B"
+            } else if (fileLen < 1048576) {
+                fileSizeString = df.format(fileLen.toDouble() / 1024) + "K"
+            } else if (fileLen < 1073741824) {
+                fileSizeString = df.format(fileLen.toDouble() / 1048576) + "M"
+            } else {
+                fileSizeString = df.format(fileLen.toDouble() / 1073741824) + "G"
+            }
+            return fileSizeString
         }
     }
 }

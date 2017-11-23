@@ -191,6 +191,38 @@ public class PageFactory {
 
         return 0
     }
+    /**
+     * 外部书籍文件打开程序
+     * 没有实现
+     * @param path  文件路径
+     * @return 0：文件不存在或打开失败  1：打开成功
+     */
+    fun openBook(path:String,position: IntArray,chapter:Int): Int {
+//        this.currentChapter = chapter
+//        this.chapterSize = chaptersList!!.size
+//        if (currentChapter > chapterSize)
+//            currentChapter = chapterSize
+        try {
+            val file = File(path)
+            val length = file.length()
+            if (length > 10) {
+                mbBufferLen = length.toInt()
+                // 创建文件通道，映射为MappedByteBuffer
+                mbBuff = RandomAccessFile(file, "r")
+                        .channel
+                        .map(FileChannel.MapMode.READ_ONLY, 0, length)
+                curBeginPos = position[0]
+                curEndPos = position[1]
+                onChapterChanged(chapter)
+                mLines?.clear()
+                return 1
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return 0
+    }
 
     /**
      * 绘制阅读页面
@@ -212,7 +244,8 @@ public class PageFactory {
                 canvas.drawColor(Color.WHITE)
             }
             // 绘制标题
-            canvas.drawText(chaptersList!!.get(currentChapter - 1).title, marginWidth.toFloat(), y.toFloat(), mTitlePaint)
+            val title = chaptersList!![currentChapter - 1].title
+            canvas.drawText(title, marginWidth.toFloat(), y.toFloat(), mTitlePaint)
             y += mLineSpace + mNumFontSize
             // 绘制阅读页面文字
             // 绘制阅读页面文字

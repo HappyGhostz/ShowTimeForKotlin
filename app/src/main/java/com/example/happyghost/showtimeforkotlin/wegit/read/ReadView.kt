@@ -74,6 +74,26 @@ abstract class ReadView : View {
             isPrepared = true
         }
     }
+    @Synchronized
+    fun initOutRead(theme: Int,path:String) {
+                    if (!isPrepared) {
+                        try {
+                            pagefactory!!.setBgBitmap(ThemeManager.getThemeDrawable(theme))
+                            // 自动跳转到上次阅读位置
+                            val pos = SettingManager.getInstance()?.getReadProgress(bookId)
+                            val ret = pagefactory!!.openBook(path, intArrayOf(pos!![1], pos[2]),pos[0])
+                            if (ret == 0) {
+                                listener.onLoadChapterFailure(pos[0])
+                                return
+                            }
+                            pagefactory!!.onDraw(mCurrentPageCanvas)
+                            postInvalidate()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                      isPrepared = true
+                    }
+    }
 
     private var dx: Int = 0
     private var dy: Int = 0
@@ -236,6 +256,13 @@ abstract class ReadView : View {
     open fun jumpToChapter(chapter: Int) {
         resetTouchPoint()
         pagefactory!!.openBook(chapter, intArrayOf(0, 0))
+        pagefactory!!.onDraw(mCurrentPageCanvas)
+        pagefactory!!.onDraw(mNextPageCanvas)
+        postInvalidate()
+    }
+    open fun jumpToOutChapter(path: String,chapter: Int) {
+        resetTouchPoint()
+        pagefactory!!.openBook(path, intArrayOf(0, 0),chapter)
         pagefactory!!.onDraw(mCurrentPageCanvas)
         pagefactory!!.onDraw(mNextPageCanvas)
         postInvalidate()

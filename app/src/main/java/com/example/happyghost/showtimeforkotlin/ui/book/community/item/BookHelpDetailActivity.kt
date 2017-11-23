@@ -33,7 +33,8 @@ class BookHelpDetailActivity: BaseActivity<BookHelpDetailPresenter>(),IBookHelpe
         headView.tvBookTitle.text = data.help?.author?.nickname
         headView.tvTime.text = StringUtils.getDescriptionTimeFromDateString(data.help?.created)
         headView.tvTitle.text = data.help?.title
-        headView.tvContent.text = data.help?.content
+        headView.tvContent.setSpannedText(data.help?.content!!)
+//        headView.tvContent.text = data.help?.content
         headView.tvCommentCount.text = String.format(this.getString(R.string.comment_comment_count), data.help?.commentCount)
         ImageLoader.loadCenterCrop(this, ConsTantUtils.IMG_BASE_URL + data.help?.author?.avatar, headView.ivBookCover, R.mipmap.avatar_default)
         if (mAdapter.headerLayout != null) {

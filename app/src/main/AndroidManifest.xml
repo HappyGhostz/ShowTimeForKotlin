@@ -61,6 +61,7 @@
         <activity android:name=".ui.book.rank.iteminfo.SubOtherHomeRankActivity"/>
         <activity android:name=".ui.book.search.BookSearchActivity"
             android:theme="@style/ToolbarOverflowTheme"/>
+        <activity android:name=".ui.book.search.ScanLocalBookActivity"/>
         <service android:name=".downloadservice.DownloadBookService"/>
     </application>
 

@@ -19,6 +19,7 @@ import com.example.happyghost.showtimeforkotlin.ui.book.community.BookCommunityL
 import com.example.happyghost.showtimeforkotlin.ui.book.rack.BookRackListFragment
 import com.example.happyghost.showtimeforkotlin.ui.book.rank.BookRankListFragment
 import com.example.happyghost.showtimeforkotlin.ui.book.search.BookSearchActivity
+import com.example.happyghost.showtimeforkotlin.ui.book.search.ScanLocalBookActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.SharedPreferencesUtil
 import org.jetbrains.anko.find
@@ -95,7 +96,7 @@ class BookMainFragment: BaseFragment<BookMainPresenter>() {
                          .create()
                          .show()
              }
-             R.id.action_sync_bookshelf->toast("扫描")
+             R.id.action_sync_bookshelf-> ScanLocalBookActivity.open(mContext!!)
          }
         return false
     }

@@ -80,7 +80,6 @@ class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, r
         var id:Long=1
         val localBookInfo = BookTransformer.RecommendBooksConvertlocalBook(recommendBooks)
         localBookInfo.id = size+id
-        localBookInfo.isFromSD=true
         mBookDao.insert(localBookInfo)
     }
     fun insertBooks(recBooks:List<Recommend.RecommendBooks>){
@@ -92,7 +91,6 @@ class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, r
             var  book = recBooks.get(index)
             val localBookInfo = BookTransformer.RecommendBooksConvertlocalBook(book)
             localBookInfo.id=size+index.toLong()
-            localBookInfo.isFromSD=true
             mBookDao.insert(localBookInfo)
             index++
 

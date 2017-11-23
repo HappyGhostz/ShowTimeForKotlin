@@ -19,10 +19,12 @@ import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookDet
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.community.BookDetailCommunityActivity
 import com.example.happyghost.showtimeforkotlin.ui.book.read.ReadActivity
+import com.example.happyghost.showtimeforkotlin.ui.book.search.BookSearchActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
 import com.example.happyghost.showtimeforkotlin.utils.StringUtils
 import com.example.happyghost.showtimeforkotlin.wegit.TagColor
+import com.example.happyghost.showtimeforkotlin.wegit.TagGroup
 import kotlinx.android.synthetic.main.activity_book_detail_info.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
@@ -196,6 +198,14 @@ class BookDetailInfoActivity: BaseActivity<BookDetailPresent>(),IBookDetailBaseV
         rlCommunity.setOnClickListener {
             BookDetailCommunityActivity.startActivity(this, mBookId, tvBookListTitle.text.toString(), 0)
         }
+        tvBookListAuthor.setOnClickListener {
+            BookSearchActivity.open(this,tvBookListAuthor.text.toString())
+        }
+        tag_group.setOnTagClickListener(object :TagGroup.OnTagClickListener{
+            override fun onTagClick(tag: String) {
+                BookSearchActivity.open(this@BookDetailInfoActivity,tag)
+            }
+        })
     }
 
     override fun initInjector() {
