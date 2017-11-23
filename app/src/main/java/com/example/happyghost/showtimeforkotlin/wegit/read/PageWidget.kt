@@ -3,10 +3,9 @@ package com.example.happyghost.showtimeforkotlin.wegit.read
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.GradientDrawable
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.utils.SettingManager
 import com.example.happyghost.showtimeforkotlin.utils.ThemeManager
-import java.util.logging.Handler
 
 /**
  * @author Zhao Chenping

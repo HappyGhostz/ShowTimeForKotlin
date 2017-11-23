@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookCommunityAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookHelpList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookHelpList
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookCommunityComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookCommunityModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment

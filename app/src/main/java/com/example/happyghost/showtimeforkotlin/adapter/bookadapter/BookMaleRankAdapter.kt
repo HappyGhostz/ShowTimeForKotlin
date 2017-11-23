@@ -5,7 +5,7 @@ import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.RankingListBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.RankingListBean
 import com.example.happyghost.showtimeforkotlin.ui.book.rank.iteminfo.SubOtherHomeRankActivity
 import com.example.happyghost.showtimeforkotlin.ui.book.rank.iteminfo.SubRankActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils

@@ -1,7 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.RxBus.event
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Recommend
 
 /**
  * @author Zhao Chenping

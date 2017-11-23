@@ -7,7 +7,7 @@ import android.graphics.PointF
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Scroller
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.utils.ScreenUtils
 import com.example.happyghost.showtimeforkotlin.utils.SettingManager
 import com.example.happyghost.showtimeforkotlin.utils.ThemeManager

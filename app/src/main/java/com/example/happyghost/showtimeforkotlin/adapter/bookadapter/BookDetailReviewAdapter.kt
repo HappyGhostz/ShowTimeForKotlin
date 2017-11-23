@@ -4,7 +4,7 @@ import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.HotReview
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.HotReview
 import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.community.BookReviewDetailActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.GlideCircleTransform

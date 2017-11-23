@@ -1,7 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.ui.news.newslist
 
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsInfo
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsMultiItem
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsMultiItem
 
 /**
  * @author Zhao Chenping

@@ -3,7 +3,7 @@ package com.example.happyghost.showtimeforkotlin.ui.book.read
 import android.text.TextUtils
 import android.util.Log
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.loacaldao.BookChapterInfo
 import com.example.happyghost.showtimeforkotlin.loacaldao.BookChapterInfoDao
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfoDao

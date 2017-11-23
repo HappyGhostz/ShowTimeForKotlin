@@ -1,20 +1,18 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.rack
 
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
-import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.event.DownloadEvent
 import com.example.happyghost.showtimeforkotlin.RxBus.event.LocalBookEvent
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookRackAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Recommend
 import com.example.happyghost.showtimeforkotlin.downloadservice.DownloadBookService
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookRackComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookRackMoudle
@@ -26,8 +24,6 @@ import com.example.happyghost.showtimeforkotlin.utils.*
 import io.reactivex.functions.Consumer
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
-import org.jetbrains.anko.progressDialog
-import org.jetbrains.anko.support.v4.progressDialog
 import org.jetbrains.anko.support.v4.selector
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.uiThread

@@ -1,7 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.discussion
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.CommentList
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Disscussion
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.CommentList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Disscussion
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
 /**

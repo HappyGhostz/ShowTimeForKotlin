@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.news.photonews
 
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.PhotoSetInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.PhotoSetInfo
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
 /**

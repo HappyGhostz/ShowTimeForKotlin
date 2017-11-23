@@ -7,7 +7,7 @@ import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookFemaleRankAdapter
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookMaleRankAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.RankingListBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.RankingListBean
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookRankComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookRankListModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment

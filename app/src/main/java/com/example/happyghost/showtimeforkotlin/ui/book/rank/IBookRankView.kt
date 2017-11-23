@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.rank
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.RankingListBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.RankingListBean
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
 /**

@@ -7,7 +7,7 @@ import com.andexert.library.RippleView
 import com.chad.library.adapter.base.BaseSectionQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.SpecialItem
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.SpecialItem
 import com.example.happyghost.showtimeforkotlin.ui.news.normal.NewsNormalActivity
 import com.example.happyghost.showtimeforkotlin.ui.news.photonews.PhotoSetNewsActivity
 import com.example.happyghost.showtimeforkotlin.ui.news.special.NewsSpecialActivity

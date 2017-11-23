@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.subject
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookListDetail
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookListDetail
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout

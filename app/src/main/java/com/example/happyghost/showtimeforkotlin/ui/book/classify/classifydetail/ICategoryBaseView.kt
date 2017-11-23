@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.classify.classifydetail
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BooksByCats
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BooksByCats
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
 /**

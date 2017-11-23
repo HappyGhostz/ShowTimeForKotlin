@@ -2,12 +2,11 @@ package com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.discussion
 
 import android.app.Activity
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.DisscussionAdapter
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.DisscussionBestAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.CommentList
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Disscussion
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.CommentList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Disscussion
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookDiscussionDetailComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookDiscussionDetailModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity

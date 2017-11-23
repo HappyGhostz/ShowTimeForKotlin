@@ -2,8 +2,8 @@ package com.example.happyghost.showtimeforkotlin.ui.news.newslist
 
 import android.util.Log
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsInfo
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsMultiItem
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsMultiItem
 import com.example.happyghost.showtimeforkotlin.utils.ListUtils
 import com.example.happyghost.showtimeforkotlin.utils.NewsUtils
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService

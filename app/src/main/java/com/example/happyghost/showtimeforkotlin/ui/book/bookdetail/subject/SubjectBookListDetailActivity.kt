@@ -8,8 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.SubjectBookListAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookListDetail
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.RecommendBookList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookListDetail
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.RecommendBookList
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerSubjectBookListDetailComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.SubjectBookListDetailModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
@@ -18,7 +18,6 @@ import com.example.happyghost.showtimeforkotlin.utils.GlideCircleTransform
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
 import kotlinx.android.synthetic.main.activity_subject_detail.*
-import kotlinx.android.synthetic.main.head_item_subject_book_list.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject

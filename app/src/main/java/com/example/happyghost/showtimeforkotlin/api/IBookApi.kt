@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.api
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.*
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.*
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path

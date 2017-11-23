@@ -1,19 +1,15 @@
 package com.example.happyghost.showtimeforkotlin.adapter.bookadapter
 
-import android.content.Context
-import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
-import android.view.View
 import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.event.LocalBookEvent
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Recommend
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfoDao
-import com.example.happyghost.showtimeforkotlin.ui.book.read.ReadActivity
 import com.example.happyghost.showtimeforkotlin.utils.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast

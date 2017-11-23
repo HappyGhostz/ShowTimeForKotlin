@@ -6,7 +6,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookRackAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Recommend
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils

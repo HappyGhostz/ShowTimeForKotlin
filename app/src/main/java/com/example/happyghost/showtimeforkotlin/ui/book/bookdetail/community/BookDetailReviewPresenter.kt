@@ -1,7 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.community
 
 import com.example.happyghost.showtimeforkotlin.AppApplication
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.HotReview
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.HotReview
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout

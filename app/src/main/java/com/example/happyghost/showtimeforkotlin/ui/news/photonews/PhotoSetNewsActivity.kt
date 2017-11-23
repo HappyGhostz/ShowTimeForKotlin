@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.v4.view.ViewPager
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.newsadapter.PhotoSetAdapter
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.PhotoSetInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.PhotoSetInfo
 import com.example.happyghost.showtimeforkotlin.inject.component.newscomponent.DaggerPhotoSetNewsComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.newsmodule.PhotoSetNewsModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity

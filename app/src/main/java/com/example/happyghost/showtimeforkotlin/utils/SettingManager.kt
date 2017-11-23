@@ -1,7 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
 import com.example.happyghost.showtimeforkotlin.AppApplication
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMark
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMark
 
 
 /**

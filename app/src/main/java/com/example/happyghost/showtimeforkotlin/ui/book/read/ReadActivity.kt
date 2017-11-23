@@ -7,13 +7,11 @@ import android.content.*
 
 
 import android.graphics.Point
-import android.net.Uri
 import android.os.Handler
 import android.os.Message
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatDelegate
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.CompoundButton
@@ -27,10 +25,10 @@ import com.example.happyghost.showtimeforkotlin.RxBus.event.DownloadProgressEven
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookMarkAdapter
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.ReadThemeAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMark
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMark
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.ChapterReadBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Recommend
 import com.example.happyghost.showtimeforkotlin.downloadservice.DownloadBookService
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerReadComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.ReadModule

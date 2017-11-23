@@ -6,9 +6,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
-import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.utils.FileUtils
 import kotlin.collections.ArrayList
 

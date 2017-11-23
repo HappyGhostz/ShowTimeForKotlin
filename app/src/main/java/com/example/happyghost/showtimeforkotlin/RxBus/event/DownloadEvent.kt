@@ -2,7 +2,7 @@ package com.example.happyghost.showtimeforkotlin.RxBus.event
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
 
 /**
  * @author Zhao Chenping

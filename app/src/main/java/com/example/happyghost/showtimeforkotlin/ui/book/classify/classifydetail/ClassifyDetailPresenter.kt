@@ -1,9 +1,8 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.classify.classifydetail
 
 import com.example.happyghost.showtimeforkotlin.AppApplication
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BooksByCats
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BooksByCats
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
-import com.example.happyghost.showtimeforkotlin.ui.book.classify.IBookClassifyView
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout

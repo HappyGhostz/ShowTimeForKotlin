@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.search
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.SearchDetail
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.SearchDetail
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
 /**

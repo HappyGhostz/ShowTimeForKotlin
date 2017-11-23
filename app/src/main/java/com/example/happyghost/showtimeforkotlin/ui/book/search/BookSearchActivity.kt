@@ -3,7 +3,7 @@ package com.example.happyghost.showtimeforkotlin.ui.book.search
 import android.app.Activity
 import android.content.Context
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.SearchDetail
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.SearchDetail
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookSearchModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_book_search.*
@@ -13,7 +13,6 @@ import android.support.v7.widget.ListPopupWindow
 import android.support.v7.widget.SearchView
 import android.text.TextUtils
 import android.view.*
-import android.widget.AdapterView
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.AutoCompleteAdapter
@@ -25,7 +24,6 @@ import com.example.happyghost.showtimeforkotlin.utils.SharedPreferencesUtil
 import com.example.happyghost.showtimeforkotlin.wegit.TagColor
 import com.example.happyghost.showtimeforkotlin.wegit.TagGroup
 import org.jetbrains.anko.find
-import org.jetbrains.anko.toast
 import java.util.ArrayList
 import javax.inject.Inject
 

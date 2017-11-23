@@ -1,8 +1,8 @@
 package com.example.happyghost.showtimeforkotlin.ui.news.special
 
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.SpecialInfo
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.SpecialItem
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.SpecialInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.SpecialItem
 
 /**
  * @author Zhao Chenping

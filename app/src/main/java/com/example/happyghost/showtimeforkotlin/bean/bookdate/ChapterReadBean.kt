@@ -1,8 +1,7 @@
-package com.example.happyghost.showtimeforkotlin.bean.bookdata
+package com.example.happyghost.showtimeforkotlin.bean.bookdate
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.io.Serializable
 
 /**
  * @author Zhao Chenping

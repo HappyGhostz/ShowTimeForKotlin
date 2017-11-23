@@ -8,8 +8,8 @@ import com.daimajia.slider.library.SliderLayout
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.newsadapter.NewsListAdapter
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsInfo
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsMultiItem
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsMultiItem
 import com.example.happyghost.showtimeforkotlin.inject.component.newscomponent.DaggerNewsListComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.newsmodule.NewsListModule
 import com.example.happyghost.showtimeforkotlin.ui.news.newslist.INewsListView

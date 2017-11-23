@@ -1,7 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.read
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.ChapterReadBean
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
 /**

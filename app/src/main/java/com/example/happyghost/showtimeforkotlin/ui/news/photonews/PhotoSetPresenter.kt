@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.news.photonews
 
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.PhotoSetInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.PhotoSetInfo
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout

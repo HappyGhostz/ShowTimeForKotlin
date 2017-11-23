@@ -16,8 +16,8 @@ import com.dl7.tag.TagView
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.newsadapter.NewsSpecialAdapter
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseSwipeBackActivity
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.SpecialInfo
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.SpecialItem
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.SpecialInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.SpecialItem
 import com.example.happyghost.showtimeforkotlin.inject.component.newscomponent.DaggerNewsSpecialComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.newsmodule.NewSpecialModule
 import com.example.happyghost.showtimeforkotlin.utils.DefIconFactory

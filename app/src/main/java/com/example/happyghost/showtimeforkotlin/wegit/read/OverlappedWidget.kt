@@ -6,7 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.Region
 import android.graphics.drawable.GradientDrawable
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.ui.book.read.ReadActivity
 import com.example.happyghost.showtimeforkotlin.utils.SettingManager
 import com.example.happyghost.showtimeforkotlin.utils.ThemeManager

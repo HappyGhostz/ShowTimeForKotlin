@@ -6,12 +6,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.SubRankListAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Rankings
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Rankings
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerSubRankListComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.SubRankListModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
-import kotlinx.android.synthetic.main.fragment_list_layout.*
 import org.jetbrains.anko.find
 import javax.inject.Inject
 

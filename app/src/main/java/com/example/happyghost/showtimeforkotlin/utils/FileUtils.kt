@@ -3,7 +3,7 @@ package com.example.happyghost.showtimeforkotlin.utils
 import android.content.Context
 import android.os.Environment
 import com.example.happyghost.showtimeforkotlin.AppApplication
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.ChapterReadBean
 import java.io.*
 import java.text.DecimalFormat
 

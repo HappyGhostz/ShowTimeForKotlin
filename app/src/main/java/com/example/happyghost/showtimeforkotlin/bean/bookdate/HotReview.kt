@@ -1,4 +1,4 @@
-package com.example.happyghost.showtimeforkotlin.bean.bookdata
+package com.example.happyghost.showtimeforkotlin.bean.bookdate
 
 /**
  * Created by e445 on 2017/11/15.

@@ -1,8 +1,4 @@
-package com.example.happyghost.showtimeforkotlin.bean.bookdata
-
-import com.chad.library.adapter.base.entity.AbstractExpandableItem
-import com.chad.library.adapter.base.entity.MultiItemEntity
-import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
+package com.example.happyghost.showtimeforkotlin.bean.bookdate
 
 /**
  * @author Zhao Chenping

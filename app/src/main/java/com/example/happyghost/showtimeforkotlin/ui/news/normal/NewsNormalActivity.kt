@@ -11,7 +11,7 @@ import android.view.ViewConfiguration
 import android.view.ViewStub
 
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsDetailInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.inject.component.newscomponent.DaggerNewsNormalComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.newsmodule.NewsNormalModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseSwipeBackActivity

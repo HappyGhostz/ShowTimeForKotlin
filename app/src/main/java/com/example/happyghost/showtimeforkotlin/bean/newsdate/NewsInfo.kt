@@ -1,4 +1,4 @@
-package com.example.happyghost.showtimeforkotlin.bean.newsdata
+package com.example.happyghost.showtimeforkotlin.bean.newsdate
 
 import android.os.Parcel
 import android.os.Parcelable

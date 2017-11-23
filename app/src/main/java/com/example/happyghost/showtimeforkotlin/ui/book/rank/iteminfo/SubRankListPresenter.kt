@@ -1,13 +1,11 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.rank.iteminfo
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BooksByCats
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Rankings
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Rankings
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
-import java.util.ArrayList
 
 /**
  * @author Zhao Chenping

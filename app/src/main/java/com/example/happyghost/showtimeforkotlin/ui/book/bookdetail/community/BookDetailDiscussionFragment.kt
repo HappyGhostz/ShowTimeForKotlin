@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookDetailDiscussionAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.DiscussionList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.DiscussionList
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookDetailDiscussionComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookDetailDiscussionModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment

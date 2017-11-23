@@ -1,8 +1,8 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.bookdetail
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookDetail
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.HotReview
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.RecommendBookList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookDetail
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.HotReview
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.RecommendBookList
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
 /**

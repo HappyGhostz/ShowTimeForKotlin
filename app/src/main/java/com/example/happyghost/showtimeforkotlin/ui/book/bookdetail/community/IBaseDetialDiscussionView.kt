@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.community
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.DiscussionList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.DiscussionList
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
 /**

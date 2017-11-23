@@ -5,8 +5,7 @@ import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BooksByCats
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Rankings
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Rankings
 import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.BookDetailInfoActivity
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader

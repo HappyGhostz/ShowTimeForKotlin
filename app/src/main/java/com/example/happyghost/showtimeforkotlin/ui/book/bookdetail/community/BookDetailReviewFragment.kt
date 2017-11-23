@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookDetailReviewAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.HotReview
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.HotReview
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookDetailReviewComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookDetailReviewModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment

@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMark
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMark
 import java.util.ArrayList
 
 /**

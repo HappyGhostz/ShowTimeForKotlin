@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.news.normal
 
-import com.example.happyghost.showtimeforkotlin.bean.newsdata.NewsDetailInfo
+import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
 /**

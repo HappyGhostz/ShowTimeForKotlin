@@ -2,7 +2,6 @@ package com.example.happyghost.showtimeforkotlin.downloadservice
 
 import android.app.Service
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.IBinder
 import android.text.TextUtils
 import android.util.Log
@@ -12,21 +11,17 @@ import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.RxBus.event.DownloadEvent
 import com.example.happyghost.showtimeforkotlin.RxBus.event.DownloadMessageEvent
 import com.example.happyghost.showtimeforkotlin.RxBus.event.DownloadProgressEvent
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.ChapterReadBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.ChapterReadBean
 import com.example.happyghost.showtimeforkotlin.utils.FileUtils
 import com.example.happyghost.showtimeforkotlin.utils.NetUtil
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
-import com.example.happyghost.showtimeforkotlin.utils.StringUtils
 import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import java.net.URL
 import java.util.ArrayList
 
 /**

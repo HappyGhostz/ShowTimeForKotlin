@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.book.classify
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.CategoryList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.CategoryList
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.wegit.EmptyErrLayout

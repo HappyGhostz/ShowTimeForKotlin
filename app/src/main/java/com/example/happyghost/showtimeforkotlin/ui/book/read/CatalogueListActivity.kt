@@ -15,7 +15,7 @@ import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookCatalogueAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.utils.SettingManager

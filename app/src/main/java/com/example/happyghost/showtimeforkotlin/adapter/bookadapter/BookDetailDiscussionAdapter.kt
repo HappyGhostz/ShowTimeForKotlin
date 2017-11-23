@@ -7,7 +7,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.DiscussionList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.DiscussionList
 import com.example.happyghost.showtimeforkotlin.ui.book.bookdetail.discussion.BookDiscussionDetailActivity
 import com.example.happyghost.showtimeforkotlin.utils.*
 

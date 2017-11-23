@@ -54,4 +54,5 @@
     <color name="read_theme_green">#bed0cf</color>
     <color name="read_theme_yellow">#e6dbbf</color>
     <color name="read_theme_gray">#AAAAAA</color>
+    <color name="listTextColor">#ff333333</color>
 </resources>

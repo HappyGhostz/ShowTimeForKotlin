@@ -2,9 +2,8 @@ package com.example.happyghost.showtimeforkotlin.ui.book.rack
 
 import android.util.Log
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
-import com.example.happyghost.showtimeforkotlin.loacaldao.BookChapterInfo
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Recommend
 import com.example.happyghost.showtimeforkotlin.loacaldao.BookChapterInfoDao
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfo
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfoDao

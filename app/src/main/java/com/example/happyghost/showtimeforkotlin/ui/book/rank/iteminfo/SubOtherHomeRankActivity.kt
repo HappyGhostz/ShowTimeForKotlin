@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.SubRankListAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Rankings
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Rankings
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerSubOtherHomeRankComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.SubOtherHomeRankModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity

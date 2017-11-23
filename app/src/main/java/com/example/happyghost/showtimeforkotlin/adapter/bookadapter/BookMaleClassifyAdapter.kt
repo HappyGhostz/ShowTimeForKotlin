@@ -3,7 +3,7 @@ package com.example.happyghost.showtimeforkotlin.adapter.bookadapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.CategoryList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.CategoryList
 import com.example.happyghost.showtimeforkotlin.ui.book.classify.classifydetail.ClassifyDetailActivity
 
 /**

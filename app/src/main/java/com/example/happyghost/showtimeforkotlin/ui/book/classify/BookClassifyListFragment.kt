@@ -7,7 +7,7 @@ import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookFemaleClassifyAdapter
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.BookMaleClassifyAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.CategoryList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.CategoryList
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookClassifyListComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookClassifyListModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment

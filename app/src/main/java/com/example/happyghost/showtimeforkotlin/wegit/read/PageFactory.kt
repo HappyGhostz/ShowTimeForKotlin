@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.ProgressBar
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
 import com.example.happyghost.showtimeforkotlin.utils.FileUtils
 import com.example.happyghost.showtimeforkotlin.utils.ScreenUtils
 import com.example.happyghost.showtimeforkotlin.utils.SettingManager

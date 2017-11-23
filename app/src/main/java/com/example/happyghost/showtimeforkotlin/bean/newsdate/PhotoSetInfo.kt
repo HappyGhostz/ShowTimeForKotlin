@@ -1,4 +1,4 @@
-package com.example.happyghost.showtimeforkotlin.bean.newsdata
+package com.example.happyghost.showtimeforkotlin.bean.newsdate
 
 /**
  * @author Zhao Chenping

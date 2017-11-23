@@ -6,8 +6,8 @@ import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.DisscussionAdapter
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.DisscussionBestAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookHelp
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.CommentList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookHelp
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.CommentList
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookHelpDetailComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookHelpDetailModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity

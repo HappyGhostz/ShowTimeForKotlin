@@ -4,7 +4,7 @@ import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.CommentList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.CommentList
 import com.example.happyghost.showtimeforkotlin.utils.*
 
 /**

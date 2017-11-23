@@ -10,10 +10,10 @@ import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.event.ReadEvent
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.HotReviewAdapter
 import com.example.happyghost.showtimeforkotlin.adapter.bookadapter.RecommendBookListAdapter
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookDetail
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.HotReview
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.RecommendBookList
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookDetail
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.HotReview
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Recommend
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.RecommendBookList
 import com.example.happyghost.showtimeforkotlin.inject.component.bookcomponent.DaggerBookDetailInfoComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.bookmodule.BookDetailInfoModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity

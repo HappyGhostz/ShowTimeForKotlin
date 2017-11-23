@@ -1,7 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.BookMixATocBean
-import com.example.happyghost.showtimeforkotlin.bean.bookdata.Recommend
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.BookMixATocBean
+import com.example.happyghost.showtimeforkotlin.bean.bookdate.Recommend
 import com.example.happyghost.showtimeforkotlin.loacaldao.BookChapterInfo
 import com.example.happyghost.showtimeforkotlin.loacaldao.LocalBookInfo
 import java.util.ArrayList
