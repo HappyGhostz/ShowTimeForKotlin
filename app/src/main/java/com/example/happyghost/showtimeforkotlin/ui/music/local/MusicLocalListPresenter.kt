@@ -104,7 +104,7 @@ class MusicLocalListPresenter(view: MusicLocalFragment, context: Context) :IBase
                         if(t.isNotEmpty()){
                             mView.loadLocalMusicListInfo(t)
                         }else{
-                            mContext.toast("程序出错!")
+                            mContext.toast("未搜索到音乐!")
                         }
                     }
 
