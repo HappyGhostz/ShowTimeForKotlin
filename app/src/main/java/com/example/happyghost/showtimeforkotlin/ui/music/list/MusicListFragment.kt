@@ -6,6 +6,7 @@ import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.musicadapter.MusicListAdapter
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.WrapperSongListInfo
+import com.example.happyghost.showtimeforkotlin.inject.component.musiccomponent.DaggerMusicListComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.musicmodule.MusicLisModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper

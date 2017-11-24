@@ -14,9 +14,10 @@ import dagger.Provides
  */
 @Module
 class MusicLisModule(musicListFragment: MusicListFragment) {
+    var view =musicListFragment
     @PerFragment
     @Provides
-    fun providesPresenter():MusicListPresenter= MusicListPresenter()
+    fun providesPresenter():MusicListPresenter= MusicListPresenter(view)
     @PerFragment
     @Provides
     fun providesAdapter():MusicListAdapter=MusicListAdapter()

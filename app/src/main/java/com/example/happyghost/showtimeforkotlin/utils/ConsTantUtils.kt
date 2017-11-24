@@ -30,6 +30,19 @@ class ConsTantUtils {
         val SUFFIX_EPUB = ".epub"
         val SUFFIX_ZIP = ".zip"
         val SUFFIX_CHM = ".chm"
+
+        val MUSIC_URL_FROM = "webapp_music"
+        val MUSIC_URL_FORMAT = "json"
+        val MUSIC_URL_METHOD_GEDAN = "baidu.ting.diy.gedan"
+        val MUSIC_URL_METHOD_RANKINGLIST = "baidu.ting.billboard.billCategory"
+        val MUSIC_URL_RANKINGLIST_FLAG = 1
+        val MUSIC_URL_METHOD_SONGLIST_DETAIL = "baidu.ting.diy.gedanInfo"
+        val MUSIC_URL_METHOD_RANKING_DETAIL = "baidu.ting.billboard.billList"
+        val MUSIC_URL_FROM_2 = "android"
+        val MUSIC_URL_VERSION = "5.6.5.6"
+        val MUSIC_URL_METHOD_SONG_DETAIL = "baidu.ting.song.play"
+        val pageSize = 40
+        val startPage = 0
     }
 
 }

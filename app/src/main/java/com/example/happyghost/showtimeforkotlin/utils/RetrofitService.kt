@@ -2,8 +2,10 @@ package com.example.happyghost.showtimeforkotlin.utils
 
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.api.IBookApi
+import com.example.happyghost.showtimeforkotlin.api.IMusicsApi
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
 import com.example.happyghost.showtimeforkotlin.bean.bookdate.*
+import com.example.happyghost.showtimeforkotlin.bean.musicdate.WrapperSongListInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.PhotoSetInfo
@@ -42,8 +44,10 @@ class RetrofitService  {
         val INCREASE_PAGE = 20
         private val NEWS_HOST = "http://c.3g.163.com/"
         private val BASE_BOOKE_URL = "http://api.zhuishushenqi.com/"
+        private val BASE_MUSIC_URL = "http://tingapi.ting.baidu.com/v1/restserver/"
         var iNewsApi: INewsApi? = null
         var iBookApi: IBookApi? =null
+        var iMusicApi:IMusicsApi?=null
 
 
         fun init(){
@@ -336,6 +340,19 @@ class RetrofitService  {
                                                   .subscribeOn(Schedulers.io())
                                                   .observeOn(AndroidSchedulers.mainThread())
 
+        /**
+         * 获得歌单全部列表
+         * @param musicUrlFormat
+         * @param musicUrlFrom
+         * @param musicUrlMethodGedan
+         * @param pageSize
+         * @param startPage
+         */
+        fun getMusicListAll(musicUrlFormat: String, musicUrlFrom: String, musicUrlMethodGedan: String, pageSize: Int, startPage: Int): Observable<WrapperSongListInfo> {
+            return iMusicApi!!.getSongListAll(musicUrlFormat, musicUrlFrom, musicUrlMethodGedan, pageSize, startPage)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
         /**
          * 类型转换
          * @param newsId 新闻类型
