@@ -5,6 +5,7 @@ import com.example.happyghost.showtimeforkotlin.api.IBookApi
 import com.example.happyghost.showtimeforkotlin.api.IMusicsApi
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
 import com.example.happyghost.showtimeforkotlin.bean.bookdate.*
+import com.example.happyghost.showtimeforkotlin.bean.musicdate.RankingListItem
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.WrapperSongListInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsInfo
@@ -362,6 +363,12 @@ class RetrofitService  {
          */
         fun getMusicListAll(musicUrlFormat: String, musicUrlFrom: String, musicUrlMethodGedan: String, pageSize: Int, startPage: Int): Observable<WrapperSongListInfo> {
             return iMusicApi!!.getSongListAll(musicUrlFormat, musicUrlFrom, musicUrlMethodGedan, pageSize, startPage)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun getRankMusicListAll(musicUrlFormat: String, musicUrlFrom: String, musicUrlMethodRankinglist: String, musicUrlRankinglistFlag: Int): Observable<RankingListItem> {
+            return iMusicApi!!.getRankingListAll(musicUrlFormat, musicUrlFrom, musicUrlMethodRankinglist, musicUrlRankinglistFlag)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
