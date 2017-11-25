@@ -1,11 +1,14 @@
 package com.example.happyghost.showtimeforkotlin.bean.musicdate
 
+import android.os.Parcel
+import android.os.Parcelable
+
 /**
  * @author Zhao Chenping
  * @creat 2017/11/24.
  * @description
  */
-class WrapperSongListInfo {
+class WrapperSongListInfo() : Parcelable {
     /**
      * error_code : 22000
      * total : 8616
@@ -17,6 +20,12 @@ class WrapperSongListInfo {
     private var total: Int = 0
     private var havemore: Int = 0
     private var content: List<SongListInfo>? = null
+
+    constructor(parcel: Parcel) : this() {
+        error_code = parcel.readInt()
+        total = parcel.readInt()
+        havemore = parcel.readInt()
+    }
 
     fun getError_code(): Int {
         return error_code
@@ -50,7 +59,7 @@ class WrapperSongListInfo {
         this.content = content
     }
 
-    class SongListInfo {
+    class SongListInfo() : Parcelable {
         /**
          * listid : 365434906
          * listenum : 3336
@@ -76,5 +85,67 @@ class WrapperSongListInfo {
         var width: String? = null
         var height: String? = null
         var songIds: List<String>? = null
+
+        constructor(parcel: Parcel) : this() {
+            listid = parcel.readString()
+            listenum = parcel.readString()
+            collectnum = parcel.readString()
+            title = parcel.readString()
+            pic_300 = parcel.readString()
+            tag = parcel.readString()
+            desc = parcel.readString()
+            pic_w300 = parcel.readString()
+            width = parcel.readString()
+            height = parcel.readString()
+            songIds = parcel.createStringArrayList()
+        }
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(listid)
+            parcel.writeString(listenum)
+            parcel.writeString(collectnum)
+            parcel.writeString(title)
+            parcel.writeString(pic_300)
+            parcel.writeString(tag)
+            parcel.writeString(desc)
+            parcel.writeString(pic_w300)
+            parcel.writeString(width)
+            parcel.writeString(height)
+            parcel.writeStringList(songIds)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<SongListInfo> {
+            override fun createFromParcel(parcel: Parcel): SongListInfo {
+                return SongListInfo(parcel)
+            }
+
+            override fun newArray(size: Int): Array<SongListInfo?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(error_code)
+        parcel.writeInt(total)
+        parcel.writeInt(havemore)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<WrapperSongListInfo> {
+        override fun createFromParcel(parcel: Parcel): WrapperSongListInfo {
+            return WrapperSongListInfo(parcel)
+        }
+
+        override fun newArray(size: Int): Array<WrapperSongListInfo?> {
+            return arrayOfNulls(size)
+        }
     }
 }

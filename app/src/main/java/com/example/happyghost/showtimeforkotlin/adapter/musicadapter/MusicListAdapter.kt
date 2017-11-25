@@ -1,11 +1,11 @@
 package com.example.happyghost.showtimeforkotlin.adapter.musicadapter
 
-import android.view.View
 import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.WrapperSongListInfo
+import com.example.happyghost.showtimeforkotlin.ui.music.listdetail.MusicListDetialActivity
 import com.example.happyghost.showtimeforkotlin.utils.DefIconFactory
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
 
@@ -15,6 +15,7 @@ import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
  * @description
  */
 class MusicListAdapter:BaseQuickAdapter<WrapperSongListInfo.SongListInfo,BaseViewHolder>(R.layout.adapter_reomend_music_item) {
+    var isPlayList=true
     override fun convert(helper: BaseViewHolder?, item: WrapperSongListInfo.SongListInfo?) {
         var count = Integer.parseInt(item?.listenum)
         if (count > 10000) {
@@ -28,7 +29,7 @@ class MusicListAdapter:BaseQuickAdapter<WrapperSongListInfo.SongListInfo,BaseVie
         ImageLoader.loadCenterCrop(mContext, item?.pic_300!!, imageView!!, DefIconFactory.provideIcon())
 
         helper?.itemView.setOnClickListener{
-//            MusicListDetialActivity.lunch(mContext, item)
+            MusicListDetialActivity.lunch(mContext, item,null,isPlayList)
         }
     }
 }
