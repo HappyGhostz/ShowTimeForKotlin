@@ -15,9 +15,9 @@ import io.reactivex.disposables.Disposable
  */
 class MusicListPresenter(view: MusicListFragment) :IBasePresenter {
     var mView = view
-    private var mStartPage = 0
+    private var mStartPage = 1
     override fun getData() {
-        mStartPage = 0
+        mStartPage = 1
         RetrofitService.getMusicListAll(ConsTantUtils.MUSIC_URL_FORMAT,ConsTantUtils.MUSIC_URL_FROM,
                 ConsTantUtils.MUSIC_URL_METHOD_GEDAN,ConsTantUtils.pageSize,mStartPage)
                 .doOnSubscribe { mView.showLoading() }
@@ -37,6 +37,7 @@ class MusicListPresenter(view: MusicListFragment) :IBasePresenter {
 
                     override fun onNext(t: WrapperSongListInfo) {
                         mView.loadListMusic(t.getContent()!!)
+                        mStartPage++
                     }
 
                     override fun onComplete() {
@@ -46,6 +47,25 @@ class MusicListPresenter(view: MusicListFragment) :IBasePresenter {
     }
 
     override fun getMoreData() {
+        RetrofitService.getMusicListAll(ConsTantUtils.MUSIC_URL_FORMAT,ConsTantUtils.MUSIC_URL_FROM,
+                ConsTantUtils.MUSIC_URL_METHOD_GEDAN,ConsTantUtils.pageSize,mStartPage)
+                .compose(mView.bindToLife())
+                .subscribe(object : Observer<WrapperSongListInfo>{
+                    override fun onSubscribe(d: Disposable) {
 
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView.loadNoData()
+                    }
+
+                    override fun onNext(t: WrapperSongListInfo) {
+                        mView.loadMoreListMusic(t.getContent()!!)
+                        mStartPage++
+                    }
+
+                    override fun onComplete() {
+                    }
+                })
     }
 }

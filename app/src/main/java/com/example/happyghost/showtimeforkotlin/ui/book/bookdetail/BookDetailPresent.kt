@@ -123,7 +123,7 @@ class BookDetailPresent(view: BookDetailInfoActivity, bookid: String, localBookI
         var id:Long=1
         val localBookInfo = BookTransformer.RecommendBooksConvertlocalBook(recommendBooks)
         localBookInfo.id = size+id
-        localBookInfo.isFromSD=true
+//        localBookInfo.isFromSD=true
         mBookDao.insertOrReplace(localBookInfo)
     }
     /**

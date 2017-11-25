@@ -59,6 +59,11 @@ class RetrofitService  {
                     .addNetworkInterceptor(sRewriteCacheControlInterceptor)
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .build()
+            //这个配置缓存会使read页面在使用一段时间后崩溃
+            val bookokHttpClient = OkHttpClient.Builder().cache(cache)
+                    .retryOnConnectionFailure(true)
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .build()
             val retrofit = Retrofit.Builder()
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -68,12 +73,19 @@ class RetrofitService  {
             iNewsApi = retrofit.create(INewsApi::class.java)
 
             var retrofitBook = Retrofit.Builder()
-                    .client(okHttpClient)
+                    .client(bookokHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .baseUrl(BASE_BOOKE_URL)
                     .build()
             iBookApi = retrofitBook.create(IBookApi::class.java)
+            var retrofitMusic = Retrofit.Builder()
+                    .client(bookokHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .baseUrl(BASE_MUSIC_URL)
+                    .build()
+            iMusicApi = retrofitMusic.create(IMusicsApi::class.java)
 
         }
         //云响应拦截器，用于配置缓存
