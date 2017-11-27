@@ -37,7 +37,7 @@ class MusicLocalListAdapter:BaseQuickAdapter<SongLocalBean,BaseViewHolder>(R.lay
                 ?.setText(R.id.tv_song_artist, item?.artist)
                 ?.setText(R.id.tv_local_album, item?.album)
         helper?.itemView?.setOnClickListener {
-//            MusicPlay.lunch(mContext, item, holder.getPosition(), songs)
+//            MusicPlayActivity.lunch(mContext, item, holder.getPosition(), songs)
         }
     }
 

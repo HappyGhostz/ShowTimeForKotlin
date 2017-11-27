@@ -33,11 +33,10 @@ import kotlinx.android.synthetic.main.music_list_toolbar_head_rank.*
 import org.jetbrains.anko.startActivity
 import java.io.FileInputStream
 import javax.inject.Inject
-import android.R.attr.radius
-import android.text.TextUtils
 import android.view.View
 import android.widget.RelativeLayout
 import com.example.happyghost.showtimeforkotlin.inject.component.musiccomponent.DaggerMusicListDetailComponent
+import com.example.happyghost.showtimeforkotlin.ui.music.play.MusicPlayActivity
 import kotlinx.android.synthetic.main.item_head_music.*
 import org.jetbrains.anko.find
 
@@ -103,6 +102,9 @@ class MusicListDetialActivity:BaseActivity<MusicListDetialPresenter>(),IBaseMusi
             mAdapter.addHeaderView(musicHead)
         } else {
             mAdapter.addHeaderView(musicHead)
+        }
+        if(mMusicList!=null){
+            MusicPlayActivity.open()
         }
     }
 

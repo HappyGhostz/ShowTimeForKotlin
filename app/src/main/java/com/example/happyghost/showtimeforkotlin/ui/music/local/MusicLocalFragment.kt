@@ -10,6 +10,7 @@ import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongLocalBean
 import com.example.happyghost.showtimeforkotlin.inject.component.musiccomponent.DaggerMusicLocalListComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.musicmodule.MusicLocalListModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
+import com.example.happyghost.showtimeforkotlin.ui.music.play.MusicPlayActivity
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
 import org.jetbrains.anko.find
 import javax.inject.Inject
@@ -20,8 +21,11 @@ import javax.inject.Inject
 class MusicLocalFragment:BaseFragment<MusicLocalListPresenter>(),IBaseLocalMusicView {
     @Inject lateinit var mAdapter:MusicLocalListAdapter
     lateinit var allMusicLayout: RelativeLayout
+    var sons: ArrayList<SongLocalBean>? = null
     override fun loadLocalMusicListInfo(localBeanList: List<SongLocalBean>) {
+        sons?.clear()
         mAdapter.replaceData(localBeanList)
+        sons?.addAll(localBeanList)
     }
     override fun upDataView() {
         mPresenter.getData()
@@ -36,6 +40,9 @@ class MusicLocalFragment:BaseFragment<MusicLocalListPresenter>(),IBaseLocalMusic
             mAdapter.addHeaderView(musicHead)
         } else {
             mAdapter.addHeaderView(musicHead)
+        }
+        mAdapter.setOnItemClickListener { _, _, position ->
+            MusicPlayActivity.open(mContext,sons!!,position,true)
         }
     }
 
