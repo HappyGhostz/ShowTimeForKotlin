@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="@color/baseColorPrimary"
             app:expandedTitleMarginEnd="@dimen/title_margin"
             app:expandedTitleMarginStart="@dimen/title_margin"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Large"
@@ -46,6 +46,7 @@
                     android:layout_height="?attr/actionBarSize">
 
                     <TextView
+                        android:id="@+id/toolbarTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -65,5 +66,28 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
     </android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:id="@+id/bottom_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:indeterminateDrawable="@drawable/loading_dialog_progressbar" />
+
+        <TextView
+            android:id="@+id/id_tv_loading_dialog_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+            android:text="歌曲加载中..."
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

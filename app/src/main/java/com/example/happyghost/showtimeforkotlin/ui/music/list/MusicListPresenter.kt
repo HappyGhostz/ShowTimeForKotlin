@@ -36,8 +36,10 @@ class MusicListPresenter(view: MusicListFragment) :IBasePresenter {
                     }
 
                     override fun onNext(t: WrapperSongListInfo) {
-                        mView.loadListMusic(t.getContent()!!)
-                        mStartPage++
+                        if(t.getContent()!=null){
+                            mView.loadListMusic(t.getContent()!!)
+                            mStartPage++
+                        }
                     }
 
                     override fun onComplete() {

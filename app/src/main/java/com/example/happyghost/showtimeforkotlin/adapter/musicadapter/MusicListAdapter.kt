@@ -29,7 +29,7 @@ class MusicListAdapter:BaseQuickAdapter<WrapperSongListInfo.SongListInfo,BaseVie
         ImageLoader.loadCenterCrop(mContext, item?.pic_300!!, imageView!!, DefIconFactory.provideIcon())
 
         helper?.itemView.setOnClickListener{
-            MusicListDetialActivity.lunch(mContext, item,null,isPlayList)
+            MusicListDetialActivity.lunch(mContext, item,isPlayList)
         }
     }
 }

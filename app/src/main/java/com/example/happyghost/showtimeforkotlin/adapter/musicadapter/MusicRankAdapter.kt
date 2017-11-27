@@ -6,6 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.RankingListItem
+import com.example.happyghost.showtimeforkotlin.ui.music.listdetail.MusicListDetialActivity
 import com.example.happyghost.showtimeforkotlin.utils.DefIconFactory
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
 
@@ -36,8 +37,8 @@ class MusicRankAdapter:BaseQuickAdapter<RankingListItem.RangkingDetail,BaseViewH
                 .setText(R.id.tv_rank_third, "3.$title3-$author3")
 
         helper.itemView.setOnClickListener{
-//            val position = helper.getAdapterPosition()
-//            MusicRankingListDetailActivity.lunch(mContext, position, item.getName())
+            val position = helper.adapterPosition
+            MusicListDetialActivity.lunch(mContext, position, item.name!!,false)
         }
     }
 }

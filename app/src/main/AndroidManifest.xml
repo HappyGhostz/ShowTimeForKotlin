@@ -63,6 +63,8 @@
             android:theme="@style/ToolbarOverflowTheme"/>
         <activity android:name=".ui.book.search.ScanLocalBookActivity"/>
         <service android:name=".downloadservice.DownloadBookService"/>
+        <!--音乐模块-->
+        <activity android:name=".ui.music.listdetail.MusicListDetialActivity"/>
     </application>
 
 </manifest>
