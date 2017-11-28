@@ -191,5 +191,31 @@ class StringUtils {
             return mTimeFormat.format(Date())
         }
 
+        /**
+         * 把毫秒值格式化成 hh:mm:ss格式
+         * @param millisec 毫秒值
+         * @return
+         */
+        fun formatTime(millisec: Int): String? {
+            var result: String? = null
+            val hour = 1000 * 60 * 60
+            val minute = 1000 * 60
+            val second = 1000
+
+            //算出 小时h 分钟 min 秒 s
+            val h = millisec / hour
+            val min = millisec % hour / minute
+            val s = millisec % minute / second
+
+            if (h > 0) {
+                //%d 整数的占位符 如果前面加上02说明要显示两位数 如果不足两位用0补齐
+                //后面是可变参数 有一个%d对应几个变量 按照顺序依次对应
+                result = String.format("%02d:%02d:%02d", h, min, s)
+            } else {
+                result = String.format("%02d:%02d", min, s)
+            }
+            return result
+        }
+
     }
 }

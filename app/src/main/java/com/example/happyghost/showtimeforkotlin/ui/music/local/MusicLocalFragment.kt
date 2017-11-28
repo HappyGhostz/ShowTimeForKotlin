@@ -21,11 +21,11 @@ import javax.inject.Inject
 class MusicLocalFragment:BaseFragment<MusicLocalListPresenter>(),IBaseLocalMusicView {
     @Inject lateinit var mAdapter:MusicLocalListAdapter
     lateinit var allMusicLayout: RelativeLayout
-    var sons: ArrayList<SongLocalBean>? = null
+    lateinit var sons: ArrayList<SongLocalBean>
     override fun loadLocalMusicListInfo(localBeanList: List<SongLocalBean>) {
-        sons?.clear()
+        sons = ArrayList<SongLocalBean>()
+        sons.addAll(localBeanList)
         mAdapter.replaceData(localBeanList)
-        sons?.addAll(localBeanList)
     }
     override fun upDataView() {
         mPresenter.getData()

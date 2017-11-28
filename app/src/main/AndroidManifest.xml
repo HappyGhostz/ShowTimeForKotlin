@@ -65,6 +65,8 @@
         <service android:name=".downloadservice.DownloadBookService"/>
         <!--音乐模块-->
         <activity android:name=".ui.music.listdetail.MusicListDetialActivity"/>
+        <activity android:name=".ui.music.play.MusicPlayActivity"/>
+        <service android:name=".ui.music.play.MusicPlayService"/>
     </application>
 
 </manifest>

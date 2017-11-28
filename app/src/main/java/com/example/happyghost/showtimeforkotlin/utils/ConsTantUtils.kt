@@ -43,6 +43,12 @@ class ConsTantUtils {
         val MUSIC_URL_METHOD_SONG_DETAIL = "baidu.ting.song.play"
         val pageSize = 40
         val startPage = 0
+
+        //播放的模式
+        val LIST_MODE = 0
+        val SINGO_MODE = 1
+        val SHUFFLE_MODE = 2
+        val MUSIC_MODE = "MUSICMODE"
     }
 
 }

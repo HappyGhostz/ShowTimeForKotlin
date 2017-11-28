@@ -152,7 +152,7 @@
                     android:gravity="right"
                     android:singleLine="true"
                     android:text="00:00"
-                    android:textColor="@color/color_white"
+                    android:textColor="@color/whiteColor"
                     android:textSize="10sp"/>
 
                 <SeekBar
@@ -172,7 +172,7 @@
                     android:layout_weight="1"
                     android:singleLine="true"
                     android:text="00:00"
-                    android:textColor="@color/color_white"
+                    android:textColor="@color/whiteColor"
                     android:textSize="10sp"/>
             </LinearLayout>
 
