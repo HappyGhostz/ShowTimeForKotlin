@@ -11,9 +11,9 @@ import android.os.IBinder
 import android.os.Message
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.RxBus.event.ChannelEvent
 import com.example.happyghost.showtimeforkotlin.RxBus.event.MusicContralEvent
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongLocalBean
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
@@ -24,9 +24,8 @@ import com.example.happyghost.showtimeforkotlin.utils.SharedPreferencesUtil
 import com.example.happyghost.showtimeforkotlin.utils.StringUtils
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_music_play.*
-import kotlinx.android.synthetic.main.music_list_toolbar_head.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startService
+
 
 /**
  * Created by e445 on 2017/11/27.
@@ -50,6 +49,20 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
 
     override fun upDataView() {
         registerRxBus(MusicContralEvent::class.java,Consumer<MusicContralEvent> { t -> handleChannelMessage(t) })
+        sb_play_seek.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                seekBar?.progress = progress
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                val progress = seekBar?.progress
+                mMusicBind.getMusicServiceInstance().seekTo(progress!!)
+            }
+        })
     }
 
     private fun handleChannelMessage(t: MusicContralEvent) {
@@ -75,6 +88,7 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
             startService(musicIntent)
             musicServiceConnect = MusicServiceConnect()
             this.bindService(musicIntent,musicServiceConnect,BIND_AUTO_CREATE)
+            initActionBar(toolbar, localSons!![itemPosition].title!!, true)
             setLocalBit()
         }
         iv_playing_play.setImageResource(R.mipmap.play_rdi_btn_pause)
@@ -88,7 +102,8 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
         if(artwork!=null){
             MusicTransformer.applyBlur(artwork,iv_albumart)
         }else{
-            BitmapFactory.decodeResource(this.resources,R.mipmap.music_local_default)
+            val bitmap = BitmapFactory.decodeResource(this.resources, R.mipmap.music_local_default)
+            MusicTransformer.applyBlur(bitmap,iv_albumart)
         }
     }
 
@@ -109,6 +124,9 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
                 mMusicBind.getMusicServiceInstance().preOrNext(false, isLocalMusic)
             }
             R.id.iv_playing_play-> upDataMusicState()
+            R.id.iv_playing_next->{
+                mMusicBind.getMusicServiceInstance().preOrNext(true, isLocalMusic)
+            }
         }
     }
 
