@@ -13,10 +13,10 @@ class SongDetailInfo() :Parcelable {
      * bitrate : {"show_link":"http://zhangmenshiting.baidu.com/data2/music/134347684/134347684.mp3?xcode=294ea175cde8d4e6c6826868de970894","free":1,"song_file_id":66185015,"file_size":2244272,"file_extension":"mp3","file_duration":280,"file_bitrate":64,"file_link":"http://yinyueshiting.baidu.com/data2/music/134347684/134347684.mp3?xcode=294ea175cde8d4e6c6826868de970894","hash":"1203b61337d84097ba8f5b5591d107ec2b13c01e"}
      */
 
-    private var songinfo: SonginfoBean? = null
-    private var error_code: Int = 0
-    private var bitrate: BitrateBean? = null
-    private var isOnClick = false
+    var songinfo: SonginfoBean? = null
+    var error_code: Int = 0
+    var bitrate: BitrateBean? = null
+    var isOnClick = false
 
     constructor(parcel: Parcel) : this() {
         songinfo = parcel.readParcelable(SonginfoBean::class.java.classLoader)

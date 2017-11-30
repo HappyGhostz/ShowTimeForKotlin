@@ -1,6 +1,8 @@
 package com.example.happyghost.showtimeforkotlin.ui.music.listdetail
 
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.RankingListDetail
+import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongDetailInfo
+import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongInfo
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongListDetail
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
@@ -12,4 +14,5 @@ import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 interface IBaseMusicListView:IBaseView {
     fun loadMusicListDetial(list: SongListDetail)
     fun loadRankPlayList(detail: RankingListDetail)
+    fun loadSongInfo(detail: SongDetailInfo)
 }

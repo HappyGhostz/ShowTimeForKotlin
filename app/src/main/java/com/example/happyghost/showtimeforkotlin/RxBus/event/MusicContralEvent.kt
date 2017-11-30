@@ -1,5 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.RxBus.event
 
+import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongLocalBean
 
 /**
@@ -18,9 +19,14 @@ class MusicContralEvent {
         val MUSIC_NEXT = 33
     }
     var musicTypr= 0
-    var musicLocal:SongLocalBean
+    var musicLocal: SongLocalBean? =null
+    var musicNet:SongDetailInfo? = null
     constructor(musiC_PLAY: Int, songLocalBean: SongLocalBean){
         this.musicTypr = musiC_PLAY
         this.musicLocal = songLocalBean
+    }
+    constructor(musiC_PLAY: Int, songNetBean: SongDetailInfo){
+        this.musicTypr = musiC_PLAY
+        this.musicNet = songNetBean
     }
 }

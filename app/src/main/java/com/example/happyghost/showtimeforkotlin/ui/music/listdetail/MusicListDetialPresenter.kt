@@ -2,7 +2,6 @@ package com.example.happyghost.showtimeforkotlin.ui.music.listdetail
 
 import android.view.View
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.RankingListDetail
-import com.example.happyghost.showtimeforkotlin.bean.musicdate.RankingListItem
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongListDetail
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
@@ -78,6 +77,15 @@ class MusicListDetialPresenter(view: MusicListDetialActivity, listid: String?):I
                     }
                 })
 
+    }
+    fun getMusic(song_id: String?) {
+        RetrofitService.getSongDetail(ConsTantUtils.MUSIC_URL_FROM_2, ConsTantUtils.MUSIC_URL_VERSION,
+                ConsTantUtils.MUSIC_URL_FORMAT, ConsTantUtils.MUSIC_URL_METHOD_SONG_DETAIL
+                , song_id!!)
+                .compose(mView.bindToLife())
+                .subscribe {
+                    mView.loadSongInfo(it)
+                }
     }
 
     fun encode(encode: String?): String {

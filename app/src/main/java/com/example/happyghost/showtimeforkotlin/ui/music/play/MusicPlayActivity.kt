@@ -15,13 +15,11 @@ import android.widget.SeekBar
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.RxBus.event.MusicContralEvent
+import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongLocalBean
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
-import com.example.happyghost.showtimeforkotlin.utils.ConsTantUtils
-import com.example.happyghost.showtimeforkotlin.utils.MusicTransformer
-import com.example.happyghost.showtimeforkotlin.utils.SharedPreferencesUtil
-import com.example.happyghost.showtimeforkotlin.utils.StringUtils
+import com.example.happyghost.showtimeforkotlin.utils.*
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_music_play.*
 import org.jetbrains.anko.startActivity
@@ -32,6 +30,7 @@ import org.jetbrains.anko.startActivity
  */
 class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
     var localSons: ArrayList<SongLocalBean>? = null
+    var netMusics: ArrayList<SongDetailInfo>? = null
     var itemPosition = 0
     var isLocalMusic=true
     lateinit var mMusicBind: MusicPlayService.MusicBind
@@ -68,8 +67,20 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
     private fun handleChannelMessage(t: MusicContralEvent) {
         if(isLocalMusic){
             val songLocalBean = t.musicLocal
-            getLocalSongInfos(songLocalBean)
+            if(songLocalBean!=null){
+                getLocalSongInfos(songLocalBean)
+            }
+        }else{
+            val musicNet = t.musicNet
+            if(musicNet!=null){
+                getNetSongInfos(musicNet)
+            }
         }
+    }
+
+    private fun getNetSongInfos(musicNet: SongDetailInfo) {
+        initActionBar(toolbar, musicNet.songinfo?.title!!, true)
+        setPlayTime()
     }
 
     private fun getLocalSongInfos(songLocalBean: SongLocalBean) {
@@ -79,32 +90,44 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
 
 
     override fun initView() {
+        val musicIntent = Intent(this,MusicPlayService::class.java)
+        musicIntent.putExtra(IS_LOCAL_MUSIC,isLocalMusic)
+        musicIntent.putExtra(LOCAL_SONGS_POSITION,itemPosition)
         if(isLocalMusic){
             initActionBar(toolbar, localSons!![itemPosition].title!!,true)
             val musicIntent = Intent(this,MusicPlayService::class.java)
             musicIntent.putParcelableArrayListExtra(LOCAL_SONGS,localSons)
-            musicIntent.putExtra(LOCAL_SONGS_POSITION,itemPosition)
-            musicIntent.putExtra(IS_LOCAL_MUSIC,isLocalMusic)
-            startService(musicIntent)
-            musicServiceConnect = MusicServiceConnect()
-            this.bindService(musicIntent,musicServiceConnect,BIND_AUTO_CREATE)
-            initActionBar(toolbar, localSons!![itemPosition].title!!, true)
             setLocalBit()
+        }else{
+            initActionBar(toolbar, netMusics!![itemPosition].songinfo?.title!!,true)
+            musicIntent.putParcelableArrayListExtra(NET_MUSICS,netMusics)
+            setNetBit()
         }
+        startService(musicIntent)
+        musicServiceConnect = MusicServiceConnect()
+        this.bindService(musicIntent,musicServiceConnect,BIND_AUTO_CREATE)
         iv_playing_play.setImageResource(R.mipmap.play_rdi_btn_pause)
         iv_needle.rotation = 0f
         initClick()
 
+
     }
 
-     private fun setLocalBit() {
+    private fun setLocalBit() {
         val artwork = MusicTransformer.getArtwork(this, localSons!![itemPosition]._id, localSons!![itemPosition].albun_id)
         if(artwork!=null){
             MusicTransformer.applyBlur(artwork,iv_albumart)
+            civ_photo.setImageBitmap(artwork)
         }else{
             val bitmap = BitmapFactory.decodeResource(this.resources, R.mipmap.music_local_default)
             MusicTransformer.applyBlur(bitmap,iv_albumart)
+            civ_photo.setImageBitmap(bitmap)
         }
+    }
+
+    private fun setNetBit() {
+        MusicTransformer.pictureDim(this as BaseActivity<IBasePresenter>,netMusics!![itemPosition].songinfo?.pic_small!!,iv_albumart)
+        ImageLoader.loadCenterCrop(this,netMusics!![itemPosition].songinfo?.pic_small!!,civ_photo,R.mipmap.music_local_default)
     }
 
     private fun initClick() {
@@ -156,6 +179,7 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
         localSons = intent.getParcelableArrayListExtra<SongLocalBean>(LOCAL_SONGS)
         itemPosition = intent.getIntExtra(LOCAL_SONGS_POSITION,0)
         isLocalMusic = intent.getBooleanExtra(IS_LOCAL_MUSIC,true)
+        netMusics = intent.getParcelableArrayListExtra<SongDetailInfo>(NET_MUSICS)
     }
 
     override fun getContentView(): Int = R.layout.activity_music_play
@@ -163,12 +187,16 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
         var LOCAL_SONGS = "localsongs"
         var LOCAL_SONGS_POSITION = "position"
         var IS_LOCAL_MUSIC = "islocalmusic"
+        var NET_MUSICS="netmusic"
         fun open(mContext: Context?, sons: ArrayList<SongLocalBean>, position: Int, isLocal: Boolean) {
             mContext?.startActivity<MusicPlayActivity>(LOCAL_SONGS to sons,
                     LOCAL_SONGS_POSITION to position,IS_LOCAL_MUSIC to isLocal)
             (mContext as Activity).overridePendingTransition(R.anim.fade_entry, R.anim.fade_exit)
         }
-        fun open(){}
+        fun openNet(mContext: Context?, sons: ArrayList<SongDetailInfo>, position: Int, isLocal: Boolean){
+            mContext?.startActivity<MusicPlayActivity>(NET_MUSICS to sons,LOCAL_SONGS_POSITION to position,IS_LOCAL_MUSIC to isLocal)
+            (mContext as Activity).overridePendingTransition(R.anim.fade_entry, R.anim.fade_exit)
+        }
     }
 
     override fun onDestroy() {

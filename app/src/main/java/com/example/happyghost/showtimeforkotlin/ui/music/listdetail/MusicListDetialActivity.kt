@@ -5,9 +5,6 @@ import android.content.Context
 import android.content.Intent
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.musicadapter.MusicListDetialAdapter
-import com.example.happyghost.showtimeforkotlin.bean.musicdate.RankingListDetail
-import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongListDetail
-import com.example.happyghost.showtimeforkotlin.bean.musicdate.WrapperSongListInfo
 import com.example.happyghost.showtimeforkotlin.inject.module.musicmodule.MusicListDetailModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import com.example.happyghost.showtimeforkotlin.utils.DefIconFactory
@@ -21,6 +18,7 @@ import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 import android.view.View
 import android.widget.RelativeLayout
+import com.example.happyghost.showtimeforkotlin.bean.musicdate.*
 import com.example.happyghost.showtimeforkotlin.inject.component.musiccomponent.DaggerMusicListDetailComponent
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.ui.music.play.MusicPlayActivity
@@ -39,13 +37,26 @@ class MusicListDetialActivity:BaseActivity<MusicListDetialPresenter>(),IBaseMusi
     var mTitle:String?=null
     @Inject lateinit var mAdapter: MusicListDetialAdapter
     lateinit var allMusicLayout:RelativeLayout
+    lateinit var songInfos:ArrayList<SongDetailInfo>
     override fun loadMusicListDetial(list: SongListDetail) {
         val content = list.getContent()
         tv_play_all_number.text = "(共" + content?.size.toString() + "首)"
         var musicList = MusicTransformer.musicListTransformer(content)
         mAdapter.replaceData(musicList)
+        initPlayMusics(musicList)
 
     }
+
+    private fun initPlayMusics(content: ArrayList<SongInfo.Song>) {
+        songInfos = ArrayList<SongDetailInfo>()
+        var index = 0
+        while (index<content.size){
+            val songDetail = content[index]
+            mPresenter.getMusic(songDetail.song_id)
+            index++
+        }
+    }
+
     override fun loadRankPlayList(detail: RankingListDetail) {
         val billboard = detail.getBillboard()
         ImageLoader.loadCenterCrop(this, billboard?.pic_s210!!, iv_album_art, DefIconFactory.provideIcon())
@@ -53,10 +64,13 @@ class MusicListDetialActivity:BaseActivity<MusicListDetialPresenter>(),IBaseMusi
         tv_play_all_number.text = "(共" + song_list?.size.toString() + "首)"
         var rankMusic = MusicTransformer.musicRankListTransformer(song_list)
         mAdapter.replaceData(rankMusic)
+        initPlayMusics(rankMusic)
 
     }
 
-
+    override fun loadSongInfo(detail: SongDetailInfo) {
+        songInfos.add(detail)
+    }
 
     override fun upDataView() {
         if(mMusicList!=null){
@@ -89,8 +103,8 @@ class MusicListDetialActivity:BaseActivity<MusicListDetialPresenter>(),IBaseMusi
         } else {
             mAdapter.addHeaderView(musicHead)
         }
-        if(mMusicList!=null){
-            MusicPlayActivity.open()
+        mAdapter.setOnItemClickListener { _, _, position ->
+            MusicPlayActivity.openNet(this@MusicListDetialActivity,songInfos,position,false)
         }
     }
 

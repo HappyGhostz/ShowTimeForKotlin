@@ -5,10 +5,7 @@ import com.example.happyghost.showtimeforkotlin.api.IBookApi
 import com.example.happyghost.showtimeforkotlin.api.IMusicsApi
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
 import com.example.happyghost.showtimeforkotlin.bean.bookdate.*
-import com.example.happyghost.showtimeforkotlin.bean.musicdate.RankingListDetail
-import com.example.happyghost.showtimeforkotlin.bean.musicdate.RankingListItem
-import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongListDetail
-import com.example.happyghost.showtimeforkotlin.bean.musicdate.WrapperSongListInfo
+import com.example.happyghost.showtimeforkotlin.bean.musicdate.*
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.PhotoSetInfo
@@ -383,6 +380,12 @@ class RetrofitService  {
 
         fun getRankPlayList(musicUrlFormat: String, musicUrlFrom: String, musicUrlMethodRankingDetail: String, mType: Int, offset: Int, size: Int, mFields: String): Observable<RankingListDetail> {
             return iMusicApi!!.getRankingListDetail(musicUrlFormat, musicUrlFrom, musicUrlMethodRankingDetail, mType, offset, size, mFields)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun getSongDetail(musicUrlFrom2: String, musicUrlVersion: String, musicUrlFormat: String, musicUrlMethodSongDetail: String, song_id: String): Observable<SongDetailInfo> {
+            return iMusicApi!!.getSongDetail(musicUrlFrom2, musicUrlVersion, musicUrlFormat, musicUrlMethodSongDetail, song_id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
