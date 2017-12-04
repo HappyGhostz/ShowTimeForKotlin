@@ -1,5 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.ui.music.play
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
@@ -11,6 +13,7 @@ import android.os.IBinder
 import android.os.Message
 import android.util.Log
 import android.view.View
+import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
@@ -81,11 +84,13 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
     private fun getNetSongInfos(musicNet: SongDetailInfo) {
         initActionBar(toolbar, musicNet.songinfo?.title!!, true)
         setPlayTime()
+        setNetBit(musicNet.songinfo?.pic_premium!!)
     }
 
     private fun getLocalSongInfos(songLocalBean: SongLocalBean) {
         initActionBar(toolbar, songLocalBean.title!!, true)
         setPlayTime()
+        setLocalBit(songLocalBean._id, songLocalBean.albun_id)
     }
 
 
@@ -95,13 +100,12 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
         musicIntent.putExtra(LOCAL_SONGS_POSITION,itemPosition)
         if(isLocalMusic){
             initActionBar(toolbar, localSons!![itemPosition].title!!,true)
-            val musicIntent = Intent(this,MusicPlayService::class.java)
             musicIntent.putParcelableArrayListExtra(LOCAL_SONGS,localSons)
-            setLocalBit()
+            setLocalBit(localSons!![itemPosition]._id, localSons!![itemPosition].albun_id)
         }else{
             initActionBar(toolbar, netMusics!![itemPosition].songinfo?.title!!,true)
             musicIntent.putParcelableArrayListExtra(NET_MUSICS,netMusics)
-            setNetBit()
+            setNetBit(netMusics!![itemPosition].songinfo?.pic_premium!!)
         }
         startService(musicIntent)
         musicServiceConnect = MusicServiceConnect()
@@ -109,12 +113,27 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
         iv_playing_play.setImageResource(R.mipmap.play_rdi_btn_pause)
         iv_needle.rotation = 0f
         initClick()
+        initAnimation()
 
 
     }
 
-    private fun setLocalBit() {
-        val artwork = MusicTransformer.getArtwork(this, localSons!![itemPosition]._id, localSons!![itemPosition].albun_id)
+
+    var mRotationAnimation: ObjectAnimator? = null
+
+    private fun initAnimation() {
+        val lin = LinearInterpolator()
+        if(mRotationAnimation==null){
+            mRotationAnimation = ObjectAnimator.ofFloat(rotate_image, "rotation", 0f, 360f)
+        }
+        mRotationAnimation!!.repeatCount=ValueAnimator.INFINITE
+        mRotationAnimation!!.repeatMode=ValueAnimator.RESTART
+        mRotationAnimation!!.interpolator = lin
+        mRotationAnimation!!.start()
+    }
+
+    private fun setLocalBit(_id: Int, albun_id: Int) {
+        val artwork = MusicTransformer.getArtwork(this, _id, albun_id)
         if(artwork!=null){
             MusicTransformer.applyBlur(artwork,iv_albumart)
             civ_photo.setImageBitmap(artwork)
@@ -125,9 +144,9 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
         }
     }
 
-    private fun setNetBit() {
-        MusicTransformer.pictureDim(this as BaseActivity<IBasePresenter>,netMusics!![itemPosition].songinfo?.pic_small!!,iv_albumart)
-        ImageLoader.loadCenterCrop(this,netMusics!![itemPosition].songinfo?.pic_small!!,civ_photo,R.mipmap.music_local_default)
+    private fun setNetBit(pic: String) {
+        MusicTransformer.pictureDim(this as BaseActivity<IBasePresenter>,pic,iv_albumart)
+        ImageLoader.loadCenterCrop(this,pic,civ_photo,R.mipmap.music_local_default)
     }
 
     private fun initClick() {
@@ -168,10 +187,14 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
             iv_playing_play.setImageResource(R.mipmap.play_rdi_btn_pause)
             handler.sendEmptyMessageDelayed(MUSIC_PLAYING_CURENT_DURATION, 1000)
             iv_needle.rotation = 0f
+            initAnimation()
         } else {
             iv_playing_play.setImageResource(R.mipmap.play_rdi_btn_play)
             handler.removeMessages(MUSIC_PLAYING_CURENT_DURATION)
             iv_needle.rotation = -30f
+            if(mRotationAnimation!=null){
+                mRotationAnimation!!.cancel()
+            }
         }
     }
 

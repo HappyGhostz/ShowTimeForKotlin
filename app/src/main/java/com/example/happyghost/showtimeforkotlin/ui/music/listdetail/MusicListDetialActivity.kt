@@ -24,6 +24,7 @@ import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.ui.music.play.MusicPlayActivity
 import kotlinx.android.synthetic.main.item_head_music.*
 import org.jetbrains.anko.find
+import org.jetbrains.anko.toast
 
 
 /**
@@ -38,23 +39,22 @@ class MusicListDetialActivity:BaseActivity<MusicListDetialPresenter>(),IBaseMusi
     @Inject lateinit var mAdapter: MusicListDetialAdapter
     lateinit var allMusicLayout:RelativeLayout
     lateinit var songInfos:ArrayList<SongDetailInfo>
+    lateinit var netMusicList: ArrayList<SongInfo.Song>
+    var index=1
     override fun loadMusicListDetial(list: SongListDetail) {
         val content = list.getContent()
         tv_play_all_number.text = "(共" + content?.size.toString() + "首)"
-        var musicList = MusicTransformer.musicListTransformer(content)
-        mAdapter.replaceData(musicList)
-        initPlayMusics(musicList)
+        netMusicList = MusicTransformer.musicListTransformer(content)
+        mAdapter.replaceData(netMusicList)
+        initPlayMusics(netMusicList)
 
     }
 
     private fun initPlayMusics(content: ArrayList<SongInfo.Song>) {
         songInfos = ArrayList<SongDetailInfo>()
-        var index = 0
-        while (index<content.size){
-            val songDetail = content[index]
-            mPresenter.getMusic(songDetail.song_id)
-            index++
-        }
+        val songDetail = content[0]
+        //获取歌曲详情
+        mPresenter.getMusic(songDetail.song_id)
     }
 
     override fun loadRankPlayList(detail: RankingListDetail) {
@@ -62,14 +62,19 @@ class MusicListDetialActivity:BaseActivity<MusicListDetialPresenter>(),IBaseMusi
         ImageLoader.loadCenterCrop(this, billboard?.pic_s210!!, iv_album_art, DefIconFactory.provideIcon())
         val song_list = detail.getSong_list()
         tv_play_all_number.text = "(共" + song_list?.size.toString() + "首)"
-        var rankMusic = MusicTransformer.musicRankListTransformer(song_list)
-        mAdapter.replaceData(rankMusic)
-        initPlayMusics(rankMusic)
+        netMusicList = MusicTransformer.musicRankListTransformer(song_list)
+        mAdapter.replaceData(netMusicList)
+        initPlayMusics(netMusicList)
 
     }
 
     override fun loadSongInfo(detail: SongDetailInfo) {
         songInfos.add(detail)
+        //递归调用为了使歌曲顺序一致
+        if(index<netMusicList.size){
+            index++
+            mPresenter.getMusic(netMusicList[index-1].song_id)
+        }
     }
 
     override fun upDataView() {
@@ -104,7 +109,11 @@ class MusicListDetialActivity:BaseActivity<MusicListDetialPresenter>(),IBaseMusi
             mAdapter.addHeaderView(musicHead)
         }
         mAdapter.setOnItemClickListener { _, _, position ->
-            MusicPlayActivity.openNet(this@MusicListDetialActivity,songInfos,position,false)
+            if(index<netMusicList.size){
+                toast("歌曲资源加载尚未完成!")
+            }else{
+                MusicPlayActivity.openNet(this@MusicListDetialActivity,songInfos,position,false)
+            }
         }
     }
 

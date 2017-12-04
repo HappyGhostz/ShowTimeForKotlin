@@ -13,6 +13,7 @@ import android.renderscript.ScriptIntrinsicBlur
 import android.view.View
 import com.bumptech.glide.Glide
 import com.example.happyghost.showtimeforkotlin.AppApplication
+import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.RankingListDetail
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongInfo
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.SongListDetail
@@ -157,6 +158,9 @@ class MusicTransformer {
                 mIs = FileInputStream(mPath)
             } catch (e: Exception) {
                 e.printStackTrace()
+            }
+            if(mIs==null){
+                return BitmapFactory.decodeResource(AppApplication.instance.getContext().resources, R.mipmap.music_local_default)
             }
             return BitmapFactory.decodeStream(mIs)
         }

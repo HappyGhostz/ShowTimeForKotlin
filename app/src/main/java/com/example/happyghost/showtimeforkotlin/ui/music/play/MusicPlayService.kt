@@ -28,6 +28,13 @@ class MusicPlayService: Service(), MediaPlayer.OnPreparedListener {
     var mMediaPlayer: MediaPlayer? =  null
     var isPrepared = false
     lateinit var mFocusManager:AudioFocusManager
+    //播放模式：0——Idle  1——Initialized  3——Prepared   4——Started 5--Paused  6——Stopped/生命周期标志位
+    //防止onCompletion的异常调用
+    var MEDIA_PLAYER_MODE = 0
+    var initialized = 1
+    var prepared = 3
+    var started= 4
+    var paused=5
     companion object {
         var mCurrentMode = 0
     }
@@ -54,11 +61,11 @@ class MusicPlayService: Service(), MediaPlayer.OnPreparedListener {
         return super.onStartCommand(intent, flags, startId)
     }
 
+
     private fun playMusic() {
         if(mMediaPlayer==null){
             mMediaPlayer = MediaPlayer()
             mMediaPlayer!!.setOnPreparedListener(this)
-            mMediaPlayer!!.setOnCompletionListener(MusicCompleteListener())
         }else {
             mMediaPlayer!!.reset()
         }
@@ -66,7 +73,9 @@ class MusicPlayService: Service(), MediaPlayer.OnPreparedListener {
             if(isLocal){
                 mMediaPlayer!!.setDataSource(localMusics!![mCurrent].path)
             }else{
-                mMediaPlayer!!.setDataSource(netMusics!![mCurrent].bitrate?.file_link)
+                val path = netMusics!![mCurrent].bitrate?.file_link
+                mMediaPlayer!!.setDataSource(path)
+                MEDIA_PLAYER_MODE = initialized
             }
             mMediaPlayer!!.prepareAsync()
         }catch (e:Exception){
@@ -76,8 +85,10 @@ class MusicPlayService: Service(), MediaPlayer.OnPreparedListener {
     }
 
     override fun onPrepared(mp: MediaPlayer?) {
+        mp!!.setOnCompletionListener(MusicCompleteListener())
         if(mFocusManager.requestAudioFocus()){
             mp?.start()
+            MEDIA_PLAYER_MODE = started
             isPrepared = true
             val rxBus = AppApplication.instance.mRxBus
             if (isLocal) {
@@ -92,7 +103,9 @@ class MusicPlayService: Service(), MediaPlayer.OnPreparedListener {
 
     private inner class MusicCompleteListener : MediaPlayer.OnCompletionListener {
         override fun onCompletion(mp: MediaPlayer) {
-            preOrNext(true,isLocal)
+            if(!mp.isPlaying&&(MEDIA_PLAYER_MODE==started||MEDIA_PLAYER_MODE==paused)){
+                preOrNext(true,isLocal)
+            }
         }
     }
     fun preOrNext(isNext:Boolean,isLocal:Boolean){
@@ -139,11 +152,13 @@ class MusicPlayService: Service(), MediaPlayer.OnPreparedListener {
                 }
             }
         }
+        MEDIA_PLAYER_MODE = prepared
         playMusic()
     }
     fun isPlaying(): Boolean = mMediaPlayer!!.isPlaying
     fun seekTo(progress: Int) {
         mMediaPlayer!!.seekTo(progress)
+        MEDIA_PLAYER_MODE = paused
     }
 
     fun getCurrentDuration(): Int= mMediaPlayer!!.currentPosition
@@ -156,6 +171,7 @@ class MusicPlayService: Service(), MediaPlayer.OnPreparedListener {
     fun playStop(){
         mMediaPlayer!!.stop()
         mMediaPlayer!!.reset()
+        MEDIA_PLAYER_MODE = prepared
     }
     fun playPause(){
         if (!isPlaying()) {
@@ -163,14 +179,17 @@ class MusicPlayService: Service(), MediaPlayer.OnPreparedListener {
         }
 
         mMediaPlayer!!.pause()
+        MEDIA_PLAYER_MODE=paused
         isPrepared = false
     }
     fun hasPlay() {
-        if (mMediaPlayer!!.isPlaying()) {
+        if (mMediaPlayer!!.isPlaying) {
             mMediaPlayer!!.pause()
+            MEDIA_PLAYER_MODE = paused
             //            rxBus.post(new MusicContralEvent(MusicContralEvent.MUSIC_PUSE));
         } else {
             mMediaPlayer!!.start()
+            MEDIA_PLAYER_MODE = started
             //            rxBus.post(new MusicContralEvent(MusicContralEvent.MUSIC_PLAY));
         }
     }
