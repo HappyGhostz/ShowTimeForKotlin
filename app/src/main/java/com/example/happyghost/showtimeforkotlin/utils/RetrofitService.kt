@@ -389,6 +389,11 @@ class RetrofitService  {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
+        fun getSearchMusicList(method:String,query: String,pageSize: Int,page: Int,format:String):Observable<MusicSearchList>{
+            return iMusicApi!!.getSearchSons(method,query,pageSize,page,format)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
         /**
          * 类型转换
          * @param newsId 新闻类型

@@ -34,6 +34,7 @@ import org.jetbrains.anko.startActivity
 class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
     var localSons: ArrayList<SongLocalBean>? = null
     var netMusics: ArrayList<SongDetailInfo>? = null
+    var searchMusic:SongDetailInfo?=null
     var itemPosition = 0
     var isLocalMusic=true
     lateinit var mMusicBind: MusicPlayService.MusicBind
@@ -103,6 +104,10 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
             musicIntent.putParcelableArrayListExtra(LOCAL_SONGS,localSons)
             setLocalBit(localSons!![itemPosition]._id, localSons!![itemPosition].albun_id)
         }else{
+            if(netMusics==null){
+                netMusics = ArrayList()
+                netMusics?.add(searchMusic!!)
+            }
             initActionBar(toolbar, netMusics!![itemPosition].songinfo?.title!!,true)
             musicIntent.putParcelableArrayListExtra(NET_MUSICS,netMusics)
             setNetBit(netMusics!![itemPosition].songinfo?.pic_premium!!)
@@ -203,6 +208,7 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
         itemPosition = intent.getIntExtra(LOCAL_SONGS_POSITION,0)
         isLocalMusic = intent.getBooleanExtra(IS_LOCAL_MUSIC,true)
         netMusics = intent.getParcelableArrayListExtra<SongDetailInfo>(NET_MUSICS)
+        searchMusic = intent.getParcelableExtra<SongDetailInfo>(SEARCH_MUSIC)
     }
 
     override fun getContentView(): Int = R.layout.activity_music_play
@@ -211,6 +217,7 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
         var LOCAL_SONGS_POSITION = "position"
         var IS_LOCAL_MUSIC = "islocalmusic"
         var NET_MUSICS="netmusic"
+        var SEARCH_MUSIC = "searchmusic"
         fun open(mContext: Context?, sons: ArrayList<SongLocalBean>, position: Int, isLocal: Boolean) {
             mContext?.startActivity<MusicPlayActivity>(LOCAL_SONGS to sons,
                     LOCAL_SONGS_POSITION to position,IS_LOCAL_MUSIC to isLocal)
@@ -219,6 +226,10 @@ class MusicPlayActivity:BaseActivity<IBasePresenter>(), View.OnClickListener {
         fun openNet(mContext: Context?, sons: ArrayList<SongDetailInfo>, position: Int, isLocal: Boolean){
             mContext?.startActivity<MusicPlayActivity>(NET_MUSICS to sons,LOCAL_SONGS_POSITION to position,IS_LOCAL_MUSIC to isLocal)
             (mContext as Activity).overridePendingTransition(R.anim.fade_entry, R.anim.fade_exit)
+        }
+        fun open(context: Context,songDetailInfo: SongDetailInfo, isLocal: Boolean){
+            context.startActivity<MusicPlayActivity>(SEARCH_MUSIC to songDetailInfo, IS_LOCAL_MUSIC to isLocal)
+            (context as Activity).overridePendingTransition(R.anim.fade_entry, R.anim.fade_exit)
         }
     }
 

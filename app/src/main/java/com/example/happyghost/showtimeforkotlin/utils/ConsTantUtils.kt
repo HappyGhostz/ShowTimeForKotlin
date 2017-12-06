@@ -41,6 +41,8 @@ class ConsTantUtils {
         val MUSIC_URL_FROM_2 = "android"
         val MUSIC_URL_VERSION = "5.6.5.6"
         val MUSIC_URL_METHOD_SONG_DETAIL = "baidu.ting.song.play"
+        //http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.common&query=%E9%81%87%E8%A7%81&page_size=30&page_no=1&format=xml
+        val MUSIC_URL_METHOD_SONG_SEARCH="baidu.ting.search.common"
         val pageSize = 40
         val startPage = 0
 

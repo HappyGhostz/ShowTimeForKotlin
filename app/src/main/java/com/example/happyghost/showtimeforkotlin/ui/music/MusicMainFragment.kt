@@ -1,27 +1,20 @@
 package com.example.happyghost.showtimeforkotlin.ui.music
 
-import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.ViewPagerAdapter
-import com.example.happyghost.showtimeforkotlin.downloadservice.DownloadBookService
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
-import com.example.happyghost.showtimeforkotlin.ui.book.classify.BookClassifyListFragment
-import com.example.happyghost.showtimeforkotlin.ui.book.community.BookCommunityListFragment
-import com.example.happyghost.showtimeforkotlin.ui.book.rack.BookRackListFragment
-import com.example.happyghost.showtimeforkotlin.ui.book.rank.BookRankListFragment
 import com.example.happyghost.showtimeforkotlin.ui.music.list.MusicListFragment
 import com.example.happyghost.showtimeforkotlin.ui.music.local.MusicLocalFragment
 import com.example.happyghost.showtimeforkotlin.ui.music.rank.MusicRankFragment
+import com.example.happyghost.showtimeforkotlin.ui.music.search.MusicSearchReaultActivity
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.startService
+import org.jetbrains.anko.startActivity
 import java.util.ArrayList
 
 /**
@@ -59,5 +52,14 @@ class MusicMainFragment : BaseFragment<IBasePresenter>(){
     }
 
     override fun getFragmentLayout(): Int =R.layout.fragment_book_main
-
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_search,menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item?.itemId==R.id.item_search){
+            mContext?.startActivity<MusicSearchReaultActivity>()
+            return  true
+        }
+        return false
+    }
 }

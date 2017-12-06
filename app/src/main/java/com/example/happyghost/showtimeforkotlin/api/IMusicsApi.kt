@@ -56,4 +56,13 @@ interface IMusicsApi {
                                @Query("format") format: String,
                                @Query("method") method: String,
                                @Query("songid") songid: String): Observable<SongDetailInfo>
+    //获取搜索列表
+//    http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.common&query=%E9%81%87%E8%A7%81&page_size=30&page_no=1&format=xml
+    @GET("ting")
+    @Headers("user-agent:Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:0.9.4)")
+    fun getSearchSons(@Query("method")method: String,
+                      @Query("query")query:String,
+                      @Query("page_size")pageSize:Int,
+                      @Query("page_no")page:Int,
+                      @Query("format")format: String):Observable<MusicSearchList>
 }
