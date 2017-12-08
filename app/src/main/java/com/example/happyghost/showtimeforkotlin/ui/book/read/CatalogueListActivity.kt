@@ -138,6 +138,7 @@ class CatalogueListActivity : AppCompatActivity() {
     private fun initData(bookid: String, currentChapter: Int,name:String) {
         bookName.text = name
         catalogues = ArrayList<BookMixATocBean.MixTocBean.ChaptersBean>()
+        //这里查找数据库里的数据也可以，只是从推荐列表打开的书籍需要在阅读类做章节列表保存（存数据库）
         RetrofitService.getBookMixATocInfo(bookid,"chapters")
                 .doOnSubscribe {
                     empty_loading.visibility= View.VISIBLE

@@ -5,7 +5,7 @@
         <item
             android:id="@+id/nav_news"
             android:icon="@mipmap/ic_nav_news"
-            android:title="新闻"/>
+            android:title="段子"/>
 
         <item
             android:id="@+id/nav_photos"

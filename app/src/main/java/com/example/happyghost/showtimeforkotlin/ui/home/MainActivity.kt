@@ -9,10 +9,12 @@ import android.view.WindowManager
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
 import com.example.happyghost.showtimeforkotlin.ui.book.main.BookMainFragment
+import com.example.happyghost.showtimeforkotlin.ui.crosstalk.CrossTalkActivity
 import com.example.happyghost.showtimeforkotlin.ui.music.MusicMainFragment
 import com.example.happyghost.showtimeforkotlin.ui.news.main.NewsMainFragment
 import com.example.happyghost.showtimeforkotlin.ui.video.VideoMainFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
 
 
 class MainActivity : BaseActivity<MainPresenter>(), NavigationView.OnNavigationItemSelectedListener {
@@ -73,6 +75,12 @@ class MainActivity : BaseActivity<MainPresenter>(), NavigationView.OnNavigationI
         if(item.isChecked){
             return  true
         }
+        when(item.itemId){
+            R.id.nav_news-> CrossTalkActivity.open(this)
+            R.id.nav_photos->toast("图片")
+            R.id.nav_videos->toast("视频")
+            R.id.nav_setting->toast("设置")
+        }
         return  true
     }
 
@@ -89,8 +97,6 @@ class MainActivity : BaseActivity<MainPresenter>(), NavigationView.OnNavigationI
 
     }
 
-    override fun getContentView(): Int {
-        return R.layout.activity_main
-    }
+    override fun getContentView(): Int = R.layout.activity_main
 
 }

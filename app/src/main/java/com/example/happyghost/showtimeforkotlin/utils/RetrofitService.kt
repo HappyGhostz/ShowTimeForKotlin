@@ -4,6 +4,8 @@ import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.api.IBookApi
 import com.example.happyghost.showtimeforkotlin.api.IMusicsApi
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
+import com.example.happyghost.showtimeforkotlin.api.ICrossApi
+import com.example.happyghost.showtimeforkotlin.bean.CrossTalkDate
 import com.example.happyghost.showtimeforkotlin.bean.bookdate.*
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.*
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsDetailInfo
@@ -45,9 +47,11 @@ class RetrofitService  {
         private val NEWS_HOST = "http://c.3g.163.com/"
         private val BASE_BOOKE_URL = "http://api.zhuishushenqi.com/"
         private val BASE_MUSIC_URL = "http://tingapi.ting.baidu.com/v1/restserver/"
+        private val BASE_CROSS_URL ="http://iu.snssdk.com/neihan/stream/"
         var iNewsApi: INewsApi? = null
         var iBookApi: IBookApi? =null
         var iMusicApi:IMusicsApi?=null
+        var iCrossApi: ICrossApi?=null
 
 
         fun init(){
@@ -86,6 +90,13 @@ class RetrofitService  {
                     .baseUrl(BASE_MUSIC_URL)
                     .build()
             iMusicApi = retrofitMusic.create(IMusicsApi::class.java)
+            var retrofitCross = Retrofit.Builder()
+                    .client(okHttpClient)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(BASE_CROSS_URL)
+                    .build()
+            iCrossApi = retrofitCross.create(ICrossApi::class.java)
 
         }
         //云响应拦截器，用于配置缓存
@@ -391,6 +402,11 @@ class RetrofitService  {
         }
         fun getSearchMusicList(method:String,query: String,pageSize: Int,page: Int,format:String):Observable<MusicSearchList>{
             return iMusicApi!!.getSearchSons(method,query,pageSize,page,format)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        fun getCrossTalk(locTime:Int,minTime:Int,content_type:Int,pageSize: Int):Observable<CrossTalkDate>{
+            return iCrossApi!!.getCrossTalk(1,1,locTime,minTime,content_type,-1,pageSize,"android")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }

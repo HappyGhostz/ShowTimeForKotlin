@@ -51,6 +51,12 @@ class ConsTantUtils {
         val SINGO_MODE = 1
         val SHUFFLE_MODE = 2
         val MUSIC_MODE = "MUSICMODE"
+
+        val CURRENT_MILL_TIME = "currentstime"
+        //段子
+        val CROSS_TYPE=-102
+        //图片
+        var CROSS_PICTURE=-103
     }
 
 }
