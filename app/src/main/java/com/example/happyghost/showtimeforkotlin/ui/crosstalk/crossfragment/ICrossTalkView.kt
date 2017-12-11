@@ -1,6 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.crosstalk.crossfragment
 
-import com.example.happyghost.showtimeforkotlin.bean.CrossTalkDate
+import com.example.happyghost.showtimeforkotlin.bean.crossdate.CrossTalkDate
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
 /**

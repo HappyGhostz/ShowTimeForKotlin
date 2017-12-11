@@ -5,8 +5,9 @@ import com.example.happyghost.showtimeforkotlin.api.IBookApi
 import com.example.happyghost.showtimeforkotlin.api.IMusicsApi
 import com.example.happyghost.showtimeforkotlin.api.INewsApi
 import com.example.happyghost.showtimeforkotlin.api.ICrossApi
-import com.example.happyghost.showtimeforkotlin.bean.CrossTalkDate
+import com.example.happyghost.showtimeforkotlin.bean.crossdate.CrossTalkDate
 import com.example.happyghost.showtimeforkotlin.bean.bookdate.*
+import com.example.happyghost.showtimeforkotlin.bean.crossdate.FunnyPictureDate
 import com.example.happyghost.showtimeforkotlin.bean.musicdate.*
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsInfo
@@ -407,6 +408,11 @@ class RetrofitService  {
         }
         fun getCrossTalk(locTime:Int,minTime:Int,content_type:Int,pageSize: Int):Observable<CrossTalkDate>{
             return iCrossApi!!.getCrossTalk(1,1,locTime,minTime,content_type,-1,pageSize,"android")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        fun getFunnyPicture(locTime:Int,minTime:Int,content_type:Int,pageSize: Int):Observable<FunnyPictureDate>{
+            return iCrossApi!!.getFunnyPicture(1,1,locTime,minTime,content_type,-1,pageSize,"android")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }

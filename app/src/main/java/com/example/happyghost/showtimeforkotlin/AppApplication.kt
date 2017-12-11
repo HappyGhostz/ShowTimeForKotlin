@@ -15,6 +15,7 @@ import com.example.happyghost.showtimeforkotlin.loacaldao.NewsTypeDao
 import com.example.happyghost.showtimeforkotlin.utils.SharedPreferencesUtil
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.utils.ThemeManager
+import com.facebook.drawee.backends.pipeline.Fresco
 import kotlin.properties.ReadWriteProperty
 
 /**
@@ -67,6 +68,7 @@ class AppApplication : Application() {
         RetrofitService.init()
         //初始化lru缓存
         ThemeManager.setLruCache()
+        Fresco.initialize(this)
     }
     fun initDao(){
         val helper = MySQLiteOpenHelper(this, "showTime-db", null)

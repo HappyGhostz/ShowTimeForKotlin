@@ -53,10 +53,13 @@ class ConsTantUtils {
         val MUSIC_MODE = "MUSICMODE"
 
         val CURRENT_MILL_TIME = "currentstime"
+        val CURRENT_MILL_TIME_FUNNY = "currentstimefunny"
         //段子
         val CROSS_TYPE=-102
         //图片
+        val CROSS_PICTURE_URL="http://pb9.pstatp.com/"
         var CROSS_PICTURE=-103
+
     }
 
 }

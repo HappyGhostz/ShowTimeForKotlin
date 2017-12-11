@@ -112,6 +112,14 @@ dependencies {
     //分包  解决65536问题
     dependencies { compile 'com.android.support:multidex:1.0.0' }
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    //fresco图片加载框架，与Glide相比尝试解决大量图片OOM问题,效果很好
+    compile 'com.facebook.fresco:fresco:0.12.0'
+    // 支持 GIF 动图，需要添加
+    compile 'com.facebook.fresco:animated-gif:0.12.0'
+
+    // 支持 WebP （静态图+动图），需要添加
+    compile 'com.facebook.fresco:animated-webp:0.12.0'
+    compile 'com.facebook.fresco:webpsupport:0.12.0'
 }
 
 buildscript {

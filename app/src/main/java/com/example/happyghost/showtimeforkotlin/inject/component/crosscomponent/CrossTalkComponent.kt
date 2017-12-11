@@ -1,7 +1,8 @@
-package com.example.happyghost.showtimeforkotlin.inject.component
+package com.example.happyghost.showtimeforkotlin.inject.component.crosscomponent
 
 import com.example.happyghost.showtimeforkotlin.inject.PerFragment
-import com.example.happyghost.showtimeforkotlin.inject.module.CrossTalkModule
+import com.example.happyghost.showtimeforkotlin.inject.component.ApplicationComponent
+import com.example.happyghost.showtimeforkotlin.inject.module.crossmodule.CrossTalkModule
 import com.example.happyghost.showtimeforkotlin.ui.crosstalk.crossfragment.CrossTalkFragment
 import dagger.Component
 

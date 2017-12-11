@@ -16,6 +16,24 @@ import java.lang.reflect.Field
  */
  class ScreenUtils {
     companion object {
+        /**
+         * 计算图片要显示的高度
+         *
+         * @param pixel 原始分辨率
+         * @param width 要显示的宽度
+         * @return
+         */
+        fun calcPhotoHeight(height: Int?, width: Int?, photoWidth: Int): Int {
+            var photoHeight = -1
+            try {
+                if (height != null) {
+                    photoHeight = (height * (photoWidth * 1.0f / width!!)).toInt()
+                }
+            } catch (e: NumberFormatException) {
+                return -1
+            }
+            return photoHeight
+        }
         enum class EScreenDensity {
             XXHDPI, //超高分辨率    1080×1920
             XHDPI, //超高分辨率    720×1280

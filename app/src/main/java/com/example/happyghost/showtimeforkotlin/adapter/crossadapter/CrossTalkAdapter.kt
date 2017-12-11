@@ -1,10 +1,10 @@
-package com.example.happyghost.showtimeforkotlin.adapter
+package com.example.happyghost.showtimeforkotlin.adapter.crossadapter
 
 import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.bean.CrossTalkDate
+import com.example.happyghost.showtimeforkotlin.bean.crossdate.CrossTalkDate
 import com.example.happyghost.showtimeforkotlin.utils.GlideCircleTransform
 import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
 

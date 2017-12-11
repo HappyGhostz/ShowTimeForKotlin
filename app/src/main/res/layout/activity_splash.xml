@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.SplashActivity">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_splash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

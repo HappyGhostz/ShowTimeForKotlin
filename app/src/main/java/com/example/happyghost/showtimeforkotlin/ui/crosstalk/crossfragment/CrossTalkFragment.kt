@@ -4,10 +4,10 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.example.happyghost.showtimeforkotlin.R
-import com.example.happyghost.showtimeforkotlin.adapter.CrossTalkAdapter
-import com.example.happyghost.showtimeforkotlin.bean.CrossTalkDate
-import com.example.happyghost.showtimeforkotlin.inject.component.DaggerCrossTalkComponent
-import com.example.happyghost.showtimeforkotlin.inject.module.CrossTalkModule
+import com.example.happyghost.showtimeforkotlin.adapter.crossadapter.CrossTalkAdapter
+import com.example.happyghost.showtimeforkotlin.bean.crossdate.CrossTalkDate
+import com.example.happyghost.showtimeforkotlin.inject.component.crosscomponent.DaggerCrossTalkComponent
+import com.example.happyghost.showtimeforkotlin.inject.module.crossmodule.CrossTalkModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
 import org.jetbrains.anko.find

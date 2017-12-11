@@ -5,6 +5,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
 import android.view.Gravity
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseActivity
@@ -66,15 +67,18 @@ class MainActivity : BaseActivity<MainPresenter>(), NavigationView.OnNavigationI
             dl_root.fitsSystemWindows=true
         }
         dl_root.addDrawerListener(object : DrawerLayout.SimpleDrawerListener(){
-
+//            override fun onDrawerClosed(drawerView: View?) {
+//                nv_right.setItemTextAppearance()
+//            }
         })
         nv_right.setNavigationItemSelectedListener(this)
     }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         dl_root.closeDrawer(Gravity.START)
-        if(item.isChecked){
-            return  true
-        }
+//        if(item.isChecked){
+////            return  true
+//            item.isChecked = false
+//        }
         when(item.itemId){
             R.id.nav_news-> CrossTalkActivity.open(this)
             R.id.nav_photos->toast("图片")

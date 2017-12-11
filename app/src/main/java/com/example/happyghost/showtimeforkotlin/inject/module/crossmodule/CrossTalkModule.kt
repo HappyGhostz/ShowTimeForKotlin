@@ -1,6 +1,6 @@
-package com.example.happyghost.showtimeforkotlin.inject.module
+package com.example.happyghost.showtimeforkotlin.inject.module.crossmodule
 
-import com.example.happyghost.showtimeforkotlin.adapter.CrossTalkAdapter
+import com.example.happyghost.showtimeforkotlin.adapter.crossadapter.CrossTalkAdapter
 import com.example.happyghost.showtimeforkotlin.inject.PerFragment
 import com.example.happyghost.showtimeforkotlin.ui.crosstalk.crossfragment.CrossTalkFragment
 import com.example.happyghost.showtimeforkotlin.ui.crosstalk.crossfragment.CrossTalkPresenter
@@ -20,5 +20,5 @@ class CrossTalkModule(crossTalkFragment: CrossTalkFragment) {
     fun providesPresenter(): CrossTalkPresenter =CrossTalkPresenter(view)
     @PerFragment
     @Provides
-    fun providesAdapter():CrossTalkAdapter = CrossTalkAdapter()
+    fun providesAdapter(): CrossTalkAdapter = CrossTalkAdapter()
 }
