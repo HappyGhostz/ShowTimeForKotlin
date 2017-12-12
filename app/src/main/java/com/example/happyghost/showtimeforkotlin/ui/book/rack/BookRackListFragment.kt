@@ -43,13 +43,11 @@ class BookRackListFragment : BaseFragment<BookRackPresent>(),IBookRackView {
             adapter.replaceData(list)
             var title = "保存"
             var message = "是否将推荐列表保存到本地？"
-            DialogHelper.creatAddLocalBookDialog(mContext!!,title,message,object :DialogInterface.OnClickListener{
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    mPresenter.insertBooks(list)
-                    loadLocalBookList(mPresenter.queryAll())
-                    toast("保存完成")
-                    dialog?.dismiss()
-                }
+            DialogHelper.creatAddLocalBookDialog(mContext!!,title,message, DialogInterface.OnClickListener { dialog, which ->
+                mPresenter.insertBooks(list)
+                loadLocalBookList(mPresenter.queryAll())
+                toast("保存完成")
+                dialog?.dismiss()
             })
         }
     }

@@ -85,9 +85,9 @@ class BookRackPresent(view: IBookRackView, localBookInfoDao: LocalBookInfoDao, r
         val allBooks = mBookDao.queryBuilder().list()
         val size = allBooks.size
         var index = 1
-        while (index <= recBooks.size-1)
+        while (index <= recBooks.size)
         {
-            var  book = recBooks.get(index)
+            var  book = recBooks.get(index-1)
             val localBookInfo = BookTransformer.RecommendBooksConvertlocalBook(book)
             localBookInfo.id=size+index.toLong()
             mBookDao.insert(localBookInfo)
