@@ -1,10 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
 import com.example.happyghost.showtimeforkotlin.AppApplication
-import com.example.happyghost.showtimeforkotlin.api.IBookApi
-import com.example.happyghost.showtimeforkotlin.api.IMusicsApi
-import com.example.happyghost.showtimeforkotlin.api.INewsApi
-import com.example.happyghost.showtimeforkotlin.api.ICrossApi
+import com.example.happyghost.showtimeforkotlin.api.*
 import com.example.happyghost.showtimeforkotlin.bean.crossdate.CrossTalkDate
 import com.example.happyghost.showtimeforkotlin.bean.bookdate.*
 import com.example.happyghost.showtimeforkotlin.bean.crossdate.FunnyPictureDate
@@ -13,6 +10,8 @@ import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.NewsInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.PhotoSetInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.SpecialInfo
+import com.example.happyghost.showtimeforkotlin.bean.picturedate.BeautyPicture
+import com.example.happyghost.showtimeforkotlin.bean.picturedate.WelfarePhotoList
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
@@ -49,10 +48,14 @@ class RetrofitService  {
         private val BASE_BOOKE_URL = "http://api.zhuishushenqi.com/"
         private val BASE_MUSIC_URL = "http://tingapi.ting.baidu.com/v1/restserver/"
         private val BASE_CROSS_URL ="http://iu.snssdk.com/neihan/stream/"
+        private val WELF_CROSS_URL ="http://gank.io/"
+        private val BEAUTY_PICYURE_URL ="http://image.baidu.com/data/"
         var iNewsApi: INewsApi? = null
         var iBookApi: IBookApi? =null
         var iMusicApi:IMusicsApi?=null
         var iCrossApi: ICrossApi?=null
+        var iWelfApi: IWelfApi?=null
+        var iBeautyApi: IBeautyApi?=null
 
 
         fun init(){
@@ -98,6 +101,20 @@ class RetrofitService  {
                     .baseUrl(BASE_CROSS_URL)
                     .build()
             iCrossApi = retrofitCross.create(ICrossApi::class.java)
+            var retrofitWelf= Retrofit.Builder()
+                    .client(okHttpClient)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(WELF_CROSS_URL)
+                    .build()
+            iWelfApi = retrofitWelf.create(IWelfApi::class.java)
+            var retrofitBeauty= Retrofit.Builder()
+                    .client(okHttpClient)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(BEAUTY_PICYURE_URL)
+                    .build()
+            iBeautyApi = retrofitBeauty.create(IBeautyApi::class.java)
 
         }
         //云响应拦截器，用于配置缓存
@@ -416,6 +433,27 @@ class RetrofitService  {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
+
+        /**
+         * 获取福利图片
+         * @return
+         */
+        fun getWelfarePhoto(page: Int): Observable<WelfarePhotoList> {
+            return iWelfApi!!.getWelfarePhoto(page)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+
+        }
+        /**
+         * 获取美女图片
+         * http://image.baidu.com/data/imgs?sort=0&pn=0&rn=20&col=美女&tag3=&p=channel&from=1
+         */
+        fun getBeautyPicture(startImage:Int,size: Int,col:String,tag:String):Observable<BeautyPicture>{
+            return iBeautyApi!!.getWelfarePhoto(0,startImage,size,col,tag,"","channel",1)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+
         /**
          * 类型转换
          * @param newsId 新闻类型

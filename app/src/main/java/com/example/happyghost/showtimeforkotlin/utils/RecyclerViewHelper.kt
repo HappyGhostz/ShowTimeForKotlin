@@ -1,10 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
 import android.content.Context
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.*
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.utils.itemdivider.DividerGridItemDecoration
 
@@ -51,6 +48,18 @@ class RecyclerViewHelper {
             recyclerView.layoutManager = layoutManager
             if(hasDivider){
                 recyclerView.addItemDecoration(DividerItemDecoration(mContext, LinearLayoutManager.HORIZONTAL))
+            }
+            recyclerView.adapter = adapter
+        }
+        /**
+         * 配置瀑布流列表RecyclerView
+         * @param view
+         */
+        fun initRecycleViewSV(mContext:Context?, recyclerView: RecyclerView, adapter:RecyclerView.Adapter<BaseViewHolder>,column:Int,hasDivider:Boolean){
+            val layoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL)
+            recyclerView.layoutManager = layoutManager
+            if (hasDivider) {
+                recyclerView.addItemDecoration(DividerGridItemDecoration(mContext))
             }
             recyclerView.adapter = adapter
         }

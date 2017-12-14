@@ -69,6 +69,8 @@
         <service android:name=".ui.music.play.MusicPlayService"/>
         <activity android:name=".ui.music.search.MusicSearchReaultActivity"/>
         <activity android:name=".ui.crosstalk.CrossTalkActivity"/>
+        <activity android:name=".ui.picture.BeautyPictureActivity"/>
+        <activity android:name=".ui.picture.BegPictureActivity"/>
     </application>
 
 </manifest>

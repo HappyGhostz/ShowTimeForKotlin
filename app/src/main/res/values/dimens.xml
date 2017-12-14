@@ -17,4 +17,5 @@
     <dimen name="book_read_catalogue_list_margin">12dp</dimen>
     <dimen name="book_read_top_text">16sp</dimen>
     <dimen name="title_margin">24dp</dimen>
+    <dimen name="photo_margin_width">1dp</dimen>
 </resources>

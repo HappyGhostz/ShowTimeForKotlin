@@ -37,6 +37,8 @@ class FunnyPictureAdapter: BaseQuickAdapter<FunnyPictureDate.DataBeanX.DataBean,
             item.group?.large_image?.url_list?.forEach {
                 if(!TextUtils.isEmpty(it.url)){
                     url = it.url
+                }else{
+                    url = "http://u.candou.com/2016/0422/1461293198116.jpg"
                 }
             }
         }else{
