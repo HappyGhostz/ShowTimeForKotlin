@@ -53,4 +53,4 @@
         android:layout_alignTop="@+id/tv_source"
         android:layout_marginRight="10dp"
         android:text="2016-08-23 11:48:46"/>
-</com.andexert.library.RippleView>
+    </com.andexert.library.RippleView>

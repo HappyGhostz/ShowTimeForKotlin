@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.andexert.library.RippleView android:id="@+id/item_ripple"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:rv_rippleDuration="300"
+    app:rv_type="rectangle"
+    xmlns:fesco="http://schemas.android.com/tools">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="horizontal">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/cardview_margin"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:elevation="@dimen/widget_elevation"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="@dimen/cardview_default_radius"
+        app:cardElevation="@dimen/cardview_elevation"
+        app:cardPreventCornerOverlap="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="1.5dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="97dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@color/divider"
+                android:padding="25dp"
+                android:src="@drawable/ic_live_placeholder"
+                />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/iv_roomsrc"
+                android:layout_width="match_parent"
+                android:layout_height="97dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@null"
+                fesco:placeholderImage="@mipmap/ic_default_1"
+                fesco:failureImage="@mipmap/no_data_nine"
+                fesco:retryImage="@mipmap/retry"/>
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/iv_avatar"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                fesco:placeholderImage="@mipmap/ic_default_1"
+                fesco:failureImage="@mipmap/no_data_nine"
+                fesco:retryImage="@mipmap/retry"
+                fesco:roundedCornerRadius="5dp"
+                fesco:roundBottomLeft="false"
+                fesco:roundBottomRight="false"
+                fesco:roundWithOverlayColor="@color/blue"
+                fesco:roundingBorderWidth="1dp"
+                fesco:roundingBorderColor="@color/red"
+                android:layout_alignBottom="@+id/relativeLayout"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/shape_circle"
+                android:padding="1dp"
+                android:src="@drawable/ic_avatar_default" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="#80757575">
+
+                <TextView
+                    android:id="@+id/tv_roomname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="@string/live_roomname"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="@dimen/textsize_secondary" />
+            </FrameLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_below="@+id/iv_roomsrc"
+                android:layout_toRightOf="@+id/iv_avatar"
+                android:paddingRight="5dp">
+
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/iv_online"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:scrollIndicators="end"
+                    android:textColor="@color/common_h1"
+                    android:textSize="@dimen/textsize_secondary" />
+
+                <ImageView
+                    android:id="@+id/iv_online"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_online"
+                    android:src="@drawable/ic_visitor" />
+
+                <TextView
+                    android:id="@+id/tv_online"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:textColor="@color/common_h2"
+                    android:textSize="@dimen/textsize_secondary" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
+</com.andexert.library.RippleView>

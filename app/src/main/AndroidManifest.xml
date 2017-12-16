@@ -71,6 +71,7 @@
         <activity android:name=".ui.crosstalk.CrossTalkActivity"/>
         <activity android:name=".ui.picture.BeautyPictureActivity"/>
         <activity android:name=".ui.picture.BegPictureActivity"/>
+        <activity android:name=".ui.video.live.LiveActivity"/>
     </application>
 
 </manifest>

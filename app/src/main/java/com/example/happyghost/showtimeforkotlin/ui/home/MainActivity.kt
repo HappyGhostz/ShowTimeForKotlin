@@ -15,6 +15,7 @@ import com.example.happyghost.showtimeforkotlin.ui.music.MusicMainFragment
 import com.example.happyghost.showtimeforkotlin.ui.news.main.NewsMainFragment
 import com.example.happyghost.showtimeforkotlin.ui.picture.BeautyPictureActivity
 import com.example.happyghost.showtimeforkotlin.ui.video.VideoMainFragment
+import com.example.happyghost.showtimeforkotlin.ui.video.live.LiveActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
 
@@ -83,7 +84,7 @@ class MainActivity : BaseActivity<MainPresenter>(), NavigationView.OnNavigationI
         when(item.itemId){
             R.id.nav_news-> CrossTalkActivity.open(this)
             R.id.nav_photos-> BeautyPictureActivity.open(this)
-            R.id.nav_videos->toast("视频")
+            R.id.nav_videos-> LiveActivity.open(this)
             R.id.nav_setting->toast("设置")
         }
         return  true

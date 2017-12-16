@@ -22,4 +22,16 @@
         <item>删除</item>
         <item>缓存全本</item>
     </string-array>
+    <!--直播-->
+    <string-array name="live_type_id">
+        <item></item>
+        <item>douyu</item>
+        <item>panda</item>
+        <item>zhanqi</item>
+        <item>yy</item>
+        <item>longzhu</item>
+        <item>quanmin</item>
+        <item>cc</item>
+        <item>huomaotv</item>
+    </string-array>
 </resources>

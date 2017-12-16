@@ -56,4 +56,6 @@
     <color name="read_theme_gray">#AAAAAA</color>
     <color name="listTextColor">#ff333333</color>
     <color name="black">#2F3640</color>
+
+    <color name="divider">#BDBDBD</color>
 </resources>

@@ -62,4 +62,24 @@
     <string name="book_read_would_you_like_to_add_this_to_the_book_shelf">是否将本书加入书架？</string>
     <string name="book_read_join_the_book_shelf">加入书架</string>
     <string name="book_read_not">不了</string>
+
+    <!--直播-->
+    <string name="live_all">直播</string>
+    <string name="live_lol">英雄联盟</string>
+    <string name="live_ow">守望先锋</string>
+    <string name="live_dota2">DOTA2</string>
+    <string name="live_hs">炉石传说</string>
+    <string name="live_csgo">CSGO</string>
+    <string name="live_platform">平台</string>
+
+    <string name="game_type_all">live</string>
+    <string name="game_type_lol">lol</string>
+    <string name="game_type_ow">ow</string>
+    <string name="game_type_dota2">dota2</string>
+    <string name="game_type_hs">hs</string>
+    <string name="game_type_csgo">csgo</string>
+    <string name="live_roomname">直播间名称</string>
+    <string name="live_nickname">主播昵称：</string>
+    <string name="live_live_platform">直播平台：</string>
+    <string name="live_game_type">游戏分类：</string>
 </resources>

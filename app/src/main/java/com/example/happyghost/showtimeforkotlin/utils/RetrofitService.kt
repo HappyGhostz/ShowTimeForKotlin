@@ -12,6 +12,7 @@ import com.example.happyghost.showtimeforkotlin.bean.newsdate.PhotoSetInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.SpecialInfo
 import com.example.happyghost.showtimeforkotlin.bean.picturedate.BeautyPicture
 import com.example.happyghost.showtimeforkotlin.bean.picturedate.WelfarePhotoList
+import com.example.happyghost.showtimeforkotlin.bean.videodata.LiveListBean
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
@@ -50,12 +51,14 @@ class RetrofitService  {
         private val BASE_CROSS_URL ="http://iu.snssdk.com/neihan/stream/"
         private val WELF_CROSS_URL ="http://gank.io/"
         private val BEAUTY_PICYURE_URL ="http://image.baidu.com/data/"
+        private val LIVE_BASE_URL ="http://api.maxjia.com/"
         var iNewsApi: INewsApi? = null
         var iBookApi: IBookApi? =null
         var iMusicApi:IMusicsApi?=null
         var iCrossApi: ICrossApi?=null
         var iWelfApi: IWelfApi?=null
         var iBeautyApi: IBeautyApi?=null
+        var iLiveApi: ILivesApi?=null
 
 
         fun init(){
@@ -115,6 +118,13 @@ class RetrofitService  {
                     .baseUrl(BEAUTY_PICYURE_URL)
                     .build()
             iBeautyApi = retrofitBeauty.create(IBeautyApi::class.java)
+            var retrofitLive= Retrofit.Builder()
+                    .client(okHttpClient)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(LIVE_BASE_URL)
+                    .build()
+            iLiveApi = retrofitLive.create(ILivesApi::class.java)
 
         }
         //云响应拦截器，用于配置缓存
@@ -450,6 +460,14 @@ class RetrofitService  {
          */
         fun getBeautyPicture(startImage:Int,size: Int,col:String,tag:String):Observable<BeautyPicture>{
             return iBeautyApi!!.getWelfarePhoto(0,startImage,size,col,tag,"","channel",1)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        /**
+         * 获取直播列表
+         */
+        fun getLiveListDate(offSet:Int,limit:Int,liveType:String,gameType:String):Observable<LiveListBean>{
+            return iLiveApi!!.getLiveList(offSet,limit,liveType,gameType)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
