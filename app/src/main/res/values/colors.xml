@@ -35,6 +35,7 @@
     <color name="color_tab_pressed">@color/baseColorPrimary</color>
     <color name="common_gray_bg">#EEEEEE</color>
     <color name="reader_menu_bg_color">#2A2A2A</color>
+    <color name="control_bar_bg">#e0222222</color>
 
     <color name="orange">#DE6014</color>
 

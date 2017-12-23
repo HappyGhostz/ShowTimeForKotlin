@@ -3,6 +3,7 @@ package com.example.happyghost.showtimeforkotlin
 import android.app.Application
 import android.content.Context
 import android.support.multidex.MultiDex
+import android.util.Log
 import com.example.happyghost.showtimeforkotlin.RxBus.RxBus
 import com.example.happyghost.showtimeforkotlin.delegation.AppDelegation
 import com.example.happyghost.showtimeforkotlin.inject.component.ApplicationComponent
@@ -16,6 +17,8 @@ import com.example.happyghost.showtimeforkotlin.utils.SharedPreferencesUtil
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
 import com.example.happyghost.showtimeforkotlin.utils.ThemeManager
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.tencent.smtt.sdk.QbSdk
+import com.tencent.smtt.sdk.TbsListener
 import kotlin.properties.ReadWriteProperty
 
 /**
@@ -69,10 +72,39 @@ class AppApplication : Application() {
         //初始化lru缓存
         ThemeManager.setLruCache()
         Fresco.initialize(this)
+        initTecentWebSdk()
     }
+
+    private fun initTecentWebSdk() {
+        val cb = object : QbSdk.PreInitCallback {
+
+            override fun onViewInitFinished(arg0: Boolean) {
+                Log.e("app", " onViewInitFinished is " + arg0)
+            }
+
+            override fun onCoreInitFinished() {
+
+            }
+        }
+        QbSdk.setTbsListener(object : TbsListener {
+            override fun onDownloadFinish(i: Int) {
+                Log.d("app", "onDownloadFinish is " + i)
+            }
+
+            override fun onInstallFinish(i: Int) {
+                Log.d("app", "onInstallFinish is " + i)
+            }
+
+            override fun onDownloadProgress(i: Int) {
+                Log.d("app", "onDownloadProgress:" + i)
+            }
+        })
+        QbSdk.initX5Environment(applicationContext, cb)
+    }
+
     fun initDao(){
         val helper = MySQLiteOpenHelper(this, "showTime-db", null)
-        val db = helper.getWritableDb()
+        val db = helper.writableDb
         daoSession = DaoMaster(db).newSession()
         NewsTypeDao.updateLocalData(mContext,daoSession)
     }

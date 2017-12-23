@@ -5,6 +5,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.bean.videodata.LiveListBean
+import com.example.happyghost.showtimeforkotlin.ui.video.play.VideoPlayActivity
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 
@@ -29,10 +30,6 @@ class LiveAdapter:BaseQuickAdapter<LiveListBean.ResultBean,BaseViewHolder>(R.lay
         roomSrc.controller = controller
 
         acatarSrc.setImageURI(item?.live_userimg)
-//        ImageLoader.loadCenterCrop(mContext, (item as LiveListItemBean).getLive_userimg(), acatarSrc, DefIconFactory.provideIcon())
-        val rippleView = helper.getView<RippleView>(R.id.item_ripple)
-        rippleView?.setOnRippleCompleteListener({
-            rippleView: RippleView? ->
-        })
+
     }
 }

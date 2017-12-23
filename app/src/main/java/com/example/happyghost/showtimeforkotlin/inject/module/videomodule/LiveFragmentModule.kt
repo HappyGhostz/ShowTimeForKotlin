@@ -1,6 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.inject.module.videomodule
 
 import com.example.happyghost.showtimeforkotlin.adapter.videoadapter.LiveAdapter
+import com.example.happyghost.showtimeforkotlin.adapter.videoadapter.LiveDouyuAdapter
 import com.example.happyghost.showtimeforkotlin.inject.PerFragment
 import com.example.happyghost.showtimeforkotlin.ui.video.live.LiveFragment
 import com.example.happyghost.showtimeforkotlin.ui.video.live.LivePresenter
@@ -20,5 +21,8 @@ class LiveFragmentModule(liveFragment: LiveFragment) {
     fun providesPresenter():LivePresenter= LivePresenter(view)
     @PerFragment
     @Provides
-    fun providesAdapter():LiveAdapter=LiveAdapter();
+    fun providesAdapter():LiveAdapter=LiveAdapter()
+    @PerFragment
+    @Provides
+    fun providesDouyuAdapter():LiveDouyuAdapter= LiveDouyuAdapter()
 }

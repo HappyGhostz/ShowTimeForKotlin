@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     app:rv_rippleDuration="300"
     app:rv_type="rectangle"
-    xmlns:fesco="http://schemas.android.com/tools">
+    xmlns:fesco="http://schemas.android.com/apk/res-auto">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -56,15 +56,10 @@
                 android:id="@+id/iv_avatar"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                fesco:placeholderImage="@mipmap/ic_default_1"
-                fesco:failureImage="@mipmap/no_data_nine"
-                fesco:retryImage="@mipmap/retry"
-                fesco:roundedCornerRadius="5dp"
-                fesco:roundBottomLeft="false"
-                fesco:roundBottomRight="false"
-                fesco:roundWithOverlayColor="@color/blue"
-                fesco:roundingBorderWidth="1dp"
-                fesco:roundingBorderColor="@color/red"
+                fesco:actualImageScaleType="centerCrop"
+                fesco:placeholderImage="@drawable/ic_avatar_default"
+                fesco:placeholderImageScaleType="centerCrop"
+                fesco:roundAsCircle="true"
                 android:layout_alignBottom="@+id/relativeLayout"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="5dp"

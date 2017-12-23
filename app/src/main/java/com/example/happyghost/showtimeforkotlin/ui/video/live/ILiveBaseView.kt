@@ -1,5 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.ui.video.live
 
+import com.example.happyghost.showtimeforkotlin.bean.videodata.DouyuVideoInfo
+import com.example.happyghost.showtimeforkotlin.bean.videodata.LiveDetailBean
 import com.example.happyghost.showtimeforkotlin.bean.videodata.LiveListBean
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
@@ -11,4 +13,6 @@ import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 interface ILiveBaseView:IBaseView {
     fun loadLiveDate(live:LiveListBean)
     fun loadMoreLiveDate(live: LiveListBean)
+    fun openVideoPlay(liveDetailBean: LiveDetailBean)
+    fun openDouyuVideoPlay(liveDetailBean: DouyuVideoInfo)
 }

@@ -1,11 +1,14 @@
 package com.example.happyghost.showtimeforkotlin.bean.videodata
 
+import android.os.Parcel
+import android.os.Parcelable
+
 /**
  * @author Zhao Chenping
  * @creat 2017/12/16.
  * @description
  */
-class LiveListBean {
+class LiveListBean() {
 
     /**
      * msg :
@@ -16,6 +19,9 @@ class LiveListBean {
     internal var msg: String? = null
     internal var status: String? = null
     internal var result: List<ResultBean>? = null
+    var error: Int = 0
+    var data: List<DataBean>? = null
+
 
 
     class ResultBean {
@@ -44,5 +50,64 @@ class LiveListBean {
         var live_type: String? = null
         var live_userimg: String? = null
         var show_type: String? = null
+    }
+    class DataBean {
+        /**
+         * room_id : 168000
+         * room_src : https://rpic.douyucdn.cn/a1705/02/16/168000_170502160717.jpg
+         * vertical_src : https://rpic.douyucdn.cn/a1705/02/16/168000_170502160717.jpg
+         * isVertical : 0
+         * cate_id : 1
+         * room_name : 斗鱼丁义珍:  非洲野区教学。
+         * show_status : 1
+         * subject :
+         * show_time : 1493711977
+         * owner_uid : 6340121
+         * specific_catalog :
+         * specific_status : 0
+         * vod_quality : 0
+         * nickname : 小猪是超级大帅Bi
+         * online : 4025
+         * url : /168000
+         * game_url : /directory/game/LOL
+         * game_name : 英雄联盟
+         * child_id : 33
+         * avatar : https://apic.douyucdn.cn/upload/avatar/face/201604/06/ae72347e5e33519fd04f11a3ae51b6db_big.jpg
+         * avatar_mid : https://apic.douyucdn.cn/upload/avatar/face/201604/06/ae72347e5e33519fd04f11a3ae51b6db_middle.jpg
+         * avatar_small : https://apic.douyucdn.cn/upload/avatar/face/201604/06/ae72347e5e33519fd04f11a3ae51b6db_small.jpg
+         * jumpUrl :
+         * fans : 199506
+         * ranktype : 0
+         * is_noble_rec : 0
+         * anchor_city :
+         */
+
+        var room_id: String? = null
+        var room_src: String? = null
+        var vertical_src: String? = null
+        var isVertical: Int = 0
+        var cate_id: Int = 0
+        var room_name: String? = null
+        var show_status: String? = null
+        var subject: String? = null
+        var show_time: String? = null
+        var owner_uid: String? = null
+        var specific_catalog: String? = null
+        var specific_status: String? = null
+        var vod_quality: String? = null
+        var nickname: String? = null
+        var online: Int = 0
+        var url: String? = null
+        var game_url: String? = null
+        var game_name: String? = null
+        var child_id: Int = 0
+        var avatar: String? = null
+        var avatar_mid: String? = null
+        var avatar_small: String? = null
+        var jumpUrl: String? = null
+        var fans: String? = null
+        var ranktype: Int = 0
+        var is_noble_rec: Int = 0
+        var anchor_city: String? = null
     }
 }

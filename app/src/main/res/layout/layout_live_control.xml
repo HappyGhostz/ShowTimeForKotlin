@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--顶部控制栏-->
+    <RelativeLayout
+        android:id="@+id/control_top"
+        android:layout_width="match_parent"
+        android:layout_height="51.36dp"
+        android:background="#e0222222">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/wh20.0dimens20.0dp"
+            android:layout_height="@dimen/wh20.0dimens20.0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/wh8.0dimens8.0dp"
+            android:src="@mipmap/im_sdk_back_normal" />
+
+        <TextView
+            android:id="@+id/tv_live_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/wh10.0dimens10.0dp"
+            android:layout_toRightOf="@id/iv_back"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/iv_live_setting"
+            android:layout_width="@dimen/wh20.0dimens20.0dp"
+            android:layout_height="@dimen/wh20.0dimens20.0dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/wh20.0dimens20.0dp"
+            android:src="@drawable/img_live_setting" />
+
+        <ImageView
+            android:id="@+id/iv_live_gift"
+            android:layout_width="@dimen/wh20.0dimens20.0dp"
+            android:layout_height="@dimen/wh20.0dimens20.0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/wh25.0dimens25.0dp"
+            android:layout_toLeftOf="@id/iv_live_setting"
+            android:src="@drawable/img_live_gift" />
+
+        <ImageView
+            android:id="@+id/iv_live_share"
+            android:layout_width="@dimen/wh20.0dimens20.0dp"
+            android:layout_height="@dimen/wh20.0dimens20.0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/wh25.0dimens25.0dp"
+            android:layout_toLeftOf="@id/iv_live_gift"
+            android:src="@drawable/img_live_share" />
+
+        <ImageView
+            android:id="@+id/iv_live_follow"
+            android:layout_width="@dimen/wh20.0dimens20.0dp"
+            android:layout_height="@dimen/wh20.0dimens20.0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/wh25.0dimens25.0dp"
+            android:layout_toLeftOf="@id/iv_live_share"
+            android:src="@drawable/img_live_follow" />
+
+
+    </RelativeLayout>
+
+    <!--底部控制栏-->
+    <RelativeLayout
+        android:id="@+id/control_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wh45.0dimens45.0dp"
+        android:layout_gravity="bottom"
+        android:background="@color/control_bar_bg">
+
+        <ImageView
+            android:id="@+id/iv_live_play"
+            android:layout_width="@dimen/wh30.0dimens30.0dp"
+            android:layout_height="@dimen/wh30.0dimens30.0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/wh15.0dimens15.0dp"
+            android:src="@drawable/img_live_videopause" />
+
+        <ImageView
+            android:id="@+id/iv_live_refresh"
+            android:layout_width="@dimen/wh30.0dimens30.0dp"
+            android:layout_height="@dimen/wh30.0dimens30.0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/wh15.0dimens15.0dp"
+            android:layout_toRightOf="@id/iv_live_play"
+            android:src="@drawable/img_live_refresh" />
+
+        <TextView
+            android:id="@+id/tv_live_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/wh10.0dimens10.0dp"
+            android:text="直播列表"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/im_danmu_control"
+            android:layout_width="@dimen/wh30.0dimens30.0dp"
+            android:layout_height="@dimen/wh30.0dimens30.0dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/wh15.0dimens15.0dp"
+            android:layout_toLeftOf="@id/tv_live_list"
+            android:src="@mipmap/pad_play_opendanmu" />
+
+        <RelativeLayout
+            android:id="@+id/rl_danmu_send"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/wh30.0dimens30.0dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/wh15.0dimens15.0dp"
+            android:layout_marginRight="@dimen/wh15.0dimens15.0dp"
+            android:layout_marginTop="7.0dip"
+            android:layout_toLeftOf="@id/im_danmu_control"
+            android:layout_toRightOf="@id/iv_live_refresh"
+            android:background="@drawable/bg_live_hor_et"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <ImageView
+                android:id="@+id/txt_btn_hot_word"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10.0dip"
+                android:padding="6.0dip"
+                android:src="@drawable/btn_live_hotword_selector" />
+
+            <View
+                android:layout_width="1.0dip"
+                android:layout_height="22.0dip"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5.0dip"
+                android:layout_toRightOf="@+id/txt_btn_hot_word"
+                android:background="#23ffffff" />
+
+            <EditText
+                android:id="@+id/ediit_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="30.0dip"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15.0dip"
+                android:layout_toLeftOf="@+id/img_btn_send"
+                android:layout_toRightOf="@+id/txt_btn_hot_word"
+                android:background="#00000000"
+                android:hint="在这里输入弹幕"
+                android:imeOptions="actionSend|flagNoExtractUi"
+                android:maxLength="20"
+                android:padding="5.0dip"
+                android:textColor="#ffffffff"
+                android:textColorHint="#23ffffff"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/img_btn_send"
+                android:layout_width="35.0dip"
+                android:layout_height="35.0dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10.0dip"
+                android:padding="5.0dip"
+                android:src="@drawable/btn_live_hor_send_selector" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!--loading-->
+    <FrameLayout
+        android:id="@+id/fl_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#e0000000">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/wh100.0dimens100.0dp">
+
+                <ImageView
+                    android:id="@+id/im_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/image_about_backage" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/im_logo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/wh35.0dimens35.0dp"
+                    android:layout_marginTop="@dimen/wh10.0dimens10.0dp">
+
+                    <com.example.happyghost.showtimeforkotlin.wegit.LoadingView
+                        android:id="@+id/lv_playloading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:innerTriangleColor="@color/baseColorPrimary"
+                        app:innerTriangleRadius="6dp"
+                        app:isNeedBackground="false"
+                        android:layout_centerVertical="true"
+                        app:outerCircleColor="@color/baseColorPrimary"
+                        app:outerCircleRadius="10dp" />
+
+                    <TextView
+                        android:id="@+id/tv_loading_buffer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/wh35.0dimens35.0dp"
+                        android:layout_marginTop="@dimen/wh13.0dimens13.0dp"
+                        android:layout_toRightOf="@id/lv_playloading"
+                        android:text="直播视频连接中..."
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </FrameLayout>
+    <!--中部控制 亮度 声音-->
+    <RelativeLayout
+        android:id="@+id/control_center"
+        android:layout_width="@dimen/wh110.0dimens110.0dp"
+        android:layout_height="@dimen/wh110.0dimens110.0dp"
+        android:layout_gravity="center"
+        android:background="@drawable/control_shape"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_control_img"
+            android:layout_width="@dimen/wh40.0dimens40.0dp"
+            android:layout_height="@dimen/wh40.0dimens40.0dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/img_volume" />
+
+        <TextView
+            android:id="@+id/tv_control_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/iv_control_img"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/wh7.0dimens7.0dp"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_control"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_control_img"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp"
+            android:maxLines="1"
+            android:text="12%"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</FrameLayout>

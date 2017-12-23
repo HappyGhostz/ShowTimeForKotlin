@@ -258,6 +258,20 @@ import java.lang.reflect.Field
 
             return screenBrightness / 255.0f * 100
         }
+        /**
+         * 获得当前屏幕亮度值 0--255
+         */
+        fun getVideoScreenBrightness(mContext: Context): Int {
+            var screenBrightness = 255
+            try {
+                screenBrightness = Settings.System.getInt(mContext.contentResolver,
+                        Settings.System.SCREEN_BRIGHTNESS)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            return screenBrightness
+        }
 
         /**
          * 设置当前屏幕亮度值

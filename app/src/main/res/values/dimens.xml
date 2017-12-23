@@ -26,4 +26,20 @@
     <dimen name="video_thumb_height">72dp</dimen>
     <dimen name="widget_elevation">10dp</dimen>
     <dimen name="textsize_secondary">12sp</dimen>
+
+    <dimen name="wh5.0dimens5.0dp">5.71dp</dimen>
+    <dimen name="wh7.0dimens7.0dp">7.99dp</dimen>
+    <dimen name="wh8.0dimens8.0dp">9.13dp</dimen>
+    <dimen name="wh10.0dimens10.0dp">11.41dp</dimen>
+    <dimen name="wh13.0dimens13.0dp">14.84dp</dimen>
+    <dimen name="wh15.0dimens15.0dp">17.12dp</dimen>
+    <dimen name="wh20.0dimens20.0dp">22.83dp</dimen>
+    <dimen name="wh20.5dimens20.5dp">23.40dp</dimen>
+    <dimen name="wh25.0dimens25.0dp">28.54dp</dimen>
+    <dimen name="wh30.0dimens30.0dp">34.24dp</dimen>
+    <dimen name="wh35.0dimens35.0dp">39.95dp</dimen>
+    <dimen name="wh40.0dimens40.0dp">45.66dp</dimen>
+    <dimen name="wh45.0dimens45.0dp">51.36dp</dimen>
+    <dimen name="wh100.0dimens100.0dp">114.14dp</dimen>
+    <dimen name="wh110.0dimens110.0dp">125.56dp</dimen>
 </resources>

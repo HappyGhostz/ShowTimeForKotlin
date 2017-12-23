@@ -75,4 +75,15 @@
         <enum name="square" value="2" />
         <enum name="triangle" value="3" />
     </attr>
+
+
+    <declare-styleable name="LoadingView">
+        <attr name="outerCircleRadius" format="dimension|reference" />
+        <attr name="outerCircleColor" format="color|reference" />
+        <attr name="innerTriangleRadius" format="dimension|reference" />
+        <attr name="innerTriangleColor" format="color|reference" />
+        <attr name="backgroundColor" format="color|reference" />
+        <attr name="isNeedBackground" format="boolean" />
+        <attr name="strokeWidth" format="dimension|reference" />
+    </declare-styleable>
 </resources>

@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".AppApplication"
@@ -72,6 +76,58 @@
         <activity android:name=".ui.picture.BeautyPictureActivity"/>
         <activity android:name=".ui.picture.BegPictureActivity"/>
         <activity android:name=".ui.video.live.LiveActivity"/>
+        <!--android:screenOrientation="sensorLandscape"-->
+        <activity android:name=".ui.video.play.VideoPlayActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data android:scheme="rtsp" /> <!-- rtsp:// 流媒体 可以相应网络调用 -->
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+
+            <data android:mimeType="video/*" />
+            <data android:mimeType="application/sdp" />
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data android:scheme="http" />
+            <data android:mimeType="video/mp4" />
+            <data android:mimeType="video/3gp" />
+            <data android:mimeType="video/3gpp" />
+            <data android:mimeType="video/3gpp2" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".ui.video.play.DouyuWebViewPlayActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:windowSoftInputMode="stateHidden|adjustResize"
+                  android:exported="true"
+            />
+        <activity android:name="io.vov.vitamio.activity.InitActivity" />
+        <activity
+            android:name="com.tencent.smtt.sdk.VideoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:alwaysRetainTaskState="true">
+            <intent-filter>
+                <action android:name="com.tencent.smtt.tbs.video.PLAY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

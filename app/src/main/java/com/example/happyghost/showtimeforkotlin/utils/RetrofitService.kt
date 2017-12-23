@@ -1,6 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
 import com.example.happyghost.showtimeforkotlin.AppApplication
+import com.example.happyghost.showtimeforkotlin.bean.videodata.LiveDetailBean
 import com.example.happyghost.showtimeforkotlin.api.*
 import com.example.happyghost.showtimeforkotlin.bean.crossdate.CrossTalkDate
 import com.example.happyghost.showtimeforkotlin.bean.bookdate.*
@@ -12,6 +13,7 @@ import com.example.happyghost.showtimeforkotlin.bean.newsdate.PhotoSetInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.SpecialInfo
 import com.example.happyghost.showtimeforkotlin.bean.picturedate.BeautyPicture
 import com.example.happyghost.showtimeforkotlin.bean.picturedate.WelfarePhotoList
+import com.example.happyghost.showtimeforkotlin.bean.videodata.DouyuVideoInfo
 import com.example.happyghost.showtimeforkotlin.bean.videodata.LiveListBean
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -52,6 +54,10 @@ class RetrofitService  {
         private val WELF_CROSS_URL ="http://gank.io/"
         private val BEAUTY_PICYURE_URL ="http://image.baidu.com/data/"
         private val LIVE_BASE_URL ="http://api.maxjia.com/"
+        private val BASE_DOUYU_URL = "http://capi.douyucdn.cn/api/v1/"
+        //这个api不知道为什么返回的为空集，可能加密算法又改了吧
+//        private val BASE_DOUYU_VIDEO_URL = "http://coapi.douyucdn.cn/lapi/live/thirdPart/getPlay/"
+        private val BASE_DOUYU_VIDEO_URL = "https://m.douyu.com/html5/"
         var iNewsApi: INewsApi? = null
         var iBookApi: IBookApi? =null
         var iMusicApi:IMusicsApi?=null
@@ -59,6 +65,8 @@ class RetrofitService  {
         var iWelfApi: IWelfApi?=null
         var iBeautyApi: IBeautyApi?=null
         var iLiveApi: ILivesApi?=null
+        var iDouyuApi: IDouyuApi? = null
+        var iDouyuVideoApi: IDouyuVideoApi? = null
 
 
         fun init(){
@@ -125,6 +133,20 @@ class RetrofitService  {
                     .baseUrl(LIVE_BASE_URL)
                     .build()
             iLiveApi = retrofitLive.create(ILivesApi::class.java)
+            var retrofitDouyuLive =Retrofit.Builder()
+                    .client(okHttpClient)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(BASE_DOUYU_URL)
+                    .build()
+            iDouyuApi =  retrofitDouyuLive.create(IDouyuApi::class.java)
+            var retrofitDouyuVideo =Retrofit.Builder()
+                    .client(okHttpClient)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(BASE_DOUYU_VIDEO_URL)
+                    .build()
+            iDouyuVideoApi =  retrofitDouyuVideo.create(IDouyuVideoApi::class.java)
 
         }
         //云响应拦截器，用于配置缓存
@@ -161,6 +183,8 @@ class RetrofitService  {
 //                Log.e("RetrofitService","request is null")
             }else{
                 request.body()?.writeTo(buffer)
+//                val url = request.url()
+//                val s = request.url().toString() + parseParams(request.body(), buffer)
 //                Log.d("request", request.url().toString()  + parseParams(request.body(), buffer))
             }
             val response = chain.proceed(request)
@@ -468,6 +492,36 @@ class RetrofitService  {
          */
         fun getLiveListDate(offSet:Int,limit:Int,liveType:String,gameType:String):Observable<LiveListBean>{
             return iLiveApi!!.getLiveList(offSet,limit,liveType,gameType)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        /**
+         * 获取直播详情
+         */
+        fun getLiveDetail(live_type: String?, live_id: String?, game_type: String?):Observable<LiveDetailBean>{
+            return iLiveApi!!.getLiveDetail(live_type!!,live_id!!,game_type!!)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        /**
+         * 获取斗鱼直播列表
+         * 因为当时max的斗鱼API打不开，所以找了个破解的斗鱼API
+         */
+        fun getDouyuLiveList(offSet: Int, limiT: Int, mGameType: String):Observable<LiveListBean>{
+            return iDouyuApi!!.getDouyuLiveList(mGameType,offSet,limiT,"android")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        /**
+         * 获取斗鱼房间
+         */
+//        fun getDouyuVideo(roomId:String,headHashMap: HashMap<String,String>):Observable<DouyuVideoInfo>{
+//            return iDouyuVideoApi!!.getDouyuLiveList(roomId,0,headHashMap)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//        }
+        fun getDouyuVideo(roomId:String):Observable<DouyuVideoInfo>{
+            return iDouyuVideoApi!!.getDouyuLiveList(roomId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
