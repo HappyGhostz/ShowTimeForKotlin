@@ -15,6 +15,7 @@ import com.example.happyghost.showtimeforkotlin.bean.picturedate.BeautyPicture
 import com.example.happyghost.showtimeforkotlin.bean.picturedate.WelfarePhotoList
 import com.example.happyghost.showtimeforkotlin.bean.videodata.DouyuVideoInfo
 import com.example.happyghost.showtimeforkotlin.bean.videodata.LiveListBean
+import com.example.happyghost.showtimeforkotlin.bean.videodata.VideoListDate
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
@@ -58,6 +59,7 @@ class RetrofitService  {
         //这个api不知道为什么返回的为空集，可能加密算法又改了吧
 //        private val BASE_DOUYU_VIDEO_URL = "http://coapi.douyucdn.cn/lapi/live/thirdPart/getPlay/"
         private val BASE_DOUYU_VIDEO_URL = "https://m.douyu.com/html5/"
+        private val BASE_KANKAN_VIDEO_URL = "http://app.pearvideo.com/clt/jsp/v2/"
         var iNewsApi: INewsApi? = null
         var iBookApi: IBookApi? =null
         var iMusicApi:IMusicsApi?=null
@@ -67,6 +69,7 @@ class RetrofitService  {
         var iLiveApi: ILivesApi?=null
         var iDouyuApi: IDouyuApi? = null
         var iDouyuVideoApi: IDouyuVideoApi? = null
+        var iKankanVideoApi:IKanKanVideoApi? = null
 
 
         fun init(){
@@ -147,6 +150,13 @@ class RetrofitService  {
                     .baseUrl(BASE_DOUYU_VIDEO_URL)
                     .build()
             iDouyuVideoApi =  retrofitDouyuVideo.create(IDouyuVideoApi::class.java)
+            var retrofitKankanVideo =Retrofit.Builder()
+                    .client(okHttpClient)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(BASE_KANKAN_VIDEO_URL)
+                    .build()
+            iKankanVideoApi =  retrofitKankanVideo.create(IKanKanVideoApi::class.java)
 
         }
         //云响应拦截器，用于配置缓存
@@ -522,6 +532,19 @@ class RetrofitService  {
 //        }
         fun getDouyuVideo(roomId:String):Observable<DouyuVideoInfo>{
             return iDouyuVideoApi!!.getDouyuLiveList(roomId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        /**
+         * 获取梨视频头条内容
+         */
+        fun getHotFristVideoDate(headers:HashMap<String,String>,link:String):Observable<VideoListDate>{
+            return iKankanVideoApi!!.getKankanVideoList(headers,link)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        fun getKankanVideoFromCate(headers:HashMap<String,String>,page:Int,start:Int,categoryid:String):Observable<VideoListDate>{
+            return iKankanVideoApi!!.getKankanVideoFromCate(headers,page,start,categoryid)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
