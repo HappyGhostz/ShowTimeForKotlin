@@ -1,5 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.video.kankan
 
+import com.example.happyghost.showtimeforkotlin.bean.videodata.VideoDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.videodata.VideoListDate
 import com.example.happyghost.showtimeforkotlin.ui.base.IBaseView
 
@@ -12,4 +13,5 @@ interface IBaseViedoListView :IBaseView {
     fun loadVideoListDate(date: VideoListDate)
     fun loadVideoForCategoryidDate(date: VideoListDate)
     fun loadMoreVideoForCategoryidDate(date: VideoListDate)
+    fun loadVideoInfo(date: VideoDetailInfo)
 }

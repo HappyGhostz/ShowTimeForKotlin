@@ -1,7 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
 import com.example.happyghost.showtimeforkotlin.AppApplication
-import com.example.happyghost.showtimeforkotlin.bean.videodata.LiveDetailBean
 import com.example.happyghost.showtimeforkotlin.api.*
 import com.example.happyghost.showtimeforkotlin.bean.crossdate.CrossTalkDate
 import com.example.happyghost.showtimeforkotlin.bean.bookdate.*
@@ -13,9 +12,7 @@ import com.example.happyghost.showtimeforkotlin.bean.newsdate.PhotoSetInfo
 import com.example.happyghost.showtimeforkotlin.bean.newsdate.SpecialInfo
 import com.example.happyghost.showtimeforkotlin.bean.picturedate.BeautyPicture
 import com.example.happyghost.showtimeforkotlin.bean.picturedate.WelfarePhotoList
-import com.example.happyghost.showtimeforkotlin.bean.videodata.DouyuVideoInfo
-import com.example.happyghost.showtimeforkotlin.bean.videodata.LiveListBean
-import com.example.happyghost.showtimeforkotlin.bean.videodata.VideoListDate
+import com.example.happyghost.showtimeforkotlin.bean.videodata.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
@@ -545,6 +542,11 @@ class RetrofitService  {
         }
         fun getKankanVideoFromCate(headers:HashMap<String,String>,page:Int,start:Int,categoryid:String):Observable<VideoListDate>{
             return iKankanVideoApi!!.getKankanVideoFromCate(headers,page,start,categoryid)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+        }
+        fun getVideoInfo(headers: HashMap<String, String>, contId:String):Observable<VideoDetailInfo>{
+            return iKankanVideoApi!!.getVideoDetailInfo(headers,contId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }

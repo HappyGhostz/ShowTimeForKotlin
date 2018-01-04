@@ -8,12 +8,12 @@
         "source": "E:\\xiangmu\\ShowTimeForKotlin\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\mediacontroller_pause.png"
     },
     {
-        "merged": "E:\\xiangmu\\ShowTimeForKotlin\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\scrubber_track_holo_dark.9.png",
-        "source": "E:\\xiangmu\\ShowTimeForKotlin\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\scrubber_track_holo_dark.9.png"
-    },
-    {
         "merged": "E:\\xiangmu\\ShowTimeForKotlin\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\scrubber_control_normal_holo.png",
         "source": "E:\\xiangmu\\ShowTimeForKotlin\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\scrubber_control_normal_holo.png"
+    },
+    {
+        "merged": "E:\\xiangmu\\ShowTimeForKotlin\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\scrubber_track_holo_dark.9.png",
+        "source": "E:\\xiangmu\\ShowTimeForKotlin\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\scrubber_track_holo_dark.9.png"
     },
     {
         "merged": "E:\\xiangmu\\ShowTimeForKotlin\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\scrubber_control_disabled_holo.png",

@@ -1,5 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.ui.video.kankan
 
+import com.example.happyghost.showtimeforkotlin.bean.videodata.VideoDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.videodata.VideoListDate
 import com.example.happyghost.showtimeforkotlin.ui.base.IBasePresenter
 import com.example.happyghost.showtimeforkotlin.utils.RetrofitService
@@ -112,6 +113,29 @@ class VideoListPresenter(view: VideoListFragment) :IBasePresenter {
                                 getCategoryDate(categoryId)
                             }
                         })
+                    }
+                })
+    }
+    fun getVideoInfoUrl(contId: String?) {
+        var time = System.currentTimeMillis()/1000
+        headersMap.put("X-Serial-Num",time.toString())
+        RetrofitService.getVideoInfo(headersMap,contId!!)
+                .compose(mView.bindToLife())
+                .subscribe(object :Observer<VideoDetailInfo>{
+                    override fun onComplete() {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView.toast("链接地址出错，请稍后!")
+                    }
+
+                    override fun onNext(t: VideoDetailInfo) {
+                        mView.loadVideoInfo(t)
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+
                     }
                 })
     }

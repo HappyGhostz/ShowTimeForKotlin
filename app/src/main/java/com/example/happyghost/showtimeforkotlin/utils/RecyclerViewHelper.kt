@@ -18,50 +18,56 @@ class RecyclerViewHelper {
          * @param view
          */
          fun initRecycleViewV(mContext:Context?, recyclerView: RecyclerView, adapter:RecyclerView.Adapter<BaseViewHolder>, hasDivider:Boolean) {
-            val layoutManager = LinearLayoutManager(mContext)
-            layoutManager.orientation = LinearLayoutManager.VERTICAL
-            recyclerView.layoutManager = layoutManager
-            if(hasDivider){
-                recyclerView.addItemDecoration(DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL))
+            recyclerView.apply {
+                layoutManager = LinearLayoutManager(mContext).apply {
+                    orientation = LinearLayoutManager.VERTICAL
+                }
+                if(hasDivider){
+                    addItemDecoration(DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL))
+                }
+                this.adapter = adapter
             }
-            recyclerView.adapter = adapter
         }
         /**
          * 配置网格列表RecyclerView
          * @param view
          */
         fun initRecycleViewG(mContext:Context?, recyclerView: RecyclerView, adapter:RecyclerView.Adapter<BaseViewHolder>,column:Int,hasDivider:Boolean){
-            var groupManager = GridLayoutManager(mContext,column,LinearLayoutManager.VERTICAL,false)
-            recyclerView.layoutManager = groupManager
-            if(hasDivider){
-                recyclerView.addItemDecoration(DividerGridItemDecoration(mContext))
+            recyclerView.apply {
+                layoutManager = GridLayoutManager(mContext,column,LinearLayoutManager.VERTICAL,false)
+                if(hasDivider){
+                    addItemDecoration(DividerGridItemDecoration(mContext))
+                }
+                this.adapter = adapter
             }
-            recyclerView.adapter = adapter
         }
         /**
          * 配置横向列表RecyclerView
          * @param view
          */
         fun initRecycleViewH(mContext:Context?, recyclerView: RecyclerView, adapter:RecyclerView.Adapter<BaseViewHolder>, hasDivider:Boolean) {
-            val layoutManager = LinearLayoutManager(mContext)
-            layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-            recyclerView.layoutManager = layoutManager
-            if(hasDivider){
-                recyclerView.addItemDecoration(DividerItemDecoration(mContext, LinearLayoutManager.HORIZONTAL))
+            recyclerView.apply {
+                layoutManager = LinearLayoutManager(mContext).apply {
+                    orientation = LinearLayoutManager.HORIZONTAL
+                }
+                if(hasDivider){
+                    addItemDecoration(DividerGridItemDecoration(mContext))
+                }
+                this.adapter = adapter
             }
-            recyclerView.adapter = adapter
         }
         /**
          * 配置瀑布流列表RecyclerView
          * @param view
          */
         fun initRecycleViewSV(mContext:Context?, recyclerView: RecyclerView, adapter:RecyclerView.Adapter<BaseViewHolder>,column:Int,hasDivider:Boolean){
-            val layoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL)
-            recyclerView.layoutManager = layoutManager
-            if (hasDivider) {
-                recyclerView.addItemDecoration(DividerGridItemDecoration(mContext))
+            recyclerView.apply {
+                layoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL)
+                if(hasDivider){
+                    addItemDecoration(DividerGridItemDecoration(mContext))
+                }
+                this.adapter = adapter
             }
-            recyclerView.adapter = adapter
         }
     }
 }

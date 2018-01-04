@@ -70,7 +70,6 @@ class MusicListDetialActivity:BaseActivity<MusicListDetialPresenter>(),IBaseMusi
 
     override fun loadSongInfo(detail: SongDetailInfo) {
         songInfos.add(detail)
-        //递归调用为了使歌曲顺序一致
         if(index<netMusicList.size){
             index++
             mPresenter.getMusic(netMusicList[index-1].song_id)

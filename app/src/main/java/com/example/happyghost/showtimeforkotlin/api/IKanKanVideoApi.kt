@@ -1,5 +1,6 @@
 package com.example.happyghost.showtimeforkotlin.api
 
+import com.example.happyghost.showtimeforkotlin.bean.videodata.VideoDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.videodata.VideoListDate
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -28,4 +29,6 @@ interface IKanKanVideoApi {
                                @Field("hotPageidx")page:Int,
                                @Field("start")start:Int,
                                @Field("categoryId")categoryId:String):Observable<VideoListDate>
+    @GET("content.jsp")
+    fun getVideoDetailInfo(@HeaderMap  headers:HashMap<String, String>,@Query("contId")contId:String):Observable<VideoDetailInfo>
 }

@@ -1,6 +1,8 @@
 package com.example.happyghost.showtimeforkotlin.ui.video.kankan
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -9,11 +11,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.adapter.videoadapter.VideoListAdapter
+import com.example.happyghost.showtimeforkotlin.bean.videodata.VideoDetailInfo
 import com.example.happyghost.showtimeforkotlin.bean.videodata.VideoListDate
 import com.example.happyghost.showtimeforkotlin.inject.component.videocomponent.DaggerVideoListComponent
 import com.example.happyghost.showtimeforkotlin.inject.module.videomodule.VideoListCategroyIdAdapter
 import com.example.happyghost.showtimeforkotlin.inject.module.videomodule.VideoListModule
 import com.example.happyghost.showtimeforkotlin.ui.base.BaseFragment
+import com.example.happyghost.showtimeforkotlin.ui.video.play.DefaultVideoPlayActivity
 import com.example.happyghost.showtimeforkotlin.utils.RecyclerViewHelper
 import com.example.happyghost.showtimeforkotlin.utils.ScreenUtils
 import com.facebook.drawee.view.SimpleDraweeView
@@ -29,11 +33,38 @@ import javax.inject.Inject
  */
 class VideoListFragment: BaseFragment<VideoListPresenter>(),IBaseViedoListView {
     lateinit var categoryId:String
+    var titles=ArrayList<String>()
     @Inject lateinit var mAdapter: VideoListAdapter
     @Inject lateinit var mCategroyIdAdapter: VideoListCategroyIdAdapter
+    var bundle = Bundle()
+    var picUrl = ""
+    var index = 0
+    var videoSize = 0
+    var handle =object :Handler(){
+        override fun handleMessage(msg: Message?) {
+            val what = msg?.what
+            if(what==0){
+                DefaultVideoPlayActivity.open(mContext!!,bundle,titles)
+            }
+        }
+    }
     override fun loadMoreVideoForCategoryidDate(date: VideoListDate) {
         mCategroyIdAdapter.loadMoreComplete()
         mCategroyIdAdapter.addData(date.contList!!)
+    }
+    override fun loadVideoInfo(date: VideoDetailInfo) {
+        val videos = date.content?.videos
+        var url = ""
+        videos?.forEach {
+            if(TextUtils.equals(it.tag,"sd")){
+                url = it.url!!
+            }
+        }
+        bundle.putString(date.content?.pic,url)
+        index++
+        if(index == videoSize){
+            handle.sendEmptyMessage(0)
+        }
     }
     override fun loadVideoForCategoryidDate(date: VideoListDate) {
         val hotList = date.hotList
@@ -110,6 +141,28 @@ class VideoListFragment: BaseFragment<VideoListPresenter>(),IBaseViedoListView {
         val recyclerView = mRootView!!.find<RecyclerView>(R.id.recyclerview)
         if(TextUtils.equals(categoryId,"0")){
             RecyclerViewHelper.initRecycleViewV(mContext,recyclerView,mAdapter,true)
+            mAdapter.setOnItemClickListener { adapter, view, position ->
+                bundle.clear()
+                titles.clear()
+                index=0
+                val dataListBean = adapter.getItem(position) as VideoListDate.DataListBean
+                val contList = dataListBean.contList
+                videoSize = contList?.size!!
+                contList?.forEach {
+                    val coverVideo = it.coverVideo
+                    if(coverVideo!=null){
+                        bundle.putString(it.pic,coverVideo)
+                        index++
+                        if(index == videoSize){
+                            handle.sendEmptyMessage(0)
+                        }
+                    }else{
+                        picUrl = it.pic!!
+                        mPresenter.getVideoInfoUrl(it.contId)
+                    }
+                    titles.add(it.name!!)
+                }
+            }
         }else{
             RecyclerViewHelper.initRecycleViewV(mContext,recyclerView,mCategroyIdAdapter,true)
         }
@@ -134,5 +187,10 @@ class VideoListFragment: BaseFragment<VideoListPresenter>(),IBaseViedoListView {
             fragment.arguments = bundle
             return fragment
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handle.removeCallbacksAndMessages(null)
     }
 }

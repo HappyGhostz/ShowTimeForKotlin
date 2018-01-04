@@ -239,6 +239,8 @@ class VideoPlayActivity: BaseActivity<IBasePresenter>(), MediaPlayer.OnInfoListe
         if (control_bottom != null && control_top != null) {
             control_bottom.visibility = View.GONE
             control_top.visibility = View.GONE
+            //隐藏状态栏
+            rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         }
     }
 
@@ -249,6 +251,8 @@ class VideoPlayActivity: BaseActivity<IBasePresenter>(), MediaPlayer.OnInfoListe
         if (control_bottom != null && control_top != null) {
             control_bottom.visibility = View.VISIBLE
             control_top.visibility = View.VISIBLE
+            //隐藏状态栏
+            rlBookReadRoot.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
         }
     }
     override fun onInfo(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
@@ -321,7 +325,7 @@ class VideoPlayActivity: BaseActivity<IBasePresenter>(), MediaPlayer.OnInfoListe
     override fun onRestart() {
         super.onRestart()
         //        mPresenter.getPresenterPcLiveVideoInfo(Room_id);
-        mPresenter.getData()
+        upDataView()
         if (vm_videoview != null) {
             vm_videoview.start()
 

@@ -17,6 +17,7 @@
             android:layout_alignParentBottom="true"/>
         <!--控制层-->
         <include layout="@layout/layout_live_control" />
+        <include layout="@layout/layout_video_control"/>
     </FrameLayout>
 
 </RelativeLayout>
