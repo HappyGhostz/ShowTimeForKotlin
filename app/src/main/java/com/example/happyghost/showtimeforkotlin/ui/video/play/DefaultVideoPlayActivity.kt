@@ -39,13 +39,14 @@ class DefaultVideoPlayActivity:BaseActivity<IBasePresenter>(), MediaPlayer.OnInf
     var mAudioManager: AudioManager? = null
     var mScreenWidth = 0//屏幕宽度
     var mScreenHeight = 0
-    val mIsFullScreen = true//是否为全屏
+    var mIsFullScreen = true//是否为全屏
     var mShowVolume: Int = 0//声音
     var mShowLightness: Int = 0//亮度
     var mMaxVolume: Int = 0//最大声音
     var mCurrentVideo = 0
     var mVideoHeight = 0
     var mVideoWidth = 0
+    var statusBarHeight : Int =-1
     /**
      * 声音
      */
@@ -108,31 +109,26 @@ class DefaultVideoPlayActivity:BaseActivity<IBasePresenter>(), MediaPlayer.OnInf
     }
     override fun upDataView() {
         val uri = Uri.parse(mVideoUrls[mCurrentVideo])
-        if (tv_live_nickname != null) {
-            tv_live_nickname.text = mTitles[mCurrentVideo]
+        if (tv_videotitle != null) {
+            tv_videotitle.text = mPicUrls[mCurrentVideo]
         }
 
         if ( Vitamio.isInitialized(this)) {
-            //            vmVideoview.setSubShown(true);
             vm_videoview.setVideoURI(uri)
-//            vm_videoview.setBufferSize(10240); //设置视频缓冲大小。默认1024KB，单位byte
-            vm_videoview.setBufferSize(1024 * 1024 * 2)
             vm_videoview.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH)
             vm_videoview.requestFocus()
-            vm_videoview.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE, 0f)
             vm_videoview.setOnPreparedListener({ mediaPlayer ->
                 // optional need Vitamio 4.0
                 mediaPlayer.setPlaybackSpeed(1.0f)
-                video_loading.visibility = View.GONE
-                ib_playpause.setImageResource(R.mipmap.play_rdi_btn_pause)
+                fl_loading.visibility = View.GONE
+                iv_live_play.setImageResource(R.drawable.img_live_videopause)
                 mHandler.sendEmptyMessageDelayed(HIDE_CONTROL_BAR, HIDE_TIME.toLong())
-                vm_videoview.start()
-
-                upDataPlayTime()
-                playDuration.text = StringUtils.formatTime(mediaPlayer.duration.toInt())
-                sbPlay.max = mediaPlayer.duration.toInt()
                 mVideoWidth = mediaPlayer.videoWidth
                 mVideoHeight = mediaPlayer.videoHeight
+                initScreen(true)
+                playDuration.text = StringUtils.formatTime(mediaPlayer.duration.toInt())
+                sbPlay.max = mediaPlayer.duration.toInt()
+                upDataPlayTime()
             })
         }
     }
@@ -140,6 +136,7 @@ class DefaultVideoPlayActivity:BaseActivity<IBasePresenter>(), MediaPlayer.OnInf
     override fun initView() {
         gone(liveControl)
         visible(videoControl)
+        initStatusBar()
         vm_videoview.keepScreenOn = true
 //        svProgressHUD = new SVProgressHUD(this);
         //获取屏幕宽度
@@ -152,45 +149,28 @@ class DefaultVideoPlayActivity:BaseActivity<IBasePresenter>(), MediaPlayer.OnInf
         vm_videoview.setOnInfoListener(this)
         vm_videoview.setOnBufferingUpdateListener(this)
         vm_videoview.setOnErrorListener(this)
-        //视频播放完成事件监听
-        vm_videoview.setOnCompletionListener {mp ->
-            //当播放完成的时候会执行这个方法
-            //把当前播放的时间设置为总时长
-            mHandler.removeMessages(CURRENT_PLAY_TIME)
-            playDuration.text = StringUtils.formatTime(mp.duration.toInt())
-            //让seekbar 展示的进度移动到最后
-            sbPlay.max = sbPlay.max
-            nextVideo(true)
-        }
-        sbPlay.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                when (seekBar?.id) {
-                    R.id.sbPlay -> if (fromUser) {
-                        vm_videoview.seekTo(progress.toLong())
-                    }
-                }
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                if(ll_bottompanel.visibility == View.GONE){
-                    showControlBar()
-                    mHandler.sendEmptyMessageDelayed(HIDE_CONTROL_BAR, HIDE_TIME.toLong())
-                }
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                if (ll_bottompanel.visibility == View.VISIBLE) {
-                    mHandler.removeMessages(HIDE_CONTROL_BAR)
-                    hideControlBar()
-                }
-            }
-        })
         clickListener()
-        initScreen()
     }
 
-    private fun initScreen() {
-//        if(){}
+    private fun initScreen(isForAuto:Boolean) {
+        if(mIsFullScreen){
+            vm_videoview.layoutParams.height = mScreenHeight
+            vm_videoview.layoutParams.width = mScreenWidth
+            ib_screensize.setImageResource(R.drawable.defaultscreen_selector)
+        }else{
+            if(mVideoHeight==0||mVideoWidth==0){
+                vm_videoview.layoutParams.height =mScreenHeight*mVideoWidth/mScreenWidth
+                vm_videoview.layoutParams.width = mScreenWidth*mVideoHeight/mScreenHeight
+            }else{
+                vm_videoview.layoutParams.height =mVideoHeight
+                vm_videoview.layoutParams.width = mVideoWidth
+            }
+            ib_screensize.setImageResource(R.drawable.fullscreen_selector)
+        }
+        vm_videoview.requestLayout()
+        if(!isForAuto){
+            mIsFullScreen=!mIsFullScreen
+        }
     }
 
     private fun nextVideo(isNext: Boolean) {
@@ -326,7 +306,52 @@ class DefaultVideoPlayActivity:BaseActivity<IBasePresenter>(), MediaPlayer.OnInf
                 mHandler.sendEmptyMessageDelayed(HIDE_CONTROL_BAR, HIDE_TIME.toLong())
             }
         }
+        ib_screensize.setOnClickListener {
+            initScreen(false)
+        }
+        sbPlay.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                when (seekBar?.id) {
+                    R.id.sbPlay -> if (fromUser) {
+                        vm_videoview.seekTo(progress.toLong())
+                    }
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                //再拖拽进度条时不隐藏上下面板
+                mHandler.removeMessages(HIDE_CONTROL_BAR)
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                //拖拽结束3秒后隐藏上下面板
+                mHandler.sendEmptyMessageDelayed(HIDE_CONTROL_BAR, 3000)
+            }
+        })
+        vm_videoview.setOnCompletionListener {
+            //当播放完成的时候会执行这个方法
+            //把当前播放的时间设置为总时长
+            mHandler.removeMessages(CURRENT_PLAY_TIME)
+            playTime.text = StringUtils.formatTime(it.duration.toInt())
+            //让seekbar 展示的进度移动到最后
+            sbPlay.max = sbPlay.max
+            nextVideo(true)
+        }
     }
+    override fun onBufferingUpdate(mp: MediaPlayer?, percent: Int) {
+        video_loading.visibility = View.VISIBLE
+        if (vm_videoview.isPlaying)
+            vm_videoview.pause()
+        tv_loading_buffer_video.text = "视频已缓冲$percent%..."
+    }
+
+    override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
+        if (what == MediaPlayer.MEDIA_ERROR_UNKNOWN) {
+            toast("未知错误~~")
+        }
+        return true
+    }
+
     override fun onInfo(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
         when (what) {
             MediaPlayer.MEDIA_INFO_BUFFERING_START -> {
@@ -346,24 +371,11 @@ class DefaultVideoPlayActivity:BaseActivity<IBasePresenter>(), MediaPlayer.OnInf
                 mHandler.sendEmptyMessageDelayed(HIDE_CONTROL_BAR, HIDE_TIME.toLong())
             }
             MediaPlayer.MEDIA_INFO_DOWNLOAD_RATE_CHANGED -> {
-//                tv_loading_buffer.text = "直播已缓冲$percent%..."
             }
         }
         return true
     }
-    override fun onBufferingUpdate(mp: MediaPlayer?, percent: Int) {
-        video_loading.visibility = View.VISIBLE
-        if (vm_videoview.isPlaying)
-            vm_videoview.pause()
-        tv_loading_buffer_video.text = "视频已缓冲$percent%..."
-        sbPlay.secondaryProgress = (mp?.duration!! * percent / 100).toInt()
-    }
-    override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
-        if (what == MediaPlayer.MEDIA_ERROR_UNKNOWN) {
-            toast("未知错误~~")
-        }
-        return true
-    }
+
 
     override fun initInjector() {
         if (!io.vov.vitamio.LibsChecker.checkVitamioLibs(this))
@@ -374,7 +386,7 @@ class DefaultVideoPlayActivity:BaseActivity<IBasePresenter>(), MediaPlayer.OnInf
         mPicUrls.clear()
         mVideoUrls.clear()
         mTitles.clear()
-        mTitles = intent.getStringArrayListExtra(VIDEO_TITLES)
+//        mTitles = intent.getStringArrayListExtra(VIDEO_TITLES)
         val bundle = intent.getBundleExtra(VIDEO_BUNDLE)
         val keySet = bundle.keySet()
         keySet.forEach {
@@ -387,21 +399,12 @@ class DefaultVideoPlayActivity:BaseActivity<IBasePresenter>(), MediaPlayer.OnInf
     override fun getContentView(): Int = R.layout.activity_video_play
     companion object {
         var VIDEO_BUNDLE = "videobundle"
-        var VIDEO_TITLES = "videotitles"
-        fun open(context: Context, bundle: Bundle, titles: ArrayList<String>){
-            context.startActivity<DefaultVideoPlayActivity>(VIDEO_BUNDLE  to bundle,VIDEO_TITLES to titles)
+//        var VIDEO_TITLES = "videotitles"
+        fun open(context: Context, bundle: Bundle){
+            context.startActivity<DefaultVideoPlayActivity>(VIDEO_BUNDLE  to bundle)
             (context as Activity).overridePendingTransition(R.anim.fade_entry, R.anim.fade_exit)
         }
     }
-    override fun onRestart() {
-        super.onRestart()
-        //        mPresenter.getPresenterPcLiveVideoInfo(Room_id);
-        upDataView()
-        if (vm_videoview != null) {
-            vm_videoview.start()
-        }
-    }
-
     override fun onPause() {
         super.onPause()
         if (vm_videoview != null) {
@@ -416,5 +419,15 @@ class DefaultVideoPlayActivity:BaseActivity<IBasePresenter>(), MediaPlayer.OnInf
         }
         super.onDestroy()
         mHandler.removeCallbacksAndMessages(null)
+    }
+    /**
+     * 对顶部状态栏覆盖toolbar的情况做处理
+     */
+    fun initStatusBar(){
+        val identifierId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if(identifierId>0){
+            statusBarHeight =  resources.getDimensionPixelSize(identifierId)
+        }
+        status_hight.height = statusBarHeight
     }
 }

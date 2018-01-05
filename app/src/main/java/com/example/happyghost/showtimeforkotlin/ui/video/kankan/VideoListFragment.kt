@@ -24,6 +24,8 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.margin
+import org.jetbrains.anko.support.v4.find
+import org.jetbrains.anko.support.v4.toast
 import javax.inject.Inject
 
 /**
@@ -31,20 +33,22 @@ import javax.inject.Inject
  * @creat 2017/12/25.
  * @description
  */
-class VideoListFragment: BaseFragment<VideoListPresenter>(),IBaseViedoListView {
+class VideoListFragment: BaseFragment<VideoListPresenter>(),IBaseViedoListView, View.OnClickListener {
     lateinit var categoryId:String
     var titles=ArrayList<String>()
+    var addId=0
+    var defaultId = 111111
     @Inject lateinit var mAdapter: VideoListAdapter
     @Inject lateinit var mCategroyIdAdapter: VideoListCategroyIdAdapter
     var bundle = Bundle()
-    var picUrl = ""
+    var picName = ""
     var index = 0
     var videoSize = 0
     var handle =object :Handler(){
         override fun handleMessage(msg: Message?) {
             val what = msg?.what
             if(what==0){
-                DefaultVideoPlayActivity.open(mContext!!,bundle,titles)
+                DefaultVideoPlayActivity.open(mContext!!,bundle)
             }
         }
     }
@@ -52,7 +56,7 @@ class VideoListFragment: BaseFragment<VideoListPresenter>(),IBaseViedoListView {
         mCategroyIdAdapter.loadMoreComplete()
         mCategroyIdAdapter.addData(date.contList!!)
     }
-    override fun loadVideoInfo(date: VideoDetailInfo) {
+    override fun loadVideoInfo(date: VideoDetailInfo,boolean: Boolean) {
         val videos = date.content?.videos
         var url = ""
         videos?.forEach {
@@ -60,11 +64,16 @@ class VideoListFragment: BaseFragment<VideoListPresenter>(),IBaseViedoListView {
                 url = it.url!!
             }
         }
-        bundle.putString(date.content?.pic,url)
-        index++
-        if(index == videoSize){
+        bundle.putString(date.content?.name,url)
+        if(!boolean){
             handle.sendEmptyMessage(0)
+        }else{
+            index++
+            if(index == videoSize){
+                handle.sendEmptyMessage(0)
+            }
         }
+
     }
     override fun loadVideoForCategoryidDate(date: VideoListDate) {
         val hotList = date.hotList
@@ -93,6 +102,9 @@ class VideoListFragment: BaseFragment<VideoListPresenter>(),IBaseViedoListView {
         var index = 0
         while (index<hotList.size){
             var linearLayout = LinearLayout(mContext)
+            linearLayout.id = (addId+1)*defaultId
+            linearLayout.tag = hotList[index].contId
+            linearLayout.setOnClickListener(this)
             linearLayout.orientation =LinearLayout.VERTICAL
             flexboxLayout.addView(linearLayout)
             var simpleDraweeView = SimpleDraweeView(mContext)
@@ -117,6 +129,7 @@ class VideoListFragment: BaseFragment<VideoListPresenter>(),IBaseViedoListView {
             textView.text = hotList[index].name
             linearLayout.addView(textView)
             index++
+            addId++
         }
         if (mCategroyIdAdapter.headerLayout != null) {
             mCategroyIdAdapter.removeAllHeaderView()
@@ -125,7 +138,18 @@ class VideoListFragment: BaseFragment<VideoListPresenter>(),IBaseViedoListView {
             mCategroyIdAdapter.addHeaderView(inflate)
         }
     }
-
+    override fun onClick(v: View?) {
+        val id = v?.id
+        var index = 0
+        while (index<=addId){
+            if(id == (index+1)*defaultId){
+                val linearLayout = find<LinearLayout>(id)
+                val tag = linearLayout.tag as String
+                mPresenter.getVideoInfoUrl(tag,false)
+            }
+            index++
+        }
+    }
     override fun loadVideoListDate(date: VideoListDate) {
          mAdapter.replaceData(date.dataList!!)
     }
@@ -143,28 +167,32 @@ class VideoListFragment: BaseFragment<VideoListPresenter>(),IBaseViedoListView {
             RecyclerViewHelper.initRecycleViewV(mContext,recyclerView,mAdapter,true)
             mAdapter.setOnItemClickListener { adapter, view, position ->
                 bundle.clear()
-                titles.clear()
+//                titles.clear()
                 index=0
                 val dataListBean = adapter.getItem(position) as VideoListDate.DataListBean
                 val contList = dataListBean.contList
                 videoSize = contList?.size!!
-                contList?.forEach {
+                contList.forEach {
                     val coverVideo = it.coverVideo
                     if(coverVideo!=null){
-                        bundle.putString(it.pic,coverVideo)
+                        bundle.putString(it.name,coverVideo)
                         index++
                         if(index == videoSize){
                             handle.sendEmptyMessage(0)
                         }
                     }else{
-                        picUrl = it.pic!!
-                        mPresenter.getVideoInfoUrl(it.contId)
+                        picName = it.name!!
+                        mPresenter.getVideoInfoUrl(it.contId, true)
                     }
-                    titles.add(it.name!!)
+//                    titles.add(it.name!!)
                 }
             }
         }else{
             RecyclerViewHelper.initRecycleViewV(mContext,recyclerView,mCategroyIdAdapter,true)
+            mCategroyIdAdapter.setOnItemClickListener { adapter, _, position ->
+                val contListBean = adapter.getItem(position) as VideoListDate.ContListBean
+                mPresenter.getVideoInfoUrl(contListBean.contId, false)
+            }
         }
     }
 

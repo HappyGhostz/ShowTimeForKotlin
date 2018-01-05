@@ -3,6 +3,11 @@
     android:id="@+id/web_view_play"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!-- 遮挡状态栏透明的部分 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/wh45.0dimens45.0dp"

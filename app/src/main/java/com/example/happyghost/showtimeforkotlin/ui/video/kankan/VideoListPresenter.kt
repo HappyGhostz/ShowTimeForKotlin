@@ -116,7 +116,7 @@ class VideoListPresenter(view: VideoListFragment) :IBasePresenter {
                     }
                 })
     }
-    fun getVideoInfoUrl(contId: String?) {
+    fun getVideoInfoUrl(contId: String?, isFrist: Boolean) {
         var time = System.currentTimeMillis()/1000
         headersMap.put("X-Serial-Num",time.toString())
         RetrofitService.getVideoInfo(headersMap,contId!!)
@@ -131,7 +131,7 @@ class VideoListPresenter(view: VideoListFragment) :IBasePresenter {
                     }
 
                     override fun onNext(t: VideoDetailInfo) {
-                        mView.loadVideoInfo(t)
+                        mView.loadVideoInfo(t,isFrist)
                     }
 
                     override fun onSubscribe(d: Disposable) {

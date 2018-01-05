@@ -11,10 +11,7 @@
             android:id="@+id/vm_videoview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"/>
+            android:layout_gravity="center"/>
         <!--控制层-->
         <include layout="@layout/layout_live_control" />
         <include layout="@layout/layout_video_control"/>

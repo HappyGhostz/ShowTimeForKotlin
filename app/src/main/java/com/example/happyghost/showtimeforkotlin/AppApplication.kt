@@ -76,6 +76,8 @@ class AppApplication : Application() {
     }
 
     private fun initTecentWebSdk() {
+        //不知道为什么在用电脑编译运行时，x5web页会直接出现
+        //但手机直接安装APK，x5Web页不会出现todo待解决
         val cb = object : QbSdk.PreInitCallback {
 
             override fun onViewInitFinished(arg0: Boolean) {

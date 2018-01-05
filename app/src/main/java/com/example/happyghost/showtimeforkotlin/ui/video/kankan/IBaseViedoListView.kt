@@ -13,5 +13,5 @@ interface IBaseViedoListView :IBaseView {
     fun loadVideoListDate(date: VideoListDate)
     fun loadVideoForCategoryidDate(date: VideoListDate)
     fun loadMoreVideoForCategoryidDate(date: VideoListDate)
-    fun loadVideoInfo(date: VideoDetailInfo)
+    fun loadVideoInfo(date: VideoDetailInfo,boolean: Boolean)
 }
