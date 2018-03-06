@@ -16,8 +16,8 @@ import com.example.happyghost.showtimeforkotlin.utils.ImageLoader
 class CrossTalkAdapter:BaseQuickAdapter<CrossTalkDate.DataBeanX.DataBean,BaseViewHolder>(R.layout.adapter_cross_talk) {
     override fun convert(helper: BaseViewHolder?, item: CrossTalkDate.DataBeanX.DataBean?) {
         val imageView = helper?.getView<ImageView>(R.id.ivBookCover)
-        ImageLoader.loadCenterCropWithTransform(mContext,item?.group?.user?.avatar_url!!,imageView!!,GlideCircleTransform(mContext),R.mipmap.avatar_default)
-        helper.setText(R.id.tvCrossTitle,item.group?.user?.name)
-                .setText(R.id.tvContent,item.group?.content)
+        ImageLoader.loadCenterCropWithTransform(mContext,item?.group?.user?.avatar_url,imageView!!,GlideCircleTransform(mContext),R.mipmap.avatar_default)
+        helper.setText(R.id.tvCrossTitle,item?.group?.user?.name)
+                .setText(R.id.tvContent,item?.group?.content)
     }
 }

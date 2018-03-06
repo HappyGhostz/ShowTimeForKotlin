@@ -2,7 +2,6 @@ package com.example.happyghost.showtimeforkotlin.adapter.newsadapter
 
 import android.view.View
 import android.widget.ImageView
-import com.andexert.library.RippleView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.happyghost.showtimeforkotlin.R
@@ -35,11 +34,11 @@ class NewsListAdapter(data: MutableList<NewsMultiItem>?) : BaseMultiItemQuickAda
     /**
      * 处理普通新闻
      */
-    fun handlerNormal(volder:BaseViewHolder?,item: NewsMultiItem?){
+    private fun handlerNormal(volder:BaseViewHolder?,item: NewsMultiItem?){
         val newsInfo = item?.getNewsInfo()
         val icon = volder?.getView<ImageView>(R.id.iv_icon)
         if(newsInfo?.imgsrc!=null){
-            ImageLoader.loadCenterCrop(mContext, newsInfo?.imgsrc!!, icon!!, DefIconFactory.provideIcon())
+            ImageLoader.loadCenterCrop(mContext, newsInfo.imgsrc!!, icon!!, DefIconFactory.provideIcon())
         } else if(icon!=null){
             ImageLoader.loadImageFromRes(mContext,DefIconFactory.provideIcon(),icon)
         }
@@ -54,22 +53,19 @@ class NewsListAdapter(data: MutableList<NewsMultiItem>?) : BaseMultiItemQuickAda
         }else{
             volder?.setVisible(R.id.label_view,false)
         }
-        val rippleView = volder?.getView<RippleView>(R.id.item_ripple)
-        rippleView?.setOnRippleCompleteListener({
-            rippleView: RippleView? ->
+        volder?.itemView?.setOnClickListener {
             if(NewsUtils.isNewsSpecial(newsInfo?.skipType)){
                 NewsSpecialActivity.lunch(mContext, newsInfo?.specialID!!)
             }else{
                 NewsNormalActivity.lunch(mContext, newsInfo?.postid!!)
             }
-        })
-
+        }
     }
 
     /**
      * 处理图集新闻
      */
-    fun handlerPhotoSet(volder: BaseViewHolder?,item: NewsMultiItem?){
+    private fun handlerPhotoSet(volder: BaseViewHolder?,item: NewsMultiItem?){
         val mNewsInfo = item?.mNewsInfo
         var images = ArrayList<ImageView>()
         images.add(volder?.getView(R.id.iv_icon_1)!!)
@@ -77,19 +73,18 @@ class NewsListAdapter(data: MutableList<NewsMultiItem>?) : BaseMultiItemQuickAda
         images.add(volder?.getView(R.id.iv_icon_3)!!)
         volder?.setVisible(R.id.iv_icon_2,false)
                 ?.setVisible(R.id.iv_icon_3,false)
-        ImageLoader.loadCenterCrop(mContext, mNewsInfo?.imgsrc!!,images.get(0),DefIconFactory.provideIcon())
+        ImageLoader.loadCenterCrop(mContext, mNewsInfo?.imgsrc!!, images[0],DefIconFactory.provideIcon())
         if(!ListUtils.isEmpty(mNewsInfo.imgextra)){
-            for (i in 0..Math.min(2, mNewsInfo.imgextra!!.size) - 1) {
-                images.get(i + 1).setVisibility(View.VISIBLE)
-                ImageLoader.loadCenterCrop(mContext, mNewsInfo.imgextra!!.get(i).imgsrc!!,
-                        images.get(i + 1), DefIconFactory.provideIcon())
+            for (i in 0 until Math.min(2, mNewsInfo.imgextra!!.size)) {
+                images[i + 1].visibility = View.VISIBLE
+                ImageLoader.loadCenterCrop(mContext, mNewsInfo.imgextra!![i].imgsrc!!,
+                        images[i + 1], DefIconFactory.provideIcon())
             }
         }
         volder?.setText(R.id.tv_title,mNewsInfo.title)
                 ?.setText(R.id.tv_source,StringUtils.clipNewsSource(mNewsInfo.source!!))
                 ?.setText(R.id.tv_time,mNewsInfo.ptime)
-        val rippleView = volder?.getView<RippleView>(R.id.item_ripple)
-        rippleView?.setOnRippleCompleteListener {
+        volder?.itemView?.setOnClickListener {
             PhotoSetNewsActivity.launch(mContext, mNewsInfo.photosetID!!)
         }
     }

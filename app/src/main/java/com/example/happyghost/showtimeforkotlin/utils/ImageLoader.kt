@@ -1,6 +1,7 @@
 package com.example.happyghost.showtimeforkotlin.utils
 
 import android.content.Context
+import android.text.TextUtils
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
@@ -46,9 +47,9 @@ class ImageLoader {
         fun loadFitCenter(context: Context, imgsrc: String?, imageView: ImageView, requestListener: RequestListener<String, GlideDrawable>){
             Glide.with(context).load(imgsrc).fitCenter().dontAnimate().listener(requestListener).into(imageView)
         }
-        fun loadCenterCropWithTransform(context: Context, imgsrc: String, ivBookCover: ImageView,
+        fun loadCenterCropWithTransform(context: Context, imgsrc: String?, ivBookCover: ImageView,
                                         glideCircleTransform: BitmapTransformation, avatar_default: Int){
-            if(SharedPreferencesUtil.isShowImageAlways()||NetUtil.isWifiConnected(context)){
+            if(SharedPreferencesUtil.isShowImageAlways()||NetUtil.isWifiConnected(context)&&!TextUtils.isEmpty(imgsrc)){
                 Glide.with(context)
                         .load(imgsrc)
                         .placeholder(avatar_default)

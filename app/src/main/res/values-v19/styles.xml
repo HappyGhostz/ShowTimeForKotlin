@@ -9,8 +9,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <!-- 加入toolbar溢出【弹出】菜单的风格 -->
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+        <item name="android:windowTranslucentNavigation">false</item>
     </style>
     <style name="ReadTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -18,6 +20,6 @@
         <item name="android:fitsSystemWindows">false</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
     </style>
 </resources>
