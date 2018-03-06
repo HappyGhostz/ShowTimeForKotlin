@@ -1,12 +1,15 @@
 package com.example.happyghost.showtimeforkotlin.ui.base
 
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import com.example.happyghost.showtimeforkotlin.AppApplication
 import com.example.happyghost.showtimeforkotlin.R
 import com.example.happyghost.showtimeforkotlin.inject.component.ApplicationComponent
@@ -17,6 +20,8 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 
 import org.jetbrains.anko.find
 import javax.inject.Inject
+
+
 
 /**
  * @author Zhao Chenping
@@ -34,10 +39,22 @@ abstract class BaseActivity<T : IBasePresenter>() : RxAppCompatActivity() ,IBase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initStatus()
         setContentView(getContentView())
         initInjector()
         initView()
         upDataView()
+    }
+
+    private fun initStatus() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            // 部分机型的statusbar会有半透明的黑色背景
+            //设置5.0状态栏透明
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = Color.TRANSPARENT
+        }
     }
 
     abstract fun upDataView()

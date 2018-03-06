@@ -1,6 +1,10 @@
 package com.example.happyghost.showtimeforkotlin.ui.home
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
 import android.view.Gravity
@@ -16,6 +20,8 @@ import com.example.happyghost.showtimeforkotlin.ui.news.main.NewsMainFragment
 import com.example.happyghost.showtimeforkotlin.ui.picture.BeautyPictureActivity
 import com.example.happyghost.showtimeforkotlin.ui.video.VideoMainFragment
 import com.example.happyghost.showtimeforkotlin.ui.video.live.LiveActivity
+import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
 
@@ -24,7 +30,6 @@ class MainActivity : BaseActivity<MainPresenter>(), NavigationView.OnNavigationI
 
 
     override fun upDataView() {
-
     }
 
     override fun initView() {
@@ -37,7 +42,22 @@ class MainActivity : BaseActivity<MainPresenter>(), NavigationView.OnNavigationI
                 R.id.tab_news->replaceFragment(R.id.framlayout_main, NewsMainFragment(),"news")
                 R.id.tab_video->replaceFragment(R.id.framlayout_main,VideoMainFragment(),"video")
                 R.id.tab_music->replaceFragment(R.id.framlayout_main, MusicMainFragment(),"music")
-                R.id.tab_book->replaceFragment(R.id.framlayout_main, BookMainFragment(),"book")
+                R.id.tab_book->{
+                    //开启Manifest.permission.WRITE_SETTINGS
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (!Settings.System.canWrite(this@MainActivity)) {
+                            var intent = Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS)
+                            intent.data = Uri.parse("package:" + this@MainActivity.packageName)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                        } else {
+                            //有了权限，具体的动作
+                            replaceFragment(R.id.framlayout_main, BookMainFragment(), "book")
+                        }
+                    }else{
+                        replaceFragment(R.id.framlayout_main, BookMainFragment(), "book")
+                    }
+                }
             }
         }
 
@@ -60,13 +80,15 @@ class MainActivity : BaseActivity<MainPresenter>(), NavigationView.OnNavigationI
      * 初始化侧拉栏
      */
     fun initNavigationView(){
-        if(Build.VERSION.SDK_INT>Build.VERSION_CODES.KITKAT){
-            val layoutParams = window.attributes
-            layoutParams.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or layoutParams.flags
-            //主页面延伸至statusbar
-            dl_root.clipToPadding=false
-            //侧拉栏延伸至statusbar
-            dl_root.fitsSystemWindows=true
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+            //添加以下代码会使8.0手机（我只有华为Mate10测试）状态栏半透明，而不是全透明
+            //而不加会使5.0（*模拟器4.4）一下手机侧边栏拉出时顶部会有灰色条
+//            val layoutParams = window.attributes
+//            layoutParams.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or layoutParams.flags
+//            //主页面延伸至statusbar
+//            dl_root.clipToPadding=false
+//            //侧拉栏延伸至statusbar
+//            dl_root.fitsSystemWindows=true
         }
         dl_root.addDrawerListener(object : DrawerLayout.SimpleDrawerListener(){
 //            override fun onDrawerClosed(drawerView: View?) {
@@ -100,7 +122,6 @@ class MainActivity : BaseActivity<MainPresenter>(), NavigationView.OnNavigationI
     }
 
     override fun initInjector() {
-
     }
 
     override fun getContentView(): Int = R.layout.activity_main
