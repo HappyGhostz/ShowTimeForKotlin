@@ -49,8 +49,7 @@ class NewsSpecialAdapter: BaseSectionQuickAdapter<SpecialItem, BaseViewHolder> {
         }else{
             labelView.visibility = View.GONE
         }
-        val rippleView = helper.getView<RippleView>(R.id.item_ripple)
-        rippleView.setOnRippleCompleteListener {
+        helper.itemView.setOnClickListener {
             if(NewsUtils.isNewsSpecial(item.t.getSkipType())){
                 NewsSpecialActivity.lunch(mContext, item.t.getSpecialID()!!)
             }else if(NewsUtils.isNewsPhotoSet(item.t.getSkipType())){
@@ -59,7 +58,6 @@ class NewsSpecialAdapter: BaseSectionQuickAdapter<SpecialItem, BaseViewHolder> {
                 NewsNormalActivity.lunch(mContext, item.t.getPostid()!!)
             }
         }
-
     }
 
     override fun convertHead(helper: BaseViewHolder?, item: SpecialItem?) {
