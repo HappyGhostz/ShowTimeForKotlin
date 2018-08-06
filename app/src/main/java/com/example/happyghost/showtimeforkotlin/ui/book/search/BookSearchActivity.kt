@@ -118,7 +118,8 @@ class BookSearchActivity: BaseActivity<BookSearchPresenter>(),IBookSearchBaseVie
             initSearchHistory()
         }
         mHisAdapter.setOnItemClickListener { _, _, position ->
-            search(mHistory[position])
+            val itemSearch = mHisAdapter.getItem(position)
+            search(itemSearch)
         }
 
     }
