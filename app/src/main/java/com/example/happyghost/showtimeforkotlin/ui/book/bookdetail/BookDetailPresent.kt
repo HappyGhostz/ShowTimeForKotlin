@@ -119,11 +119,11 @@ class BookDetailPresent(view: BookDetailInfoActivity, bookid: String, localBookI
      */
     fun insertBook(recommendBooks: Recommend.RecommendBooks){
         val allBooks = mBookDao.queryBuilder().list()
-        val size = allBooks.size
-        var id:Long=1
+//        val size = allBooks.size
+//        var id:Long=1
         val localBookInfo = BookTransformer.RecommendBooksConvertlocalBook(recommendBooks)
-        var laocId = (size+id).toLong()
-        localBookInfo.id = laocId
+//        var laocId = (size+id).toLong()
+//        localBookInfo.id = laocId
 //        localBookInfo.isFromSD=true
         mBookDao.insert(localBookInfo)
     }

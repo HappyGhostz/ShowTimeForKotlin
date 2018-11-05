@@ -159,25 +159,29 @@ class BookDetailInfoActivity: BaseActivity<BookDetailPresent>(),IBookDetailBaseV
     private fun initClickListener() {
         btnJoinCollection.setOnClickListener{
             if (!isJoinedCollections) {
-                doAsync {
-                    mPresenter.insertBook(recommendBooks)
-                    uiThread {
-                        AppApplication.instance.mRxBus?.post(ReadEvent(true))
-                        toast(String.format(getString(
-                                R.string.book_detail_has_joined_the_book_shelf), recommendBooks.title))
-                        initCollection(false)
-                    }
-                }
+                mPresenter.insertBook(recommendBooks)
+                AppApplication.instance.mRxBus?.post(ReadEvent(true))
+                toast(String.format(getString(
+                        R.string.book_detail_has_joined_the_book_shelf), recommendBooks.title))
+                initCollection(false)
+//                doAsync {
+//
+//                    uiThread {
+//
+//                    }
+//                }
             } else {
-                doAsync {
-                    mPresenter.deleteBook(recommendBooks)
-                    uiThread {
-                        AppApplication.instance.mRxBus?.post(ReadEvent(false))
-                        toast(String.format(getString(
-                                R.string.book_detail_has_remove_the_book_shelf), recommendBooks.title))
-                        initCollection(true)
-                    }
-                }
+                mPresenter.deleteBook(recommendBooks)
+                AppApplication.instance.mRxBus?.post(ReadEvent(false))
+                toast(String.format(getString(
+                        R.string.book_detail_has_remove_the_book_shelf), recommendBooks.title))
+                initCollection(true)
+//                doAsync {
+//
+//                    uiThread {
+//
+//                    }
+//                }
             }
         }
         btnRead.setOnClickListener{

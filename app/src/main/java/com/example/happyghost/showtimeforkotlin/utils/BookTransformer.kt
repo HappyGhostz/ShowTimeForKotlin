@@ -37,7 +37,7 @@ class BookTransformer {
         }
         fun RecommendBooksConvertlocalBook(book:Recommend.RecommendBooks):LocalBookInfo{
             var localBook = LocalBookInfo()
-            localBook.id = book.id
+//            localBook.id = book.id
             localBook.url =book._id
             localBook.author = book.author
             localBook.cover = book.cover
